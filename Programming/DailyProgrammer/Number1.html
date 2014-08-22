@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+<title></title>
+<style>
+body, html {
+    font-family: sans-serif;
+</style>
+<script>
+function repeat() {
+    var name = document.getElementById('name').value;
+    var age = document.getElementById('age').value;
+    var username = document.getElementById('username').value;
+    var answerString = document.createTextNode("Your name is "+name+", you are "+age+" years old, and your are known on Reddit as "+username+".");
+    console.log(answerString);
+    var p = document.createElement('p');
+    p.appendChild(answerString);
+    document.body.appendChild(p);
+}
+function myFunction() {
+var h=document.createElement("H1");
+var t=document.createTextNode("Hello World");
+h.appendChild(t);
+document.body.appendChild(h);
+}
+</script>
+</head>
+<body>
+<input type='text' id='name' placeholder='Name' value='Jack'></input><br>
+<input type='text' id='age' placeholder='Age' value='17'></input><br>
+<input type='text' id='username' placeholder='Username' value='GingertronMk1'></input><br>
+<button id='username' onclick='repeat()'>Go</button>
+</body>
+</html>
