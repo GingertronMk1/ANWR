@@ -8,8 +8,10 @@ set smarttab            "Tabs in front of lines are <shiftwidth> spaces, and bac
 set shiftround          "Rounds indentation to a multiple of <shiftwidth>
 set number              "Puts line number in front of each line
 set numberwidth=1       "Line numbers take less space
-set incsearch           "Shows where search pattern matches
+set incsearch           "Starts searching as soon as / is typed
+set hlsearch            "Highlights searched things
 set mouse=a             "Allows mouse control
 filetype indent on      "Smarter indentation based on file type
 syntax on               "Highlights more syntax
 set ruler               "Shows cursor all the time
+set smartcase           "Lowercase searches aren't case-sensitive
