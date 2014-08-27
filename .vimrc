@@ -11,8 +11,10 @@ set numberwidth=1       "Line numbers take less space.
 set incsearch           "Starts searching as soon as / is typed.
 set hlsearch            "Highlights searched things.
 set mouse=a             "Allows mouse control.
+syntax enable           "Highlights ALL THE SYNTAX
 filetype indent on      "Smarter indentation based on file type.
-syntax on               "Highlights more syntax.
 set ruler               "Shows cursor all the time.
 set ignorecase          "All searches are case-insensitive. See below.
 set smartcase           "Lowercase searches aren't case-sensitive.
+set textwidth=0         "Eliminates textwidth restrictions
+set wrap                "Text wraps at edge of window
