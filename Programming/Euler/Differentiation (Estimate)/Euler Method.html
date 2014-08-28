@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8"> 
+<title>The Euler Method of Differentiating</title>
+<style>
+body, html {
+    font-family: sans-serif;
+}
+</style>
+<script>
+function documentAppender(a,b) {  //Appends a string to a document
+    var h=document.createElement(a);
+    var t=document.createTextNode(b);
+    h.appendChild(t);
+    document.body.appendChild(h);
+};
+
+function euler(a, b, c) {
+    var dydx = parseFloat(a);
+    var y1 = parseFloat(b);
+    var deltax = parseFloat(c);
+    var deltay = dydx * deltax;
+    documentAppender(deltay, 'p');
+}
+</script>
+</head>
+<body>
+<input type='text' id='dydx' placeholder='dy/dx'></input><br>
+<input type='text' id='y1' placeholder='y1'></input><br>
+<input type='text' id='deltax' placeholder='∆x'></input><br>
+<button id="calculate" onclick="euler(document.getElementById('dydx').val,document.getElementById('y1').val,document.getElementById('deltax').val)">Calculate!</button>
+</body>
+</html>

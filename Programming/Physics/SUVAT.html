@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<head>
+<title>SUVAT Calculator</title>
+<style>
+body, html {
+    font-family: sans-serif;
+    line-height: 150%;
+}
+input {
+    position: absolute;
+    left: 50px;
+}
+</style>
+<script>
+function quadratic(a,b,c) {
+    var d = (b*b)-(4*a*c);
+    if(d>0) {
+        var x1 = ((0-b)+Math.sqrt(d))/(2*a);
+        var x2 = ((0-b)-Math.sqrt(d))/(2*a);
+        if(x1>=0&&x2<0){
+            return x1;
+        } else if(x1<0&&x2>=0){
+            return x2;
+        };
+    } else if(d=0) {
+        var x = (0-b)/(2*a);
+        return x;
+    } else {
+        return NaN;
+    };
+};
+
+function resetAll(name) {           //Resets all values in textboxes of class 'name'
+    var elements = [];
+    elements = document.getElementsByClassName(name);
+    for(var i=0; i<elements.length; i++) {
+        elements[i].value = '';
+    };
+};
+
+
+function SUVAT() {
+    var s = dge('s').value;
+    var u = dge('u').value;
+    var v = dge('v').value;
+    var a = dge('a').value;
+    var t = dge('t').value;
+    console.log("s= " + s +", u= " + u +", v= " + v + ", a= " + a + ",t= " +t + ".");
+    if(s!=''&&u!=''&&v!='') {                  //SUV give AT
+        a = ((v*v)-(u*u))/(2*s);
+        t = (2*s)/(u+v);
+        dge('a').value = a;
+        dge('t').value = t;
+    } else if(s!=''&&u!=''&&a!='') {           //SUA give VT
+        v = Math.sqrt((u*u)+(2*a*s));
+        t = quadratic(a/2, u, s);
+        dge('v').value = v;
+        dge('t').value = t;
+    } else if(s!=''&&u!=''&&t!='') {           //SUT give VA
+        v = ((2*s)/t)-u;
+        a = (2(s-(u*t)))/(t*t);
+        dge('v').value = v;
+        dge('a').value = a;
+    } else if(s!=''&&v!=''&&a!='') {           //SVA give UT
+        u = (s-((a*(t*t))/2))/2;
+        t = quadratic(a/2,(0-v),s);
+        dge('u').value = u;
+        dge('t').value = t;
+    } else if(s!=''&&v!=''&&t!='') {           //SVT give UA
+        u = ((2*s)/t)-v;
+        a = (2*((v*t)-s))/(t*t);
+        dge('u').value = u;
+        dge('a').value = a;
+    } else if(s!=''&&a!=''&&t!='') {           //SAT give UV
+        u = (s-((a*(t*t))/2))/t;
+        v = (s+((a*(t*t))/2))/t;
+        dge('u').value = u;
+        dge('v').value = v;
+    } else if(u!=''&&v!=''&&a!='') {           //UVA give ST
+        s = ((v*v)-(u*u))/(2*a);
+        t = (v-u)/a;
+        dge('s').value = s;
+        dge('t').value = t;
+    } else if(u!=''&&v!=''&&t!='') {           //UVT give SA
+        s = ((u+v)*t)/2;
+        a = (v-u)/t;
+        dge('s').value = s;
+        dge('a').value = a;
+    } else if(u!=''&&a!=''&&t!='') {           //UAT give SV
+        s = (u*t)+((a*(t*t))/2);
+        v = u+(a*t);
+        dge('s').value = s;
+        dge('v').value = v;
+    } else if(v!=''&&a!=''&&t!='') {           //VAT give SU
+        s = (v*t)-((a*(t*t))/2);
+        u = v-(a*t);
+        dge('s').value = s;
+        dge('u').value = u;
+    };
+};
+</script>
+</head>
+<body>
+S:<input type='text' class='textbox' id='s' placeholder='Displacement (m)'></input><br>
+U:<input type='text' class='textbox' id='u' placeholder='Initial Velocity (ms^-1)'></input><br>
+V:<input type='text' class='textbox' id='v' placeholder='Final Velocity (ms^-1)'></input><br>
+A:<input type='text' class='textbox' id='a' placeholder='Acceleration (ms^-2)'></input><br>
+T:<input type='text' class='textbox' id='t' placeholder='Time (s)'></input><br>
+<button onclick='SUVAT()'>Go</button><button onclick="resetAll('textbox')">Reset</button>
+</body>
+</html>

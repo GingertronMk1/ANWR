@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+<title></title>
+<style>
+body, html {
+    font-family: sans-serif;
+}
+</style>
+<script src='Utilities.js'></script>
+<script>
+var charset = (lettersLower + ',' + lettersUpper + ',' + numbers).split(',');
+function generator() {
+    var stringLength = parseInt(document.getElementById('in').value) + 1;
+    console.log(stringLength);
+    var password = new String();
+    for(var i = 1; i < stringLength; i++) {
+        var randomNo = parseInt(Math.random() * charset.length);    //Selects random number within the range of the charset
+        var nextChar = charset[randomNo];                           //Selects the character within 'charset' that corresponds to the random number
+        console.log(randomNo, nextChar);
+        password += nextChar;                                       //Adds the character to the string
+    };
+    console.log(password, password.length);
+    document.getElementById('out').value = password;
+}
+</script>
+</head>
+<body>
+<input type='text' id='in' placeholder='How many characters?' value='9'></input>
+<input type='text' id='out'></input>
+<button onclick='generator()'>Generate</button>
+</html>
