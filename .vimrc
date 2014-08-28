@@ -18,3 +18,13 @@ set ignorecase          "All searches are case-insensitive. See below.
 set smartcase           "Lowercase searches aren't case-sensitive.
 set textwidth=0         "Eliminates textwidth restrictions
 set wrap                "Text wraps at edge of window
+set encoding=utf-8      "Standardizes text to UTF-8
+set noswapfile          "No more swap file nonsense
+iabbrev ldis ಠ_ಠ
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+nnoremap <Space> za
+"H goes to beginning of line, L to end
+nnoremap H 0
+nnoremap L $
+set background=dark
+set foldlevelstart=0
