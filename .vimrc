@@ -2,7 +2,8 @@ set nocompatible        "Removes vi compatibility.
 set autoindent          "Automatically indents lines to the same level as the previous line.
 set smartindent         "Inserts an extra indent in certain cases.
 set shiftwidth=4        "How many spaces constitute one tab .
-set tabstop=4           "How many spaces a tab counts for in a file.
+set tabstop=8           "How many spaces a tab counts for in a file.
+set softtabstop=4
 set expandtab           "Inserts <shiftwidth> spaces when tab is pressed.
 set smarttab            "Tabs in front of lines are <shiftwidth> spaces, and backspacing a tab deletes 4 spaces.
 set shiftround          "Rounds indentation to a multiple of <shiftwidth>.
@@ -24,7 +25,8 @@ iabbrev ldis ಠ_ಠ
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 nnoremap <Space> za
 "H goes to beginning of line, L to end
-nnoremap H 0
-nnoremap L $
+noremap H 0
+noremap L $
+noremap vv vg_
 set background=dark
 set foldlevelstart=0
