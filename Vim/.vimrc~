@@ -34,7 +34,7 @@
     set wrap                "Text wraps at edge of window.
     set scrolloff=5         "Margin of 5 lines around edge of screen.
     set relativenumber      "Number relates to how far a line is from the current
-    color slate 
+    "color molokai
 
 "Abbreviations, Remappings
     "Abbreviations
