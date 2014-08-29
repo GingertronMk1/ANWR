@@ -1,5 +1,9 @@
-set nocompatible        "Removes vi compatibility.
-"Indentation 	settings{{{1-----------------------------------------------------
+"General Settings{{{--------------------------------------------------------
+    set nocompatible        "Removes vi compatibility.
+    "Characters form pairs.
+    set matchpairs=<:>,{:},(:),[:]
+"}}}
+"Indentation settings{{{----------------------------------------------------
     set autoindent          "Automatically indents lines to the same level as the previous line.
     set smartindent         "Inserts an extra indent in certain cases.
     set shiftround          "Rounds indentation to a multiple of <shiftwidth>.
@@ -7,7 +11,8 @@ set nocompatible        "Removes vi compatibility.
     set smarttab            "Tabs in front of lines are <shiftwidth> spaces, and backspacing a tab deletes 4 spaces.
     set shiftwidth=4        "How many spaces constitute one tab.
     set tabstop=4           "How many spaces a tab counts for in a file.
-"UI Changes{{{1---------------------------------------------------------------
+"}}}
+"UI Changes{{{--------------------------------------------------------------
     set background=dark     "Dark background.
     set number              "Puts line number in front of each line.
     set numberwidth=1       "Line numbers take less space.
@@ -25,17 +30,45 @@ set nocompatible        "Removes vi compatibility.
     set noswapfile          "No more swap file nonsense.
     set modeline            "Iunno.
     set scrolloff=5         "Margin of 5 lines around edge of screen.
-"Abbreviations and Remappings{{{1---------------------------------------------
-    iabbrev ldis ಠ_ಠ
-    noremap <Space> za	
-    noremap H 0
-    noremap L $
-    noremap J G
-    noremap K 1G
-    noremap vv vg_
-    noremap ,s :%s///<left><left>
-    set matchpairs=<:>,{:},(:),[:]
-"Folding{{{1------------------------------------------------------------------
+"}}}
+"Abbreviations, Remappings{{{---------------------------
+    "Abbreviations{{{-------------------------------------------------------
+        "Abbreviates 'ಠ_ಠ' to the look of disapproval.
+        iabbrev ldis ಠ_ಠ
+    "}}}
+    "Remappings{{{----------------------------------------------------------
+        "Causes space to toggle a fold.
+        noremap <Space> za
+        "'H' takes you to the beginning of a line, and 'L' to the end.
+        noremap H 0
+        noremap L $
+        "'K' takes you to the top of the doc, and 'J' to the bottom.
+        noremap J G
+        noremap K 1G
+        "'vv' visually selects a line bar leading indentation.
+        noremap vv vg_
+        "',s' puts me in substitute mode.
+        noremap ,s :%s///g<left><left><left>
+        "'F1' opens help.
+        noremap <F1> K
+    "}}}--------------------------------------------------------------------
+"}}}------------------------------------------------------------------------
+"Folding{{{-----------------------------------------------------------------
     set foldlevel=0
-    set foldlevelstart=50
-    set foldmethod=indent
+    set foldlevelstart=5
+    highlight Folded guibg=#000030 guifg=#FFFFFF
+"}}}
+"FileType-Specific{{{-------------------------------------------------------
+    ".vimrc files get folded on {{{/}}}, others based on indentation
+    augroup filetype_folding
+        autocmd!
+        autocmd FileType vim setlocal foldmethod=marker
+        autocmd FileType !vim setlocal foldmethod=indent
+    augroup END
+    "In JS and HTML files, 'dgeid' expands to 'document.getElementById('').
+    augroup web_abbreviations
+        autocmd FileType javascript :iabbrev dgeid document.getElementById('')<left><left>
+        autocmd FileType html  :iabbrev dgeid document.getElementById('')<left><left>
+    augroup END
+"}}}
+
