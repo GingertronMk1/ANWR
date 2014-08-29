@@ -1,6 +1,6 @@
 "General Settings
     set nocompatible        "Removes vi compatibility.
-    filetype on
+    filetype on             "Allows filetype checking
 
     "Characters form pairs.
     set matchpairs=<:>,{:},(:),[:]
