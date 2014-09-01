@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-	<head>
-	<title>How far will it go?</title>
-	<script>
-    function trajectory(a,b) {
-	var totalDistance = parseFloat((2(a^2)(Math.sin(Math.radians(b)))(Math.cos(Math.radians(b))))/9.81);
-	console.log(totalDistance);
-}
-    </script>
-	</head>
-	<body>
-		<input type='text' id='velocity' value='0'>Initial Velocity</input><br>
-		<input type='text' id='angle' value='0'>Initial Angle</input><br>
-		<button id='Calculate'
-            onclick="trajectory(document.getElementById('velocity'),document.getElementById('angle'))">Calculate!</button>
-	</body>
+<head>
+<title>How far will it go?</title>
+<script>
+function documentAppender(a,b) {    //Appends a string to a document
+    var h=document.createElement(a);
+    var t=document.createTextNode(b);
+    h.appendChild(t);
+    document.body.appendChild(h);
+};
+
+function trajectory(a,b) {
+    var vel = parseFloat(a);
+    var ang = parseFloat(b);
+    var totalDistance = (2*(vel*vel)*(Math.sin(Math.radians(ang)))*(Math.cos(Math.radians(ang))))/9.81;
+    documentAppender(p, totalDistance);
+};
+</script>
+</head>
+<body>
+<input type='text' id='velocity' value='0'>Initial Velocity</input><br>
+<input type='text' id='angle' value='0'>Initial Angle</input><br>
+<button id='Calculate' onclick="trajectory(document.getElementById('velocity'),document.getElementById('angle'))">Calculate!</button>
+</body>
 </html>
