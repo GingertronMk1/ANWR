@@ -31,13 +31,12 @@
     set ruler               "Shows cursor all the time.
     set ignorecase          "All searches are case-insensitive. See below.
     set smartcase           "Lowercase searches aren't case-sensitive.
-    set textwidth=0         "Eliminates textwidth restrictions.
     set wrap                "Text wraps at edge of window.
     set scrolloff=5         "Margin of 5 lines around edge of screen.
     set relativenumber      "Number relates to how far a line is from the current.
     set splitbelow          "Horizontal splits below current window.
     set splitright          "Vertical splits to the right of current window.
-    set textwidth=80        "80 columns max.
+    set textwidth=0         "No columnal restriction.
     try
         colorscheme molokai
     catch
@@ -81,7 +80,7 @@
 "FileType-Specific
      "In JS and HTML files, 'dge...' expands to 'document.getElement(/s)By...'
     augroup web_abbrevs
-        autocmd FileType javascript,html :iabbrev dgei document.getElementById('')<left><left>
-        autocmd FileType javascript,html :iabbrev dgec document.getElementsByClassName('')<left><left>
-        autocmd FileType javascript,html :iabbrev dget document.getElementsByTagName('')<left><left>
+        autocmd BufEnter *.js,*.html :iabbrev dgei document.getElementById('')<left><left>
+        autocmd BufEnter *.js,*.html :iabbrev dgec document.getElementsByClassName('')<left><left>
+        autocmd BufEnter *.js,*.html :iabbrev dget document.getElementsByTagName('')<left><left>
     augroup end
