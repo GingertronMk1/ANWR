@@ -59,11 +59,11 @@
         "'F1' opens help.
         noremap <F1> K
         "<c-key> = <c-w> + KEY
-        noremap hh <C-w>h
-        noremap jj <C-w>j
-        noremap kk <C-w>k
-        noremap ll <C-w>l
-     
+        noremap <C-h> <C-w>h
+        noremap <C-j> <C-w>j
+        noremap <C-k> <C-w>k
+        noremap <C-l> <C-w>l
+
 "Folding
     set foldlevel=0 
     set foldlevelstart=5
