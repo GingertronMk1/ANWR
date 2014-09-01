@@ -42,7 +42,7 @@
     catch
         colorscheme ron
     endtry
-    set guifont=Courier
+    set guifont=Courier New
 
 "Abbreviations, Remappings
     "Abbreviations
