@@ -74,6 +74,9 @@
         noremap <C-l> <C-w>l
         "'==' aligns whole document
         noremap == 1GvG=
+        "Swap : and ;
+        noremap : ;
+        noremap ; :
 
 "FileType-Specific
      "In JS and HTML files, 'dge...' expands to 'document.getElement(/s)By...'
