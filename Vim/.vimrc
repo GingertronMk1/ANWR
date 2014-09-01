@@ -34,13 +34,9 @@
     set wrap                "Text wraps at edge of window.
     set scrolloff=5         "Margin of 5 lines around edge of screen.
     set relativenumber      "Number relates to how far a line is from the current
-<<<<<<< HEAD
     set splitbelow          "Horizontal splits below current window
     set splitright          "Vertical splits to the right of current window
     color ron
-=======
-    color slate 
->>>>>>> FETCH_HEAD
 
 "Abbreviations, Remappings
     "Abbreviations
@@ -63,10 +59,10 @@
         "'F1' opens help.
         noremap <F1> K
         "<c-key> = <c-w> + KEY
-        noremap <C-h> <C-w>h
-        noremap <C-j> <C-w>j
-        noremap <C-k> <C-w>k
-        noremap <C-l> <C-w>l
+        noremap hh <C-w>h
+        noremap jj <C-w>j
+        noremap kk <C-w>k
+        noremap ll <C-w>l
      
 "Folding
     set foldlevel=0 
