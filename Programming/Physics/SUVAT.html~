@@ -107,7 +107,7 @@ V:<input type='text' class='textbox' id='v' placeholder='Final Velocity (ms^-1)'
 A:<input type='text' class='textbox' id='a' placeholder='Acceleration (ms^-2)'></input><br>
 T:<input type='text' class='textbox' id='t' placeholder='Time (s)'></input><br>
 <button onclick='SUVAT()'>Go</button><button onclick="resetAll('textbox')">Reset</button>
-<p>NB: If u>v, a is negative. It's a limitation of JavaScript that I dont' have
+<p>NB: If u>v, a is negative. It's a limitation of JavaSCript that I dont' have
 the patience to work around.</p>
 </body>
 </html>
