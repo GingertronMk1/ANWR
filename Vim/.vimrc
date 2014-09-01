@@ -8,6 +8,8 @@
     set backspace=indent,eol,start
     set foldlevel=0         "Folds everything by default.
     set foldmethod=indent   "Folds based on indentation.
+    set list
+    set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 
 "Indentation settings
     set autoindent          "Automatically indents lines to the same level as the previous line.
@@ -36,7 +38,11 @@
     set splitbelow          "Horizontal splits below current window.
     set splitright          "Vertical splits to the right of current window.
     set textwidth=80        "80 columns max.
-    color ron
+    try
+        colorscheme molokai
+    catch
+        colorscheme ron
+    endtry
 
 "Abbreviations, Remappings
     "Abbreviations
