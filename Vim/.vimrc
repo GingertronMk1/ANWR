@@ -34,7 +34,9 @@
     set wrap                "Text wraps at edge of window.
     set scrolloff=5         "Margin of 5 lines around edge of screen.
     set relativenumber      "Number relates to how far a line is from the current
-    color molokai
+    set splitbelow          "Horizontal splits below current window
+    set splitright          "Vertical splits to the right of current window
+    color ron
 
 "Abbreviations, Remappings
     "Abbreviations
@@ -61,16 +63,16 @@
         noremap <C-j> <C-w>j
         noremap <C-k> <C-w>k
         noremap <C-l> <C-w>l
-    
+     
 "Folding
-    set foldlevel=0
+    set foldlevel=0 
     set foldlevelstart=5
     set foldmethod=indent
 
 "FileType-Specific
-    "In JS and HTML files, 'dge' expands to 'document.getElement/s'
+     "In JS and HTML files, 'dge...' expands to 'document.getElement(/s)By...'
     augroup web_abbrevs
-        autocmd FileType javascript,html :iabbrev dgeid document.getElementById('')<left><left>
-        autocmd FileType javascript,html :iabbrev dgecn document.getElementsByClassName('')<left><left>
-        autocmd FileType javascript,html :iabbrev dgetn document.getElementsByTagName('')<left><left>
+        autocmd FileType javascript,html :iabbrev dgei document.getElementById('')<left><left>
+        autocmd FileType javascript,html :iabbrev dgec document.getElementsByClassName('')<left><left>
+        autocmd FileType javascript,html :iabbrev dget document.getElementsByTagName('')<left><left>
     augroup end
