@@ -22,7 +22,7 @@ function quadratic(a,b,c) {
         } else if(x1<0&&x2>=0){
             return x2;
         };
-    } else f(d=0) {
+    } else if(d=0) {
         var x = (0-b)/(2*a);
         return x;
     } else {
@@ -40,62 +40,62 @@ function resetAll(name) {           //Resets all values in textboxes of class 'n
 
 
 function SUVAT() {
-    var s = dge('s').value;
-    var u = dge('u').value;
-    var v = dge('v').value;
-    var a = dge('a').value;
-    var t = dge('t').value;
+    var s = document.getElementById('s').value;
+    var u = document.getElementById('u').value;
+    var v = document.getElementById('v').value;
+    var a = document.getElementById('a').value;
+    var t = document.getElementById('t').value;
     console.log("s= " + s +", u= " + u +", v= " + v + ", a= " + a + ",t= " +t + ".");
     if(s!=''&&u!=''&&v!='') {                  //SUV give AT
         a = ((v*v)-(u*u))/(2*s);
         t = (2*s)/(u+v);
-        dge('a').value = a;
-        dge('t').value = t;
+        document.getElementById('a').value = a;
+        document.getElementById('t').value = t;
     } else if(s!=''&&u!=''&&a!='') {           //SUA give VT
         v = Math.sqrt((u*u)+(2*a*s));
         t = quadratic(a/2, u, s);
-        dge('v').value = v;
-        dge('t').value = t;
+        document.getElementById('v').value = v;
+        document.getElementById('t').value = t;
     } else if(s!=''&&u!=''&&t!='') {           //SUT give VA
         v = ((2*s)/t)-u;
         a = (2(s-(u*t)))/(t*t);
-        dge('v').value = v;
-        dge('a').value = a;
+        document.getElementById('v').value = v;
+        document.getElementById('a').value = a;
     } else if(s!=''&&v!=''&&a!='') {           //SVA give UT
         u = (s-((a*(t*t))/2))/2;
         t = quadratic(a/2,(0-v),s);
-        dge('u').value = u;
-        dge('t').value = t;
+        document.getElementById('u').value = u;
+        document.getElementById('t').value = t;
     } else if(s!=''&&v!=''&&t!='') {           //SVT give UA
         u = ((2*s)/t)-v;
         a = (2*((v*t)-s))/(t*t);
-        dge('u').value = u;
-        dge('a').value = a;
+        document.getElementById('u').value = u;
+        document.getElementById('a').value = a;
     } else if(s!=''&&a!=''&&t!='') {           //SAT give UV
         u = (s-((a*(t*t))/2))/t;
         v = (s+((a*(t*t))/2))/t;
-        dge('u').value = u;
-        dge('v').value = v;
+        document.getElementById('u').value = u;
+        document.getElementById('v').value = v;
     } else if(u!=''&&v!=''&&a!='') {           //UVA give ST
         s = ((v*v)-(u*u))/(2*a);
         t = (v-u)/a;
-        dge('s').value = s;
-        dge('t').value = t;
+        document.getElementById('s').value = s;
+        document.getElementById('t').value = t;
     } else if(u!=''&&v!=''&&t!='') {           //UVT give SA
         s = ((u+v)*t)/2;
         a = (v-u)/t;
-        dge('s').value = s;
-        dge('a').value = a;
+        document.getElementById('s').value = s;
+        document.getElementById('a').value = a;
     } else if(u!=''&&a!=''&&t!='') {           //UAT give SV
         s = (u*t)+((a*(t*t))/2);
         v = u+(a*t);
-        dge('s').value = s;
-        dge('v').value = v;
+        document.getElementById('s').value = s;
+        document.getElementById('v').value = v;
     } else if(v!=''&&a!=''&&t!='') {           //VAT give SU
         s = (v*t)-((a*(t*t))/2);
         u = v-(a*t);
-        dge('s').value = s;
-        dge('u').value = u;
+        document.getElementById('s').value = s;
+        document.getElementById('u').value = u;
     };
 };
 </script>
