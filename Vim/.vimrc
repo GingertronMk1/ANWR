@@ -101,7 +101,6 @@
     augroup end "}}}
     augroup vimrcspecific "Unfolds everything and changes fold method{{{
         au!
-        autocmd BufEnter *.vimrc :set foldlevel=100
         autocmd BufEnter *.vimrc :set foldmethod=marker
     augroup end "}}}
 "}}}
