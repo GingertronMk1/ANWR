@@ -99,7 +99,7 @@
         autocmd BufEnter *.js,*.html :iabbrev dgecv document.getElementsByClassName('').value<Esc>F'ci'
         autocmd BufEnter *.js,*.html :iabbrev dgetv document.getElementsByTagName('').value<Esc>F'ci'
     augroup end "}}}
-    augroup vimrcspecific "Unfolds everything and changes fold method{{{
+    augroup vimrcspecific "Changes fold method{{{
         au!
         autocmd BufEnter *.vimrc :set foldmethod=marker
     augroup end "}}}
