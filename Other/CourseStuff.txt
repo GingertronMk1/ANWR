@@ -1,0 +1,15 @@
+Artificial Intelligence
+
+Data Mining
+
+Programming Languages
+
+Best Practises
+
+Maths
+
+Problem Solving
+
+Physics
+
+Architectures: Data Flow, Race Conditions

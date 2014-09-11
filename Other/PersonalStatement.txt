@@ -1,4 +1,4 @@
-    Computer Science fascinates me, as everything is run by computers these days and
+    Computer Science fascinates me; everything is run by computers these days and
 I'd like to know how they work. The way computers are programmed and the
 thinking required to make them do even simple things is something I would like
 to study and continue with.
@@ -8,17 +8,30 @@ work, and I feel a good grounding in those subjects lends itself to being able
 to come up with realistic programs. It helps that I find them interesting, as
 like most people, I do the best work in subjects in which I'm interested.
 
-    Over the summer I had an internship at the C4DI in Hull, during which I created
-a website that allows people to upload pictures and be presented with a
-geographical map of those pictures. I had to learn and implement all of the necessary skills
-to do so myself, as well as coming up with functions to help me in this task and
-setting up the front and back end. I also had to learn how to use Vim, which I think warrants a special mention of
-its own.
+    Over the summer of 2014 I had an internship at the C4DI in Hull, during which 
+I created a website that allows people to upload pictures and be presented with a
+geographical map of those pictures. I had to learn and implement all of the necessary 
+skills to do so myself, locate and use libraries, as well as coming up with functions 
+to help me in this task and setting up the front and back end. Moreover, I 
+spent that time around coders and designers, which gave me an insight into the 
+development process and some of the issues that are faced when trying to create a 
+piece of software or a website.
 
-    I also attend monthly Arduino meetups, where challenges are set, and I find it fun
-to try to complete them in as few lins of code as possible. I've gone through
+    I also attend monthly Arduino meetups, where challenges are set, and I find
+it fun to try to complete them in as few lins of code as possible. I've gone through
 Codecademy courses on Python, HTML & CSS, PHP, and JavaScript, which have given
 me a good base to work from in terms of learning other languages.
+
+    I enjoy presenting information to groups; I and a friend won an award for
+presenting an idea for a University to our peers and teachers. I also took part
+in an in-class support scheme helping Year 7 students in English. Furthermore,
+another task I was set during my time at the C4DI was researching and preparing
+a presentation on smart cities, some ideas from which will make their way into
+Hull's planning to become one.
+
+    Problem solving is an area in which I find fun; I was part of our Sixth
+Form's Senior UKMT team, which involved working around mathematical problems
+logically.
 
     To summarise, I like computers. I like telling them to do things that would
 take a human a week and watching them do it in a second. I like understanding

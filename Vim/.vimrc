@@ -12,6 +12,7 @@
     set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
     set showcmd             "Shows commands
 "}}}
+
 "Indentation settings{{{
     set autoindent          "Automatically indents lines.
     set smartindent         "Inserts an extra indent in certain cases.
@@ -21,6 +22,7 @@
     set shiftwidth=4        "How many spaces constitute one tab.
     set tabstop=4           "How many spaces a tab counts for in a file.
 "}}}
+
 "UI Changes{{{
     set number              "Puts line number in front of each line.
     set numberwidth=1       "Line numbers take less space.
@@ -32,7 +34,7 @@
     set ruler               "Shows cursor all the time.
     set ignorecase          "All searches are case-insensitive. See below.
     set smartcase           "Lowercase searches aren't case-sensitive.
-    set wrap                "Text wraps at edge of window.
+    set nowrap              "Text doesn't wrap at edge of window.
     set scrolloff=5         "Margin of 5 lines around edge of screen.
     set relativenumber      "Number shows how far a line is from the current.
     set splitbelow          "Horizontal splits below current window.
@@ -47,6 +49,7 @@
     set guifont=Courier
     set statusline+=%F      "Shows full file path.
 "}}}
+
 "Abbreviations, Remappings{{{
     "Abbreviations{{{
         iabbrev ldis ಠ_ಠ
@@ -89,6 +92,7 @@
         noremap ; :
     "}}}
 "}}}
+
 "FileType-Specific{{{
     augroup web_abbrevs "Abbreviates JS commands for get{{{
         au!
@@ -99,8 +103,12 @@
         autocmd BufEnter *.js,*.html :iabbrev dgecv document.getElementsByClassName('').value<Esc>F'ci'
         autocmd BufEnter *.js,*.html :iabbrev dgetv document.getElementsByTagName('').value<Esc>F'ci'
     augroup end "}}}
-    augroup vimrcspecific "Changes fold method{{{
+    augroup vimrc "Changes fold method{{{
         au!
         autocmd BufEnter *.vimrc :set foldmethod=marker
+    augroup end "}}}
+    augroup textfiles "For text files{{{
+        au!
+        autocmd BufEnter *.txt :set textwidth=100
     augroup end "}}}
 "}}}
