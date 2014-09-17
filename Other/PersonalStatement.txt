@@ -1,14 +1,13 @@
     Computer Science fascinates me; everything is run by computers these days and
 I'd like to know how they work. The way computers are programmed and the
 thinking required to make them do even simple things is something I would like
-to study and continue with.
+to study and continue with. My current academic choices are a result of my liking 
+to know how things work, and I feel a good grounding in those subjects lends itself 
+to being able to come up with realistic programs. It helps that I find them 
+interesting, as like most people, I do the best work in subjects in which I'm 
+interested.
 
-    My current academic choices are a result of my liking to know how things
-work, and I feel a good grounding in those subjects lends itself to being able
-to come up with realistic programs. It helps that I find them interesting, as
-like most people, I do the best work in subjects in which I'm interested.
-
-    Over the summer of 2014 I had an internship at the C4DI in Hull, during which 
+    Over the summer of 2014 I had an internship at the Center For Digital Innovation in Hull, during which 
 I created a website that allows people to upload pictures and be presented with a
 geographical map of those pictures. I had to learn and implement all of the necessary 
 skills to do so myself, locate and use libraries, as well as coming up with functions 
@@ -24,8 +23,8 @@ me a good base to work from in terms of learning other languages.
 
     I enjoy presenting information to groups; I and a friend won an award for
 presenting an idea for a University to our peers and teachers. I also took part
-in an in-class support scheme helping Year 7 students in English. Furthermore,
-another task I was set during my time at the C4DI was researching and preparing
+in an in-class support scheme helping Year 7 students in English. As well,
+another task I was set during my time at the Center For Digital Innovation was researching and preparing
 a presentation on smart cities, some ideas from which will make their way into
 Hull's planning to become one.
 
@@ -37,3 +36,7 @@ logically.
 take a human a week and watching them do it in a second. I like understanding
 how they work, and trying to guess at the bits I don't understand. And I don't
 think I know enough about them.
+
+
+
+Jack Ellis

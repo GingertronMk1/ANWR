@@ -1,0 +1,8 @@
+    Computers are fantastic tools. 
+
+    Over the summer I had an internship at the Center for Digital Innovation in Hull, which
+helped me understand a number of the skills needed to work well in a development environment.
+I was tasked with creating a website to which people could upload geotagged images and have them
+appear on a map. I had to learn the skills from scratch, including all the necessary languages, as
+well as working around problems involved in the process (such as converting DMS coordinates into
+decimalised degrees).
