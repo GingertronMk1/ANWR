@@ -13,3 +13,4 @@ sudo apt-get install git
 git config --global user.name "Jack"
 
 git config --global user.email "jackellis1504@me.com"
+
