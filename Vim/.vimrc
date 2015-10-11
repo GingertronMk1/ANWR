@@ -44,7 +44,7 @@
     try
         colorscheme molokai
     catch
-        colorscheme ron
+        colorscheme elflord
     endtry
     set guifont=Courier
     set statusline+=%F      "Shows full file path.
