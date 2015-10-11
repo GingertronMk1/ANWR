@@ -56,6 +56,8 @@
         iabbrev lsad ಥ_ಥ
         iabbrev lhap ಥ‿ಥ
         iabbrev lmis ಠ‿ಠ
+        iabbrev (union) ∪
+        iabbrev (intersect) ∩
     "}}}
     "Remappings{{{
         "Space toggles folds.
