@@ -113,4 +113,7 @@
         au!
         autocmd BufEnter *.txt :set textwidth=100
     augroup end "}}}
+    augroup cfiles "Conveniences for working with C{{{
+        au!
+    augroup end "}}}
 "}}}
