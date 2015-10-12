@@ -6,7 +6,7 @@
     set encoding=utf-8      "Standardizes text to UTF-8.
     set noswapfile          "No more swap file nonsense.
     set backspace=indent,eol,start
-    set foldlevel=0         "Folds everything by default.
+    set foldlevel=100       "Unfolds everything by default.
     set foldmethod=indent   "Folds based on indentation.
     set list                "Puts below characters in their places
     set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
