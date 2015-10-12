@@ -11,6 +11,8 @@
     set list                "Puts below characters in their places
     set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
     set showcmd             "Shows commands
+    set wildmenu            "Graphical menu of autocomplete options
+    set lazyredraw          "Redraw only when necessary
 "}}}
 
 "Indentation settings{{{
@@ -21,6 +23,7 @@
     set smarttab            "Tabs in front of lines are <shiftwidth> spaces.
     set shiftwidth=4        "How many spaces constitute one tab.
     set tabstop=4           "How many spaces a tab counts for in a file.
+    set expandtab           "Tabs become spaces
 "}}}
 
 "UI Changes{{{
@@ -48,6 +51,7 @@
     endtry
     set guifont=Courier
     set statusline+=%F      "Shows full file path.
+    set showmatch           "Highlights matching pairs of brackets
 "}}}
 
 "Abbreviations, Remappings{{{
@@ -92,6 +96,9 @@
         "Swap : and ;
         noremap : ;
         noremap ; :
+
+        "Turn off search highlight
+        nnoremap <leader><space> :nohlsearch<CR>
     "}}}
 "}}}
 
