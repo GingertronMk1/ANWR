@@ -45,11 +45,11 @@
     set textwidth=0         "No columnal restriction.
     set laststatus=2        "Shows status line at all times.
     try
-        colorscheme molokai
+        colorscheme molokai "If molokai's installed, use it
     catch
-        colorscheme elflord
+        colorscheme elflord "Otherwise, use elflord
     endtry
-    set guifont=Courier
+    set guifont=Courier     "I like Courier for this
     set statusline+=%F      "Shows full file path.
     set showmatch           "Highlights matching pairs of brackets
 "}}}
