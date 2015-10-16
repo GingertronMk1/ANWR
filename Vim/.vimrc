@@ -51,7 +51,6 @@
     endtry
     set guifont=Courier     "I like Courier for this
     set statusline+=%F      "Shows full file path.
-    set showmatch           "Highlights matching pairs of brackets
 "}}}
 
 "Abbreviations, Remappings{{{
