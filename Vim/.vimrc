@@ -49,7 +49,7 @@
     catch
         colorscheme elflord "Otherwise, use elflord
     endtry
-    set guifont=Courier     "I like Courier for this
+    set guifont=Courier\ New:h11
     set statusline+=%F      "Shows full file path.
 "}}}
 
@@ -71,7 +71,7 @@
         noremap L $
 
         "'K' takes you to the top of the doc, and 'J' to the bottom.
-        noremap J G
+        noremap J G$
         noremap K 1G
 
         "'vv' visually selects a line.
@@ -96,8 +96,8 @@
         noremap : ;
         noremap ; :
 
-        "Turn off search highlight
-        nnoremap <leader><space> :nohlsearch<CR>
+        ", + m unhighlights search pattern
+        noremap <leader>m :set nohlsearch
     "}}}
 "}}}
 
@@ -118,6 +118,7 @@
     augroup textfiles "For text files{{{
         au!
         autocmd BufEnter *.txt :set textwidth=100
+        autocmd BufEnter *.txt :iabbrev funciton function
     augroup end "}}}
     augroup cfiles "Conveniences for working with C{{{
         au!
