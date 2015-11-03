@@ -11,9 +11,22 @@
     set list                "Puts below characters in their places
     set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
     set showcmd             "Shows commands
-    set wildmenu            "Graphical menu of autocomplete options
     set lazyredraw          "Redraw only when necessary
     let mapleader = "\<Space>"  "Sets leader key to spacebar
+    "Wildmenu settings{{{
+        set wildmenu                    "Graphical menu of autocomplete options
+        set wildmode=list:longest,full
+        set wildignore=*.o,*.obj,*~     "stuff to ignore when tab completing
+        set wildignore+=*vim/backups*
+        set wildignore+=*sass-cache*
+        set wildignore+=*DS_Store*
+        set wildignore+=vendor/rails/**
+        set wildignore+=vendor/cache/**
+        set wildignore+=*.gem
+        set wildignore+=log/**
+        set wildignore+=tmp/**
+        set wildignore+=*.png,*.jpg,*.gif
+    "}}}
 "}}}
 
 "Indentation settings{{{
@@ -103,7 +116,14 @@
         "Leader + various keys has the same effect as ':' + key + enter
         nnoremap <leader>w :w <CR>
         nnoremap <leader>q :q <CR>
-        nnoremap <leader>e :e 
+        nnoremap <leader>e :e ~
+        nnoremap <leader>v :vsplit ~
+
+        "Ctrl + arrow keys resize splits
+        nnoremap <C-up> 5<C-W>+
+        nnoremap <C-down> 5<C-W>-
+        nnoremap <C-left> 5<C-W><
+        nnoremap <C-right> 5<C-W>>
     "}}}
 "}}}
 
