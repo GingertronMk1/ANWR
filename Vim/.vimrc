@@ -15,7 +15,7 @@
     let mapleader = "\<Space>"  "Sets leader key to spacebar
     "Wildmenu settings{{{
         set wildmenu                    "Graphical menu of autocomplete options
-        set wildmode=list:longest,full
+        set wildmode=list:full
         set wildignore=*.o,*.obj,*~     "stuff to ignore when tab completing
         set wildignore+=*vim/backups*
         set wildignore+=*sass-cache*
@@ -46,7 +46,7 @@
     set incsearch           "Starts searching as soon as / is typed
     set hlsearch            "Highlights searched things
     set mouse=a             "Allows mouse control
-    syntax on               "Highlights syntax. It's 2015. Jesus.
+    syntax on               "Highlights syntax. It's C21. Jesus.
     filetype indent on      "Smarter indentation based on file type
     set ruler               "Shows cursor all the time
     set ignorecase          "All searches are case-insensitive
@@ -57,14 +57,17 @@
     set splitbelow          "Horizontal splits below current window
     set splitright          "Vertical splits to the right of current window
     set textwidth=0         "No columnal restriction
-    set laststatus=2        "Shows status line at all times
     try
         colorscheme molokai "If molokai's installed, use it
     catch
         colorscheme elflord "Otherwise, use elflord
     endtry
     set guifont=Courier\ New:h11
-    set statusline+=%F      "Shows full file path
+    "Statuc Line Stuff{{{
+        set laststatus=2        "Shows status line at all times
+        "Sets status line to show full file path, line no, column no and total lines in file
+        set statusline=%F\ %m
+    "}}}
 "}}}
 
 "Abbreviations, Remappings{{{
@@ -108,7 +111,7 @@
         noremap ; :
 
         "Leader + m unhighlights search pattern
-        noremap <leader>h :set nohlsearch <CR>
+        noremap <leader>m :nohl <CR>
 
         "Hitting leader twice toggles fold
         nnoremap <leader><leader> za
@@ -118,12 +121,19 @@
         nnoremap <leader>q :q <CR>
         nnoremap <leader>e :e ~
         nnoremap <leader>v :vsplit ~
+        nnoremap <leader>h :split ~
 
         "Ctrl + arrow keys resize splits
         nnoremap <C-up> 5<C-W>+
         nnoremap <C-down> 5<C-W>-
         nnoremap <C-left> 5<C-W><
         nnoremap <C-right> 5<C-W>>
+
+        "A number n + Enter takes you to line n
+        nnoremap <CR> G0
+
+        "Shift + U redoes
+        nnoremap U <C-R>
     "}}}
 "}}}
 
@@ -143,8 +153,8 @@
     augroup end "}}}
     augroup textfiles "Conveniences for working with text files{{{
         au!
-        autocmd BufEnter *.txt :set textwidth=100
-        autocmd BufEnter *.txt :iabbrev funciton function
+        autocmd BufEnter *.txt :setlocal textwidth=100
+        autocmd BufEnter *.txt :setlocal spell spelllang=en_gb
     augroup end "}}}
     augroup cfiles "Conveniences for working with C files{{{
         au!
