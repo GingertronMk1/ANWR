@@ -56,13 +56,17 @@
     set relativenumber      "Number shows how far a line is from the current
     set splitbelow          "Horizontal splits below current window
     set splitright          "Vertical splits to the right of current window
-    set textwidth=0         "No columnal restriction
+    set textwidth=9999      "Basically no columnal restriction
     try
         colorscheme molokai "If molokai's installed, use it
     catch
         colorscheme elflord "Otherwise, use elflord
     endtry
-    set guifont=Courier\ New:h11
+    try
+        set guifont=Menlo:h12
+    catch
+        set guifont=Courier\ New:h11
+    endtry
     "Statuc Line Stuff{{{
         set laststatus=2        "Shows status line at all times
         "Sets status line to show full file path, line no, column no and total lines in file
@@ -153,7 +157,6 @@
     augroup end "}}}
     augroup textfiles "Conveniences for working with text files{{{
         au!
-        autocmd BufEnter *.txt :setlocal textwidth=100
         autocmd BufEnter *.txt :setlocal spell spelllang=en_gb
     augroup end "}}}
     augroup cfiles "Conveniences for working with C files{{{
