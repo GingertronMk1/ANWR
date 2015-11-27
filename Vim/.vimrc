@@ -138,6 +138,10 @@
 
         "Shift + U redoes
         nnoremap U <C-R>
+
+        "Swapping the behaviour of p and shift-p
+        nnoremap P p
+        nnoremap p P
     "}}}
 "}}}
 
