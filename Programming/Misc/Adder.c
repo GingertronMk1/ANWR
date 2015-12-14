@@ -12,10 +12,16 @@ struct cd {
 struct cd *newCD(char artist[512], char album[512], double price);
 struct cd *readFromFile(char *filealbum);
 double addPrices(struct cd *head);
+int numberOfCDs(struct cd *head);
+
+
 
 int main(int argc, char *argv[]){
-    printf("Total:\t£%.2lf\n", addPrices(readFromFile("/Users/Jack/Sync/Misc/CD Wishlist.txt")));
+    struct cd *head = readFromFile("/Users/Jack/Sync/Misc/CD Wishlist.txt");
+    printf("Total for %d CDs:\t£%.2lf\n\n", numberOfCDs(head), addPrices(head));
 };
+
+
 
 struct cd *newCD(char artist[512], char album[512], double price){
     struct cd *c = (struct cd *)malloc(sizeof(struct cd)); //allocates the right amount of memory for a new struct
@@ -28,7 +34,6 @@ struct cd *newCD(char artist[512], char album[512], double price){
     return c;
 }
 
-
 struct cd *readFromFile(char *filealbum){
     char line[512];
     char artist[512];
@@ -38,7 +43,7 @@ struct cd *readFromFile(char *filealbum){
     FILE *data = fopen(filealbum, "r");
     if(data != NULL){
         while(fgets(line,512,data) != NULL){
-            sscanf(line, "%lf\t%[^-] - %[^\n]\n", &price, artist, album);
+            sscanf(line, "%lf\t%[^-] - %[^\n]\n", &price, artist, album);       //Note: all CDs will have a trailing space after the artist name
             struct cd *new = newCD(artist, album, price);
             new->next = tmp;
             tmp = new;
@@ -53,7 +58,7 @@ struct cd *readFromFile(char *filealbum){
 
 double addPrices(struct cd *head){
     double total = 0;
-    printf("Price\tArtist - Album\n----------------------\n");
+    printf("\nPrice\tArtist - Album\n----------------------\n");
     while(head != NULL){
         if(head->price > 0){
             total += head->price;
@@ -65,3 +70,17 @@ double addPrices(struct cd *head){
     }
     return total;
 }
+
+int numberOfCDs(struct cd *head){
+    int num = 0;
+    while(head != NULL){
+        if(head->price > 0){
+            num++;
+            head = head->next;
+        } else {
+            head = head->next;
+        }
+    }
+    return num;
+}
+
