@@ -63,7 +63,7 @@
         colorscheme elflord "Otherwise, use elflord
     endtry
     try
-        set guifont=Menlo:h12
+        set guifont=Menlo:h11
     catch
         set guifont=Courier\ New:h11
     endtry
