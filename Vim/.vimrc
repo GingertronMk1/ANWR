@@ -1,4 +1,4 @@
-"General Settings{{{
+"General Settings{
     set nocompatible        "Less vi-ey. Still vi-ey enough though
     filetype on             "Allows filetype checking
     set matchpairs=<:>,{:},(:),[:]
@@ -13,7 +13,8 @@
     set showcmd             "Shows commands
     set lazyredraw          "Redraw only when necessary
     let mapleader = "\<Space>"  "Sets leader key to spacebar
-    "Wildmenu settings{{{
+
+    "Wildmenu settings{
         set wildmenu                    "Graphical menu of autocomplete options
         set wildmode=list:full
         set wildignore=*.o,*.obj,*~     "stuff to ignore when tab completing
@@ -26,10 +27,10 @@
         set wildignore+=log/**
         set wildignore+=tmp/**
         set wildignore+=*.png,*.jpg,*.gif
-    "}}}
-"}}}
+    "}
+"}
 
-"Indentation settings{{{
+"Indentation settings{
     set autoindent          "Automatically indents lines
     set smartindent         "Inserts an extra indent in certain cases
     set shiftround          "Rounds indentation to a multiple of <shiftwidth>
@@ -38,52 +39,55 @@
     set shiftwidth=4        "How many spaces constitute one tab
     set tabstop=4           "How many spaces a tab counts for in a file
     set expandtab           "Tabs become spaces
-"}}}
+"}
 
-"UI Changes{{{
+"UI Changes{
     set number              "Puts line number in front of each line
     set numberwidth=1       "Line numbers take less space
     set incsearch           "Starts searching as soon as / is typed
     set hlsearch            "Highlights searched things
+    set ignorecase          "All searches are case-insensitive
+    set smartcase           "Lowercase searches are case-insensitive
     set mouse=a             "Allows mouse control
     syntax on               "Highlights syntax. It's C21. Jesus.
     filetype indent on      "Smarter indentation based on file type
     set ruler               "Shows cursor all the time
-    set ignorecase          "All searches are case-insensitive
-    set smartcase           "Lowercase searches are case-insensitive
     set nowrap              "Text doesn't wrap at edge of window
     set scrolloff=5         "Margin of 5 lines around edge of screen
-    set relativenumber      "Number shows how far a line is from the current
     set splitbelow          "Horizontal splits below current window
     set splitright          "Vertical splits to the right of current window
     set textwidth=9999      "Basically no columnal restriction
-    try
+
+    try "colorscheme changing if possible
         colorscheme molokai "If molokai's installed, use it
     catch
         colorscheme elflord "Otherwise, use elflord
     endtry
-    try
+
+    try "font changing if possible
         set guifont=Menlo:h11
     catch
         set guifont=Courier\ New:h11
     endtry
-    "Statuc Line Stuff{{{
+
+    "Status Line Stuff{
         set laststatus=2        "Shows status line at all times
         "Sets status line to show full file path, line no, column no and total lines in file
         set statusline=%F\ %m
-    "}}}
-"}}}
+    "}
+"}
 
-"Abbreviations, Remappings{{{
-    "Abbreviations{{{
+"Abbreviations, Remappings{
+    "Abbreviations{
         iabbrev ldis ಠ_ಠ
         iabbrev lsad ಥ_ಥ
         iabbrev lhap ಥ‿ಥ
         iabbrev lmis ಠ‿ಠ
         iabbrev (union) ∪
         iabbrev (intersect) ∩
-    "}}}
-    "Remappings{{{
+    "}
+
+    "Remappings{
         "'H' takes you to the beginning of a line, and 'L' to the end
         noremap H 0
         noremap L $
@@ -124,8 +128,9 @@
         nnoremap <leader>w :w <CR>
         nnoremap <leader>q :q <CR>
         nnoremap <leader>e :e ~
-        nnoremap <leader>v :vsplit ~
-        nnoremap <leader>h :split ~
+        nnoremap <leader>v :vsplit ~/
+        nnoremap <leader>h :split ~/
+        nnoremap <leader>x :x <CR>
 
         "Ctrl + arrow keys resize splits
         nnoremap <C-up> 5<C-W>+
@@ -139,14 +144,24 @@
         "Shift + U redoes
         nnoremap U <C-R>
 
-        "Swapping the behaviour of p and shift-p
-        nnoremap P p
-        nnoremap p P
-    "}}}
-"}}}
+        "Swapping the behaviour of p and shift-p, as well as autoindenting pasted text
+        nnoremap p P=`]<C-o>
+        nnoremap P p=`]<C-o>
+"}
 
-"FileType-Specific{{{
-    augroup webfiles "Conveniences for working with web languages{{{
+"FileType-Specific{
+    augroup vimrc "Conveniences for working with this very file, and others like it{
+        au!
+        autocmd BufEnter *.vimrc :set foldmethod=marker
+        autocmd BufEnter *.vimrc :set foldmarker={,}
+    augroup end "}
+    
+    augroup textfiles "Conveniences for working with text files{
+        au!
+        autocmd BufEnter *.txt :setlocal spell spelllang=en_gb
+    augroup end "}
+
+    augroup webfiles "{
         au!
         autocmd BufEnter *.js,*.html :iabbrev dgei document.getElementById('')<Esc>F'ci'
         autocmd BufEnter *.js,*.html :iabbrev dgec document.getElementsByClassName('')<Esc>F'ci'
@@ -154,16 +169,16 @@
         autocmd BufEnter *.js,*.html :iabbrev dgeiv document.getElementById('').value<Esc>F'ci'
         autocmd BufEnter *.js,*.html :iabbrev dgecv document.getElementsByClassName('').value<Esc>F'ci'
         autocmd BufEnter *.js,*.html :iabbrev dgetv document.getElementsByTagName('').value<Esc>F'ci'
-    augroup end "}}}
-    augroup vimrc "Conveniences for working with this very file, and others like it{{{
+    augroup end "}
+
+    augroup textfiles "{
         au!
-        autocmd BufEnter *.vimrc :set foldmethod=marker
-    augroup end "}}}
-    augroup textfiles "Conveniences for working with text files{{{
-        au!
-        autocmd BufEnter *.txt :setlocal spell spelllang=en_gb
-    augroup end "}}}
-    augroup cfiles "Conveniences for working with C files{{{
-        au!
-    augroup end "}}}
-"}}}
+        autocmd BufEnter *.txt :iabbrev -> →
+        autocmd BufEnter *.txt :iabbrev <- ←
+        autocmd BufEnter *.txt :iabbrev <pi> π
+        autocmd BufEnter *.txt :iabbrev <lambda> λ
+        autocmd BufEnter *.txt :iabbrev <delta> δ
+        autocmd BufEnter *.txt :iabbrev <contained> ϵ
+    augroup end
+    "}
+"}
