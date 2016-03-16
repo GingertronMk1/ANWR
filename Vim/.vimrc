@@ -155,11 +155,6 @@
         autocmd BufEnter *.vimrc :set foldmethod=marker
         autocmd BufEnter *.vimrc :set foldmarker={,}
     augroup end "}
-    
-    augroup textfiles "Conveniences for working with text files{
-        au!
-        autocmd BufEnter *.txt :setlocal spell spelllang=en_gb
-    augroup end "}
 
     augroup webfiles "{
         au!
@@ -179,6 +174,7 @@
         autocmd BufEnter *.txt :iabbrev <lambda> λ
         autocmd BufEnter *.txt :iabbrev <delta> δ
         autocmd BufEnter *.txt :iabbrev <contained> ϵ
+        autocmd BufEnter *.txt :setlocal spell spelllang=en_gb
     augroup end
     "}
 "}
