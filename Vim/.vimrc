@@ -125,7 +125,7 @@
         nnoremap <leader><leader> za
 
         "Leader + various keys has the same effect as ':' + key + enter
-        nnoremap <leader>w :w <CR>
+        nnoremap <leader>w :up <CR>
         nnoremap <leader>q :q <CR>
         nnoremap <leader>e :e ~
         nnoremap <leader>v :vsplit ~/
