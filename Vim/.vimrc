@@ -177,4 +177,10 @@
         autocmd BufEnter *.txt :setlocal spell spelllang=en_gb
     augroup end
     "}
+
+    augroup texfiles "{
+        au!
+        autocmd BufEnter *.tex :setlocal spell spelllang=en_gb
+    augroup end
+    "}
 "}
