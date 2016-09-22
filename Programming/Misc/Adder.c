@@ -18,10 +18,12 @@ int numberOfCDs(struct cd *head);
 
 int main(int argc, char *argv[]){
     struct cd *head = readFromFile("/Users/Jack/Sync/Misc/CD Wishlist.txt");
-    printf("Total for %d CDs:\t£%.2lf\n\n", numberOfCDs(head), addPrices(head));
+    float price = addPrices(head);
+    float discount = price * 0.05;
+    price = price - discount;
+    printf("-£%.2lf\t**Student Discount**\n", discount);
+    printf("Total for %d CDs:\t£%.2lf\n\n", numberOfCDs(head), price);
 };
-
-
 
 struct cd *newCD(char artist[512], char album[512], double price){
     struct cd *c = (struct cd *)malloc(sizeof(struct cd)); //allocates the right amount of memory for a new struct

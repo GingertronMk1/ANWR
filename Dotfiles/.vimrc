@@ -77,7 +77,7 @@
     "}
 "}
 
-"Abbreviations, Remappings{
+"Abbreviations, Remappings, Spelling{
     "Abbreviations{
         iabbrev ldis ಠ_ಠ
         iabbrev lsad ಥ_ಥ
@@ -147,6 +147,21 @@
         "Swapping the behaviour of p and shift-p, as well as autoindenting pasted text
         nnoremap p P=`]<C-o>
         nnoremap P p=`]<C-o>
+
+        "Finally making the arrow kews do something more useful
+        nnoremap <Up> b
+        nnoremap <Down> w
+        nnoremap <Left> F
+        nnoremap <Right> f
+        inoremap <Up> <Esc><NOP>
+        inoremap <Down> <Esc><NOP>
+        inoremap <Left> <Esc><NOP>
+        inoremap <Right> <Esc><NOP>
+        "}
+
+    "Spelling{
+        set dictionary=~/usr/share/dict/words
+    "}
 "}
 
 "FileType-Specific{
@@ -168,19 +183,12 @@
 
     augroup textfiles "{
         au!
-        autocmd BufEnter *.txt :iabbrev -> →
-        autocmd BufEnter *.txt :iabbrev <- ←
-        autocmd BufEnter *.txt :iabbrev <pi> π
-        autocmd BufEnter *.txt :iabbrev <lambda> λ
-        autocmd BufEnter *.txt :iabbrev <delta> δ
-        autocmd BufEnter *.txt :iabbrev <contained> ϵ
-        autocmd BufEnter *.txt :setlocal spell spelllang=en_gb
+        autocmd BufEnter *.txt,*.tex :iabbrev <pi> π
+        autocmd BufEnter *.txt,*.tex :iabbrev <lambda> λ
+        autocmd BufEnter *.txt,*.tex :iabbrev <delta> δ
+        autocmd BufEnter *.txt,*.tex :iabbrev <contained> ϵ
+        autocmd BufEnter *.txt,*.tex :setlocal spell spelllang=en_gb
     augroup end
     "}
 
-    augroup texfiles "{
-        au!
-        autocmd BufEnter *.tex :setlocal spell spelllang=en_gb
-    augroup end
-    "}
 "}
