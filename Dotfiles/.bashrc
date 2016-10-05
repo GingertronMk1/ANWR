@@ -17,7 +17,6 @@ elif [ $HOST Watson ] ; then
 fi
 
 export CLICOLOR=1
-ls --color=al > /dev/null 2>&1 && alias ls="ls-F --color=al" || alias ls="ls -aG"
 HOST="\h\[$(tput sgr0)\]"
 PS1="\h|\w\[$(tput sgr0)\] > "
 export EDITOR=vim

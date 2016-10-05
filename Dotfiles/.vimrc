@@ -131,6 +131,7 @@
         nnoremap <leader>v :vsplit ~/
         nnoremap <leader>h :split ~/
         nnoremap <leader>x :x <CR>
+        nnoremap <leader>Q :q! <CR>
 
         "Ctrl + arrow keys resize splits
         nnoremap <C-up> 5<C-W>+
@@ -141,8 +142,9 @@
         "A number n + Enter takes you to line n
         nnoremap <CR> G0
 
-        "Shift + U redoes
+        "Shift + key does the opposite of key
         nnoremap U <C-R>
+        nnoremap W b
 
         "Swapping the behaviour of p and shift-p, as well as autoindenting pasted text
         nnoremap p P=`]<C-o>
@@ -188,6 +190,7 @@
         autocmd BufEnter *.txt,*.tex :iabbrev <delta> δ
         autocmd BufEnter *.txt,*.tex :iabbrev <contained> ϵ
         autocmd BufEnter *.txt,*.tex :setlocal spell spelllang=en_gb
+        autocmd BufEnter *.txt :set textwidth=120
     augroup end
     "}
 
