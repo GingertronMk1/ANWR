@@ -12,7 +12,7 @@ export CLICOLOR=1
 export HOST="\h\[$(tput sgr0)\]"
 export UNAME="\u\[$(tput sgr0)\]"
 export CURRDIR="\w\[$(tput sgr0)\]/"
-PS1="$HOST | $UNAME |$CURRDIR\n> "
+PS1="$HOST | $UNAME | $CURRDIR\n> "
 
 #Aliases for days
 alias fuck='eval sudo "$(history -p !!)"'
