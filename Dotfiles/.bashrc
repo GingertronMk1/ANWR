@@ -20,7 +20,7 @@ PS1="$GREEN$HOST$END $WHITE|$END $GREEN$UNAME$END $WHITE|$END $GREEN$CURRDIR$END
 
 #Aliases for days
 alias fuck='eval sudo "$(history -p !!)"'   #fuck = sudo !!
-alias ls="ls -aCFGhlp --color=auto"          #Make ls look nice
+alias ls="ls -aCFGhlp"          #Make ls look nice
 alias ..="cd .."
 alias ...="cd ../../"
 alias ....="cd ../../../"
