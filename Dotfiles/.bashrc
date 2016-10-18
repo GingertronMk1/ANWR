@@ -8,7 +8,7 @@ printf "\e[32m  _____  ___  _____  _   __
      | |  _  |(     |    \ 
  /\__/ / | | | \__/\| |\  \\
  \____/\_| |_/\____/\_| \_/
-\e[0m\n"
+\n"
 
 export CLICOLOR=1
 
@@ -16,7 +16,7 @@ export CLICOLOR=1
 export HOST="\h"
 export UNAME="\u"
 export CURRDIR="\w/"
-PS1="$GREEN$HOST$END $WHITE|$END $GREEN$UNAME$END $WHITE|$END $GREEN$CURRDIR$END\n> $DEFCOL"
+PS1="$GREEN$HOST $WHITE| $GREEN$UNAME $WHITE| $GREEN$CURRDIR\n> $DEFCOL"
 
 #Aliases for days
 alias fuck='eval sudo "$(history -p !!)"'   #fuck = sudo !!
