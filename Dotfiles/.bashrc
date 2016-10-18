@@ -9,6 +9,7 @@ echo -e "\033[0;32m
 
 export CLICOLOR=1
 
+#PS1 for days
 export HOST="\h\[$(tput sgr0)\]"
 export UNAME="\u\[$(tput sgr0)\]"
 export CURRDIR="\w\[$(tput sgr0)\]/"
@@ -21,6 +22,7 @@ alias ..="cd .."
 alias ...="cd ../../"
 alias ....="cd ../../../"
 
+#Functions for days
 md () {
     mkdir "$1"
     cd "$1"

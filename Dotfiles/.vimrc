@@ -151,14 +151,14 @@
         nnoremap P p=`]<C-o>
 
         "Finally making the arrow kews do something more useful
-        nnoremap <Up> b
-        nnoremap <Down> w
-        nnoremap <Left> F
-        nnoremap <Right> f
-        inoremap <Up> <Esc><NOP>
-        inoremap <Down> <Esc><NOP>
-        inoremap <Left> <Esc><NOP>
-        inoremap <Right> <Esc><NOP>
+        nnoremap <Up> {
+        nnoremap <Down> }
+        nnoremap <Left> b
+        nnoremap <Right> w
+        inoremap <Up> <Esc>{i
+        inoremap <Down> <Esc>}i
+        inoremap <Left> <Esc>hbi
+        inoremap <Right> <Esc>lwi
         "}
 
     "Spelling{
