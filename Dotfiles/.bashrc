@@ -1,4 +1,4 @@
-echo -e "\033[0;32m
+echo -e"
   _____  ___  _____  _   __
  |___  |/ _ \/  __ \| | / /
      | | /_\ \ /  \/| |/ / 
@@ -10,14 +10,17 @@ echo -e "\033[0;32m
 export CLICOLOR=1
 
 #PS1 for days
-export HOST="\h\[$(tput sgr0)\]"
-export UNAME="\u\[$(tput sgr0)\]"
-export CURRDIR="\w\[$(tput sgr0)\]/"
+export HOST="\h"
+export UNAME="\u"
+export CURRDIR="\w/"
+export PS1END="[$(tput sgr0)\]"
 PS1="$HOST | $UNAME | $CURRDIR\n> "
 
 #Aliases for days
-alias fuck='eval sudo "$(history -p !!)"'
-alias ls="ls -aCFGhlp"
+alias fuck='eval sudo "$(history -p !!)"'   #fuck = sudo !!
+export LS_OPTIONS='--color=auto'            #Preamble
+eval "`dircolors`"                          #Preamble
+alias ls="ls -aCFGhlp $LS_OPTIONS"          #Make ls look nice
 alias ..="cd .."
 alias ...="cd ../../"
 alias ....="cd ../../../"
