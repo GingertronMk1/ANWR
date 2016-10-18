@@ -20,7 +20,11 @@ PS1="$GREEN$HOST $WHITE| $GREEN$UNAME $WHITE| $GREEN$CURRDIR\n> $DEFCOL"
 
 #Aliases for days
 alias fuck='eval sudo "$(history -p !!)"'   #fuck = sudo !!
-alias ls="ls -aCFGhlp"          #Make ls look nice
+if uname | grep -q Darwin; then             #if mac, ls is something else
+    alias ls="ls -aCFGhlp"
+else                                        #if linux, it's something other else
+    alias ls="ls -aCFhlp --color=auto"
+fi
 alias ..="cd .."
 alias ...="cd ../../"
 alias ....="cd ../../../"
