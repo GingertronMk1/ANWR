@@ -49,6 +49,7 @@ alias ..="cd .."
 alias ...="cd ../../"
 alias ....="cd ../../../"
 alias aptup="sudo apt update && sudo apt upgrade -y"
+alias sudo="sudo -E"
 
 #Functions for days
 md () {
