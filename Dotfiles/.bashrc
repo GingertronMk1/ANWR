@@ -39,11 +39,12 @@ export CURRDIR="\w/"
 PS1="${Green}$HOST ${BWhite}| ${Green}$UNAME ${BWhite}| ${Green}$CURRDIR\n> ${NC}"
 
 #Aliases for days
-alias fuck='\[eval sudo "$(history -p !!)"'   #fuck = sudo !!
+alias fuck='eval sudo -E "$(history -p !!)"'    #fuck = sudo !!
 if uname | grep -q Darwin; then             #Change behaviour of ls in different environments
     alias ls="ls -aCFGhlp"                  #On Mac, the --color=auto flag doesn't work because reasons
-else
-    alias ls="ls -aCFhlp --color=auto"      #On <other UNIX>, the -G flag doesn't work
+else                                        #Whereas...
+    alias ls="ls -aCFhlp --color=auto"      #On <other UNIX>, the -G flag doesn't work because reasons
+    alias top="htop"                        #Nicer top on <other UNIX>
 fi                                          #Hooray for interoperability!
 alias ..="cd .."
 alias ...="cd ../../"
