@@ -49,7 +49,10 @@ alias ..="cd .."
 alias ...="cd ../../"
 alias ....="cd ../../../"
 alias aptup="sudo apt update && sudo apt upgrade -y"
-alias sudo="sudo -E"
+alias sudo="sudo -E"        #sudo no longer puts you in /root or wherever it is
+alias gadd="git add"
+alias gcom="git commit -m"
+alias gpush="git push"
 
 #Functions for days
 md () {
