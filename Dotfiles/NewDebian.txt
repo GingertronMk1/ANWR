@@ -2,3 +2,4 @@ sudo
 htop
 chromium-browser
 git
+xinput (Thinkpads)
