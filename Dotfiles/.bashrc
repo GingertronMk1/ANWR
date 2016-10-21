@@ -44,9 +44,8 @@ if uname | grep -q Darwin; then             #Change behaviour of ls in different
     alias ls="ls -aCFGhlp"                  #On Mac, the --color=auto flag doesn't work because reasons
 else                                        #Whereas...
     alias ls="ls -aCFhlp --color=auto"      #On <other UNIX>, the -G flag doesn't work because reasons
-    alias top="htop"                        #Nicer top on <other UNIX>
 fi                                          #Hooray for interoperability!
-if which htop; then
+if command -v htop >/dev/null; then
     alias top="htop"
 fi
 alias ..="cd .."
