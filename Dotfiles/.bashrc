@@ -46,6 +46,9 @@ else                                        #Whereas...
     alias ls="ls -aCFhlp --color=auto"      #On <other UNIX>, the -G flag doesn't work because reasons
     alias top="htop"                        #Nicer top on <other UNIX>
 fi                                          #Hooray for interoperability!
+if which htop; then
+    alias top="htop"
+fi
 alias ..="cd .."
 alias ...="cd ../../"
 alias ....="cd ../../../"
