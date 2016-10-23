@@ -1,4 +1,5 @@
-# Normal Colors
+#Colours for days
+# Normal Colours
 Black='\[\e[0;30m\]'        # Black
 Red='\[\e[0;31m\]'          # Red
 Green='\[\e[0;32m\]'        # Green
@@ -28,9 +29,11 @@ On_Purple='\[\e[45m\]'      # Purple
 On_Cyan='\[\e[46m\]'        # Cyan
 On_White='\[\e[47m\]'       # White
 
-NC="\[\e[m\]"               # Color Reset
+NC="\[\e[m\]"               # Colour Reset
 
+#Exporting for days
 export CLICOLOR=1
+export EDITOR="vim"
 
 #PS1 for days
 export HOST="\h"
