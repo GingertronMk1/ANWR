@@ -1,4 +1,4 @@
-#Colours for days
+# Colours for days
 # Normal Colours
 Black='\[\e[0;30m\]'        # Black
 Red='\[\e[0;31m\]'          # Red
@@ -31,43 +31,44 @@ On_White='\[\e[47m\]'       # White
 
 NC="\[\e[m\]"               # Colour Reset
 
-#Exporting for days
+# Exporting for days
 export CLICOLOR=1
 export EDITOR="vim"
 
-#PS1 for days
+# PS1 for days
 Host="\h"
 UName="\u"
 CurrDir="\w/"
 CurrTime="\d, \A"
 PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrTime ${BWhite}| ${Green}$CurrDir\n> ${NC}"
 
-#UNIX aliases for days
-alias fuck='eval sudo -E "$(history -p !!)"'    #fuck = sudo !!
-if uname | grep -q Darwin; then             #Change behaviour of ls in different environments
-    alias ls="ls -aCFGhlp"                  #On Mac, the --color=auto flag doesn't work because reasons
-else                                        #Whereas...
-    alias ls="ls -aCFhlp --color=auto"      #On <other UNIX>, the -G flag doesn't work because reasons
-fi                                          #Hooray for interoperability!
+# UNIX aliases for days
+alias fuck='eval sudo -E "$(history -p !!)"'    # fuck = sudo !!
+if uname | grep -q Darwin; then             # Change behaviour of ls in different environments
+    alias ls="ls -aCFGhlp"                  # On Mac, the --color=auto flag doesn't work because reasons
+else                                        # Whereas...
+    alias ls="ls -aCFhlp --color=auto"      # On <other UNIX>, the -G flag doesn't work because reasons
+fi                                          # Hooray for interoperability!
 if command -v htop >/dev/null; then
     alias top="htop"
 fi
 alias ..="cd .."
 alias ...="cd ../../"
 alias ....="cd ../../../"
-alias aptup="sudo apt update && sudo apt upgrade -y"
-alias sudo="sudo -E"        #sudo no longer puts you in /root or wherever it is
-alias df="df -h"
+alias aptup="sudo apt update && sudo apt upgrade -y"    # update and upgrade
+alias sudo="sudo -E"        # sudo no longer puts you in /root or wherever it is
+alias df="df -h"            # df looks nice
+alias vi="vim"
 
-#Git aliases for days
+# Git aliases for days
 alias gadd="git add"
-alias gadda="git add *"     #In da git add * da vida honey...
-alias gcom="git commit -m"  #GCOM: Enemy Uncommitted
+alias gadda="git add *"     # In da git add * da vida honey...
+alias gcom="git commit -m"  # GCOM: Enemy Uncommitted
 alias gpush="git push"
 alias gpull="git pull"
 alias gstat="git status"
 
-#Functions for days
+# Functions for days
 md () {
     mkdir "$1"
     cd "$1"
