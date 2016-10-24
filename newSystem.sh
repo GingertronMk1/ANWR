@@ -6,26 +6,28 @@ scriptDir="$(pwd)"
 
 cd ~
 
-touch .vimrc
+touch .vimrc        # Point default vimrc to the right place
 echo "source $scriptDir/.vimrc" >> .vimrc
 echo "vimrc changed!"
-mkdir -p .vim/colors
+
+mkdir -p .vim/colors    # Make vim look right for me
 cp $scriptDir/molokai.vim .vim/colors/molokai.vim
-touch .bash_profile
+
+touch .bash_profile     # Make bash work right, turns out some Linux systems also use this
 echo ". $scriptDir/.bashrc" >> .bash_profile
 echo "bash_profile changed!"
 
-if uname | grep -q Darwin; then
-    touch .inputrc
+if uname | grep -q Darwin; then     # If it's a Mac...
+    touch .inputrc                  # Point the default inputrc to the right place
     echo "\$include $scriptDir/.inputrc" >> .inputrc
     echo "inputrc changed!"
-else
-    touch .bashrc
+else                                # If it's Linux...
+    touch .bashrc                   # Point the default bashrc to the right place (redundancy, but you never can tell)
     echo ". $scriptDir/.bashrc" >> .bashrc
     echo "bashrc changed!"
-    touch .bash_profi    touch .xsessionrc
-    echo ". $scriptDir/.xsessionrc" >> .xsessionrc
-    echo "xsessionrc changed!"
+    touch .xsessionrc                               # And do xsessionrc stuff 
+    echo ". $scriptDir/.xsessionrc" >> .xsessionrc  # This won't do anything if xinput's not installed,
+    echo "xsessionrc changed!"                      # But if it is it makes Debian play nice with ThinkPads
 fi
 
-echo "CBA to script it, but don't forget to install sudo, htop, vim, git, and chromium"
+echo "CBA to script it, but don't forget to install sudo, htop, vim, git, and chromium, as well as xinput if you're on a ThinkPad"
