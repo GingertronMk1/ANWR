@@ -1,27 +1,29 @@
 #!/bin/bash
 
-#Installs the following:
-#sudo, htop, chromium, git, xinput
-#As well as pointing various things to the right places
+#Points things in the right direction for usefulness
 
 scriptDir="$(pwd)"
 
 cd ~
 
-apt update && apt upgrade -y
-apt install sudo && apt install htop && apt install chromium && apt install git && apt install xinput -y
-
 touch .vimrc
 echo "source $scriptDir/.vimrc" >> .vimrc
+echo "vimrc changed!"
 
 if uname | grep -q Darwin; then
     touch .bash_profile
     echo ". $scriptDir/.bashrc" >> .bash_profile
+    echo "bash_profile changed!"
     touch .inputrc
     echo "\$include $scriptDir/.inputrc" >> .inputrc
+    echo "inputrc changed!"
 else
     touch .bashrc
     echo ". $scriptDir/.bashrc" >> .bashrc
+    echo "bashrc changed!"
     touch .xsessionrc
     echo ". $scriptDir/.xsessionrc" >> .xsessionrc
+    echo "xsessionrc changed!"
 fi
+
+echo "CBA to script it, but don't forget to install sudo, htop, vim, git, and chromium"
