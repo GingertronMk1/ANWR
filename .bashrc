@@ -36,12 +36,12 @@ export CLICOLOR=1
 export EDITOR="vim"
 
 #PS1 for days
-export HOST="\h"
-export UNAME="\u"
-export CURRDIR="\w/"
-PS1="${Green}$HOST ${BWhite}| ${Green}$UNAME ${BWhite}| ${Green}$CURRDIR\n> ${NC}"
+Host="\h"
+UName="\u"
+CurrDir="\w/"
+PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrDir\n> ${NC}"
 
-#Aliases for days
+#UNIX aliases for days
 alias fuck='eval sudo -E "$(history -p !!)"'    #fuck = sudo !!
 if uname | grep -q Darwin; then             #Change behaviour of ls in different environments
     alias ls="ls -aCFGhlp"                  #On Mac, the --color=auto flag doesn't work because reasons
@@ -56,13 +56,15 @@ alias ...="cd ../../"
 alias ....="cd ../../../"
 alias aptup="sudo apt update && sudo apt upgrade -y"
 alias sudo="sudo -E"        #sudo no longer puts you in /root or wherever it is
+alias df="df -h"
+
+#Git aliases for days
 alias gadd="git add"
-alias gadda="git add *"
-alias gcom="git commit -m"
+alias gadda="git add *"     #In da git add * da vida honey...
+alias gcom="git commit -m"  #GCOM: Enemy Uncommitted
 alias gpush="git push"
 alias gpull="git pull"
 alias gstat="git status"
-alias df="df -h"
 
 #Functions for days
 md () {
