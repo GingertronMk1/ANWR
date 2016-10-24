@@ -53,7 +53,7 @@ if uname | grep -q Darwin; then             # Change behaviour of ls in differen
 else                                        # Whereas...
     alias ls="ls -aCFhlp --color=auto"      # On <other UNIX>, the -G flag doesn't work because reasons
 fi                                          # Hooray for interoperability!
-if command -v htop >/dev/null; then
+if command -v htop >/dev/null; then         # If htop's installed, alias top to it
     alias top="htop"
 fi
 alias ..="cd .."
