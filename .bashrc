@@ -39,7 +39,7 @@ export EDITOR="vim"
 Host="\h"
 UName="\u"
 CurrDir="\w/"
-CurrTime="\d, \t"
+CurrTime="\d, \A"
 PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrTime ${BWhite}| ${Green}$CurrDir\n> ${NC}"
 
 #UNIX aliases for days

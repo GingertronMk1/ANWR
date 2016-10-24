@@ -173,16 +173,6 @@
         autocmd BufEnter *.vimrc :set foldmarker={,}
     augroup end "}
 
-    augroup webfiles "{
-        au!
-        autocmd BufEnter *.js,*.html :iabbrev dgei document.getElementById('')<Esc>F'ci'
-        autocmd BufEnter *.js,*.html :iabbrev dgec document.getElementsByClassName('')<Esc>F'ci'
-        autocmd BufEnter *.js,*.html :iabbrev dget document.getElementsByTagName('')t<Esc>F'ci'
-        autocmd BufEnter *.js,*.html :iabbrev dgeiv document.getElementById('').value<Esc>F'ci'
-        autocmd BufEnter *.js,*.html :iabbrev dgecv document.getElementsByClassName('').value<Esc>F'ci'
-        autocmd BufEnter *.js,*.html :iabbrev dgetv document.getElementsByTagName('').value<Esc>F'ci'
-    augroup end "}
-
     augroup textfiles "{
         au!
         autocmd BufEnter *.txt,*.tex :iabbrev <pi> π
@@ -193,5 +183,4 @@
         autocmd BufEnter *.txt :set textwidth=120
     augroup end
     "}
-
 "}

@@ -9,6 +9,8 @@ cd ~
 touch .vimrc
 echo "source $scriptDir/.vimrc" >> .vimrc
 echo "vimrc changed!"
+mkdir -p .vim/colors
+cp $scriptDir/molokai.vim .vim/colors/molokai.vim
 
 if uname | grep -q Darwin; then
     touch .bash_profile
