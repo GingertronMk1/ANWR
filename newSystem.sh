@@ -11,12 +11,11 @@ echo "source $scriptDir/.vimrc" >> .vimrc
 echo "vimrc changed!"
 mkdir -p .vim/colors
 cp $scriptDir/molokai.vim .vim/colors/molokai.vim
+touch .bash_profile
+echo ". $scriptDir/.bashrc" >> .bash_profile
+echo "bash_profile changed!"
 
 if uname | grep -q Darwin; then
-    touch .bash_profile
-    echo ". $scriptDir/.bashrc" >> .bash_profile
-    echo "bash_profile changed!"
-    . .bash_profile
     touch .inputrc
     echo "\$include $scriptDir/.inputrc" >> .inputrc
     echo "inputrc changed!"
@@ -24,8 +23,7 @@ else
     touch .bashrc
     echo ". $scriptDir/.bashrc" >> .bashrc
     echo "bashrc changed!"
-    . .bashrc
-    touch .xsessionrc
+    touch .bash_profi    touch .xsessionrc
     echo ". $scriptDir/.xsessionrc" >> .xsessionrc
     echo "xsessionrc changed!"
 fi
