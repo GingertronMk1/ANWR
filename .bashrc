@@ -40,10 +40,11 @@ Host="\h"
 UName="\u"
 CurrDir="\w/"
 CurrTime="\d, \A"
-if [ -n "$SSH_CLIENT" ]; then
-    PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrTime ${BWhite}| ${Green}$CurrDir\n> ${NC}"
+if [ "$SSH_CLIENT" ];
+then
+    PS1="${Cyan}SSH to $Host ${BWhite}| ${Cyan}$UName ${BWhite}| ${Cyan}$CurrTime ${BWhite}| ${Cyan}$CurrDir\n> ${NC}"
 else
-    PS1="${Blue}SSH to ${Blue}$Host ${BWhite}| ${Blue}$UName ${BWhite}| ${Blue}$CurrTime ${BWhite}| ${Blue}$CurrDir\n> ${NC}"
+    PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrTime ${BWhite}| ${Green}$CurrDir\n> ${NC}"
 fi
 
 # UNIX aliases for days
