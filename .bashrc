@@ -63,6 +63,7 @@ alias aptup="sudo apt update && sudo apt upgrade -y"    # update and upgrade
 alias sudo="sudo -E"        # sudo no longer puts you in /root or wherever it is
 alias df="df -h"            # df looks nice
 alias vi="vim"
+alias ifconfig="sudo ifconfig"  # because Debian doesn't recognise it otherwise
 
 # Git aliases for days
 alias gadd="git add"
