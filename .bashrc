@@ -39,7 +39,8 @@ export EDITOR="vim"
 Host="\h"
 UName="\u"
 CurrDir="\w/"
-PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrDir\n> ${NC}"
+CurrTime="\d, \t"
+PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrTime ${BWhite}| ${Green}$CurrDir\n> ${NC}"
 
 #UNIX aliases for days
 alias fuck='eval sudo -E "$(history -p !!)"'    #fuck = sudo !!
