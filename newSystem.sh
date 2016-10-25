@@ -15,7 +15,7 @@ ln -s $scriptDir/vimcolors .vim/colors
 echo "Colour schemes added!"
 
 touch .bash_profile     # Make bash work right, turns out some Linux systems also use this
-echo ". $scriptDir/.bashrc" >> .bash_profile
+echo ". .bashrc" >> .bash_profile
 echo "bash_profile changed!"
 
 if uname | grep -q Darwin; then     # If it's a Mac...
