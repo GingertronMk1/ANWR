@@ -10,8 +10,9 @@ touch .vimrc        # Point default vimrc to the right place
 echo "source $scriptDir/.vimrc" >> .vimrc
 echo "vimrc changed!"
 
-mkdir -p .vim/colors    # Make vim look right for me
-cp $scriptDir/molokai.vim .vim/colors/molokai.vim
+mkdir -p .vim/          # Make vim look right for me
+ln -s $scriptDir/vimcolors .vim/colors
+echo "Colour schemes added!"
 
 touch .bash_profile     # Make bash work right, turns out some Linux systems also use this
 echo ". $scriptDir/.bashrc" >> .bash_profile
