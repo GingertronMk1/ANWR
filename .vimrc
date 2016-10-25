@@ -57,6 +57,7 @@
     set splitbelow          "Horizontal splits below current window
     set splitright          "Vertical splits to the right of current window
     set textwidth=9999      "Basically no columnal restriction
+    set background=dark     "Light backgrounds look awful
 
     try "colorscheme changing if possible
         colorscheme molokai "If molokai's installed, use it
