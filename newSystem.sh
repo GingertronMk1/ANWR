@@ -18,14 +18,15 @@ touch .bash_profile     # Make bash work right, turns out some Linux systems als
 echo ". .bashrc" >> .bash_profile
 echo "bash_profile changed!"
 
+touch .bashrc                   # Point the default bashrc to the right place (redundancy, but you never can tell)
+echo ". $scriptDir/.bashrc" >> .bashrc
+echo "bashrc changed!"
+
 if uname | grep -q Darwin; then     # If it's a Mac...
     touch .inputrc                  # Point the default inputrc to the right place
     echo "\$include $scriptDir/.inputrc" >> .inputrc
     echo "inputrc changed!"
 else                                # If it's Linux...
-    touch .bashrc                   # Point the default bashrc to the right place (redundancy, but you never can tell)
-    echo ". $scriptDir/.bashrc" >> .bashrc
-    echo "bashrc changed!"
     touch .xsessionrc                               # And do xsessionrc stuff 
     echo ". $scriptDir/.xsessionrc" >> .xsessionrc  # This won't do anything if xinput's not installed,
     echo "xsessionrc changed!"                      # But if it is it makes Debian play nice with ThinkPads
