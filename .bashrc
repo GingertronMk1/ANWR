@@ -17,8 +17,10 @@ CurrDir="\w/"
 CurrTime="\d, \A"
 if [ "$SSH_CLIENT" ]; then      # If I'm SSHing into the machine, make it look a bit different so I know
     PS1="${Cyan}SSH to $Host ${BWhite}| ${Cyan}$UName ${BWhite}| ${Cyan}$CurrTime ${BWhite}| ${Cyan}$CurrDir\n> ${NC}"
+    PS2="${Cyan}> ${NC}"
 else                            #Otherwise, make it look'normal'
     PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrTime ${BWhite}| ${Green}$CurrDir\n> ${NC}"
+    PS2="${Green}> ${NC}"
 fi
 
 # UNIX aliases for days
