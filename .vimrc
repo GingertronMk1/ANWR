@@ -28,6 +28,9 @@
         set wildignore+=tmp/**
         set wildignore+=*.png,*.jpg,*.gif
     "}
+    if exists("&undodir")
+        set undodir=~/.vim/undo
+    endif
 "}
 
 "Indentation settings{
@@ -168,7 +171,7 @@
 "}
 
 "FileType-Specific{
-    augroup vimrc "Conveniences for working with this very file, and others like it{
+    augroup dotfiles "Folding is a useful thing
         au!
         autocmd BufEnter *.vimrc :set foldmethod=marker
         autocmd BufEnter *.vimrc :set foldmarker={,}
