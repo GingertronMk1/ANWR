@@ -4,6 +4,13 @@ Cyan='\[\e[0;36m\]'         # Cyan
 BWhite='\[\e[1;37m\]'       # Bold White
 NC="\[\e[m\]"               # Colour Reset
 
+# Shell options for days
+shopt -s nocaseglob;    # Case insensitive pathname extension
+shopt -s histappend;    # Don't overwrite bash_history
+shopt -s cdspell;       # Spell correction in cd
+# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
+[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+
 # PS1 for days
 Host="\h"
 UName="\u"
