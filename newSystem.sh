@@ -9,7 +9,7 @@ cd ~
 for file in .aliases .bashrc .bash_profile .xsessionrc
 do
     touch $file
-    echo "Make this point to the $file in my Github folder\n"
+    echo "Make $file point to the copy in my Github folder"
     echo ". $scriptDir/$file" >> $file
     echo "$file changed!"
 done
