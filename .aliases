@@ -30,7 +30,7 @@ alias ls="ls -aCFhlp ${Colorflag}"  # ls in a nice ordered coloured list with lo
 
 # I'm lazy and the word git has too many letters
 alias gadd="git add"
-alias gadda="git add *"     # In da git add * da vida honey...
+alias gadda="git add ."     # In da git add * da vida honey...
 alias gcom="git commit -m"  # GCOM: Enemy Uncommitted
 alias gpush="git push"
 alias gpull="git pull"

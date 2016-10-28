@@ -23,7 +23,6 @@ mkdir -p .vim/          # Make vim look right for me
 ln -s $scriptDir/vimcolors .vim/colors
 echo "Colour schemes added!"
 
-
 touch .inputrc                  # Point the default inputrc to the right place
 echo "\$include $scriptDir/.inputrc" >> .inputrc
 echo ".inputrc changed!"
