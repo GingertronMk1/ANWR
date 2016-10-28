@@ -1,0 +1,37 @@
+# Setting things on a conditional basis
+if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
+    Colorflag="-G"                          # On macOS, this makes ls coloured
+    export LSCOLORS='exfxcxdxbxegedabagacad'    # And this is what defines the ls colours
+    alias updates="sudo softwareupdate -i -a"   # This is just a software updating command (shocker)
+else                                        # Whereas...
+    Colorflag="--color"                     # On Linux, this makes ls coloured
+    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'  # And this defines the ls colours
+    alias updates="sudo apt update && sudo apt upgrade -y"  # This updates Debian systems
+fi
+if command -v htop >/dev/null; then         # If htop's installed, alias top to it
+    alias top="htop"
+fi
+
+# Make moving around directories easier
+alias ..="cd .."
+alias ...="cd ../../"
+alias ....="cd ../../../"
+alias .....="cd ../../../../.."
+alias ~="cd ~"
+alias -- -="cd -"   # If you don't know, this is a back button basically
+
+# Make some shell commands do what I want them to by default
+alias sudo="sudo -E"            # sudo no longer puts you in /root or wherever it is
+alias fuck='eval sudo -E "$(history -p !!)"'    # fuck = sudo !!
+alias df="df -h"                # df looks nice
+alias vi="vim"                  # shouldn't really come in handy, but it might one day
+alias ifconfig="/sbin/ifconfig" # Silly ifconfig
+alias ls="ls -aCFhlp ${Colorflag}"  # ls in a nice ordered coloured list with lots of info
+
+# I'm lazy and the word git has too many letters
+alias gadd="git add"
+alias gadda="git add *"     # In da git add * da vida honey...
+alias gcom="git commit -m"  # GCOM: Enemy Uncommitted
+alias gpush="git push"
+alias gpull="git pull"
+alias gstat="git status"

@@ -175,7 +175,7 @@
         au!
         autocmd BufEnter *.vimrc :set foldmethod=marker
         autocmd BufEnter *.vimrc :set foldmarker={,}
-        autocmd BufEnter .macos :set syntax=sh
+        autocmd BufEnter .macos,.aliases :set syntax=sh
     augroup end "}
 
     augroup textfiles "{
