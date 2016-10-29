@@ -42,3 +42,4 @@ export CLICOLOR=1
 export EDITOR='vim'     # EMACS HERETICS WILL BURN
 export HISTSIZE=16384   # Lots of history
 export HISTCONTROL=ignoredups
+export TERM='xterm-256color'
