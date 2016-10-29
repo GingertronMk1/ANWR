@@ -39,5 +39,6 @@ rf () {
 
 # Exporting for days
 export CLICOLOR=1
-export EDITOR='vim'
-
+export EDITOR='vim'     # EMACS HERETICS WILL BURN
+export HISTSIZE=16384   # Lots of history
+export HISTCONTROL=ignoredups
