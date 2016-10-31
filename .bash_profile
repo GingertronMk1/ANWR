@@ -16,11 +16,12 @@ Host="\h"
 UName="\u"
 CurrDir="\w/"
 CurrTime="\d, \A"
+NewLine="\n╚> "
 if [ "$SSH_CLIENT" ]; then      # If I"m SSHing into the machine, make it look a bit different so I know
-    PS1="${Cyan}SSH to $Host ${BWhite}| ${Cyan}$UName ${BWhite}| ${Cyan}$CurrTime ${BWhite}| ${Cyan}$CurrDir\n${Cyan}> ${NC}"
+    PS1="${Cyan}SSH to $Host ${BWhite}| ${Cyan}$UName ${BWhite}| ${Cyan}$CurrTime ${BWhite}| ${Cyan}$CurrDir$NewLine${NC}"
     PS2="${Cyan}> ${NC}"
 else                            #Otherwise, make it look"normal"
-    PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrTime ${BWhite}| ${Green}$CurrDir\n${Green}> ${NC}"
+    PS1="${Green}$Host ${BWhite}| ${Green}$UName ${BWhite}| ${Green}$CurrTime ${BWhite}| ${Green}$CurrDir$NewLine${NC}"
     PS2="${Green}> ${NC}"
 fi
 
