@@ -1,0 +1,23 @@
+# Colours for days
+Green="\[\033[0;32m\]"      # Green
+Cyan="\[\033[0;36m\]"       # Cyan
+BWhite="\[\033[1;37m\]"     # Bold White
+NC="\[\033[m\]"             # Colour Reset
+
+# PS1 for days
+Split=" ${BWhite}|${NC} "
+if [ "$SSH_CLIENT" ]; then      # If I"m SSHing into the machine, make the prompt cyan
+    ColourStyle=$Cyan
+else                            # Otherwise, make it look green
+    ColourStyle=$Green
+fi
+PS1="${ColourStyle}\h"      # Hostname
+PS1+="$Split"               # An emboldened white pipe
+PS1+="${ColourStyle}\u"     # User I'm logged in as
+PS1+="$Split"               # Another emboldened white pipe
+PS1+="${ColourStyle}\d, \A" # The current date and time to the nearest minute
+PS1+="$Split"               # Another emboldened white pipe
+PS1+="${ColourStyle}\w/"    # The working directory
+PS1+="\n╚> ${NC}"           # A new line, with a couple characters for interestingness
+
+PS2="${ColourStyle}> ${NC}" # PS2 prompt meanwhile is just a >
