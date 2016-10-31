@@ -7,3 +7,16 @@ md () {
 rf () {
     rm -rf "$1"
 }
+
+function gco {
+    if [ -z "$1" ]; then
+        git commit -v
+    else
+        git commit -m "$1"
+    fi
+}
+
+function gca {
+    git add --all && gco "$1"
+}
+

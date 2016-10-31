@@ -12,6 +12,7 @@ alias fuck='sudo "$(history -p !!)"'    # fuck = sudo !!
 alias df="df -h"                # df looks nice
 alias vi="vim"                  # shouldn't really come in handy, but it might one day
 alias ifconfig="/sbin/ifconfig" # Silly ifconfig
+alias myip="ifconfig|grep broadcast"    # Returns my IP, in theory
 
 # I'm lazy and the word git has too many letters
 alias gadd="git add"
@@ -20,6 +21,7 @@ alias gcom="git commit -m"  # GCOM: Enemy Uncommitted
 alias gpush="git push"
 alias gpull="git pull"
 alias gstat="git status"
+alias gdiff="git diff"
 
 # Setting things on a conditional basis
 if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
