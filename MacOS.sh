@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 sudo nvram SystemAudioVolume=" "
 
 defaults write com.apple.universalaccess reduceTransparency -bool true
