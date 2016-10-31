@@ -34,5 +34,5 @@ export EDITOR="vim"     # EMACS HERETICS WILL BURN
 export HISTSIZE=16384   # Lots of history
 export HISTCONTROL=ignoredups
 export TERM="xterm-256color"
-export LANG="en_UK.UTF-8"
-export LC_ALL="en_UK.UTF-8"
+export LANG="en_GB.UTF-8"
+export LC_ALL="en_GB.UTF-8"
