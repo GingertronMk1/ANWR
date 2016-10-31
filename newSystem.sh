@@ -6,7 +6,7 @@ scriptDir="$(pwd)"
 
 cd ~
 
-for file in .aliases .bashrc .bash_profile .xsessionrc
+for file in .aliases .bashrc .bash_profile .functions .xsessionrc
 do
     touch $file
     echo "Make $file point to the copy in my Github folder"
@@ -28,5 +28,3 @@ echo "\$include $scriptDir/.inputrc" >> .inputrc
 echo ".inputrc changed!"
 
 touch .hushlogin        # Create a .hushlogin file so the system shuts the fuck up when I log in
-
-echo "CBA to script it, but don't forget to install sudo, htop, vim, git, and chromium, as well as xinput if you're on a ThinkPad"

@@ -7,4 +7,4 @@ set show-all-if-ambiguous on
 set visible-stats on
 set mark-symlinked-directories on
 TAB: menu-complete
-set bell-style complete
+set bell-style none

@@ -1,0 +1,9 @@
+# Functions for days
+md () {
+    mkdir "$1"
+    cd "$1"
+}
+
+rf () {
+    rm -rf "$1"
+}
