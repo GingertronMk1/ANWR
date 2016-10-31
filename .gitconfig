@@ -1,0 +1,10 @@
+[user]
+    email = jackellis1504@me.com
+    name = Jack Ellis
+[color]
+    ui = auto
+[alias]
+    com = commit
+    stat = status
+[push]
+    default = simple

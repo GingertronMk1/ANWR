@@ -22,7 +22,7 @@ alias -- -="cd -"   # If you don't know, this is a back button basically
 
 # Make some shell commands do what I want them to by default
 alias sudo="sudo -E"            # sudo no longer puts you in /root or wherever it is
-alias fuck='eval sudo -E "$(history -p !!)"'    # fuck = sudo !!
+alias fuck='sudo -E "$(history -p !!)"'    # fuck = sudo !!
 alias df="df -h"                # df looks nice
 alias vi="vim"                  # shouldn't really come in handy, but it might one day
 alias ifconfig="/sbin/ifconfig" # Silly ifconfig
