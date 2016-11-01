@@ -164,6 +164,9 @@
         inoremap <Down> <Esc>}i
         inoremap <Left> <Esc>hbi
         inoremap <Right> <Esc>lwi
+
+        " wc now displays a word count at the bottom
+        nnoremap wc g<C-g>
         " }
 
     " Spelling{
