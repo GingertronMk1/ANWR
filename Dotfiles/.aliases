@@ -13,6 +13,7 @@ alias df="df -h"                # df looks nice
 alias vi="vim"                  # shouldn't really come in handy, but it might one day
 alias ifconfig="/sbin/ifconfig" # Silly ifconfig
 alias res=". ~/.bashrc" # Re-source .bashrc, which re-sources everything else
+alias piconf="sudo raspi-config"    # Lets me configure my Pi
 
 # I'm lazy and the word git has too many letters
 alias gadd="git add"
