@@ -1,16 +1,24 @@
 #!/bin/bash
 
-#Points things in the right direction for usefulness
+# Points things in the right direction for usefulness
 
 scriptDir="$(pwd)"
+dotDir="$(pwd)/Dotfiles"
+dotFiles=$(ls -A $scriptDir/Dotfiles)
+
+#echo Script directory: $scriptDir
+#echo Dotfile directory: $dotDir
+#echo Dotfiles: $dotFiles
 
 cd ~
 
-for dotFile in .aliases .bash_profile .bashrc .exports .functions .gitconfig .inputrc .prompt .vimrc .xsessionrc
+for file in $dotFiles
 do
-    [ -e $dotFile ] && (rm -f $dotFile; echo "Deleted existing copy of $dotFile") # If the dotfile already exists, delete it
-    ln -s $scriptDir/$dotFile $dotFile  # Symlink to this directory's copy
-    echo "Linked $dotFile to copy in ANWR"
+    [ -e $file ] && (rm $file; echo "Deleting existing copy of $file")
+    #echo $dotDir/$file
+    ln -s $dotDir/$file $file  # Symlink to this directory's copy
+    cd .
+    . $file
 done
 
 [ ! -e .vim ] && (mkdir -p .vim; echo "Creating .vim folder")        # If the .vim folder doesn't exist, create it

@@ -73,3 +73,8 @@ chflags nohidden ~/Library
 
 # Show the /Volumes folder
 sudo chflags nohidden /Volumes
+
+# Sets screenshot folder to be /Desktop/Screenshots
+defaults write com.apple.screencapture location ~/Desktop/Screenshots
+
+killall SystemUIServer
