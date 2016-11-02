@@ -20,3 +20,6 @@ function gca {
     git add --all && gco "$1"
 }
 
+function gcap {
+    gca "$1" && git push
+}
