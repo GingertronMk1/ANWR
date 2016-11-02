@@ -4,9 +4,9 @@ I'm a Computer Science student, I feel I need a dotfiles repo somewhere. So here
 
 ### Non-Dotfiles (I know it's called a dotfile repo, shush)
 * MacOS.sh: a shell script that sets sensible defaults on a Mac. Quite why I made this I don't know, as I'm probably not going to get a new Mac for a very long time...
-* newSystem.sh: a shell script that points files in the right direction on a new system.
+* NewSystem.sh: a shell script that points files in the right direction on a new system, but not without a fight it seems.
 
-### Dotfiles (Yes, there are also dotfiles, so the repo's not that bad)
+### /Dotfiles (Yes, there are also dotfiles, so the repo's not that bad)
 * .aliases: where my aliases live (there's a few of them).
 * .bash_profile: the meat of the dotfiles. Lots of config here.
 * .bashrc: I'm certain there's something better I could do with this, but as it stands it just points to bash_profile.
