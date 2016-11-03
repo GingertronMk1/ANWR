@@ -1,12 +1,11 @@
-# Jack's Dotfiles
+# Jack's Odds and Sods
 
 I'm a Computer Science student, I feel I need a dotfiles repo somewhere. So here it is!
 
-### Non-Dotfiles (I know it's called a dotfile repo, shush)
-* MacOS.sh: a shell script that sets sensible defaults on a Mac. Quite why I made this I don't know, as I'm probably not going to get a new Mac for a very long time...
+### Base
 * NewSystem.sh: a shell script that points files in the right direction on a new system, but not without a fight it seems.
 
-### /Dotfiles (Yes, there are also dotfiles, so the repo's not that bad)
+### /Dotfiles
 * .aliases: where my aliases live (there's a few of them).
 * .bash_profile: the meat of the dotfiles. Lots of config here.
 * .bashrc: I'm certain there's something better I could do with this, but as it stands it just points to bash_profile.
@@ -17,3 +16,8 @@ I'm a Computer Science student, I feel I need a dotfiles repo somewhere. So here
 * .prompt: my PS1 and PS2 prompts. PSes 3 and 4 I don't know or care enough about to set.
 * .vimrc: my first dotfile, the basis for all my editing. Bane of one of my mates who's used to vanilla vim.
 * .xsessionrc: makes Debian play nice with ThinkPads and their nipple mice.
+
+### /Scripts
+* MacOS.sh: a shell script that sets sensible defaults on a Mac. Quite why I made this I don't know, as I'm probably not going to get a new Mac for a very long time...
+* BackupMusic.sh: This one backs literally all my music up to my Raspberry Pi via a conversion to .mp3/320.
+* ConvertScratch.sh: Converts all the music in ~/Desktop/Scratch from .m4a to .mp3/320.
