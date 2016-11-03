@@ -10,7 +10,7 @@ convert() {
     if [ "${1: -4}" == ".m4a" ]; then
         local m4aFile=$1
         mp3File=$(echo $m4aFile | sed -e 's/m4a/mp3/')       # Make a filename for the mp3 version
-        echo "Converting $m4aFile to $mp3File"
+        echo "Converting $(basename $m4aFile) to $(basename $mp3File)"
         avconv -v quiet -i $m4aFile -ab 320k -ac 2 -ar 44100 $mp3File   # Convert from m4a to 320kbps mp3
         echo "Conversion successful!"
         rm $m4aFile
