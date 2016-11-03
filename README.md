@@ -3,7 +3,7 @@
 I'm a Computer Science student, I feel I need a dotfiles repo somewhere. So here it is!
 
 ### Base
-* NewSystem.sh: a shell script that points files in the right direction on a new system, but not without a fight it seems.
+* NewSystem.sh: a shell script that points files in the right direction on a new system
 
 ### /Dotfiles
 * .aliases: where my aliases live (there's a few of them).
@@ -18,6 +18,6 @@ I'm a Computer Science student, I feel I need a dotfiles repo somewhere. So here
 * .xsessionrc: makes Debian play nice with ThinkPads and their nipple mice.
 
 ### /Scripts
-* MacOS.sh: a shell script that sets sensible defaults on a Mac. Quite why I made this I don't know, as I'm probably not going to get a new Mac for a very long time...
 * BackupMusic.sh: This one backs literally all my music up to my Raspberry Pi via a conversion to .mp3/320.
-* ConvertScratch.sh: Converts all the music in ~/Desktop/Scratch from .m4a to .mp3/320.
+* ConvertAndTidy.sh: converts, tidies, or does both to all the mp3s/m4as in a folder. Currently it's pointed at Desktop/Scratch, but it can be wherever
+* MacOS.sh: a shell script that sets sensible defaults on a Mac. Quite why I made this I don't know, as I'm probably not going to get a new Mac for a very long time...

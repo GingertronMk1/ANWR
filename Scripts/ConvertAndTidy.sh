@@ -27,15 +27,12 @@ tidy(){
         albumQuery="    album           : "             # Queries for grepping the output of avprobe
         albumArtistQuery="    album_artist    : "
 
-        #album=$(echo $(avprobe $mp3File 2>&1 | grep $albumQuery) | sed -e "s/$albumQuery//") | sed -e "s/:/_/"
-        #albumArtist=$(echo $(avprobe $mp3File 2>&1 | grep $albumArtistQuery) | sed -e "s/$albumArtistQuery//") | sed -e "s/:/_/"
-
+        # This bit takes the metadata outputted by avprobe and filters it to album and album artist, respectively
+        # The two "sed"s remove the bit of the line that's not the bit I want and replace : with _, as folders and : don't mix
         album=$(echo $(echo $(avprobe $mp3File 2>&1 | grep $albumQuery) | sed -e "s/$albumQuery//") | sed -e "s/:/_/")
         albumArtist=$(echo $(echo $(avprobe $mp3File 2>&1 | grep $albumArtistQuery) | sed -e "s/$albumArtistQuery//") | sed -e "s/:/_/")
 
         albumFolder="$musicPath/$albumArtist/$album"
-
-        echo $albumFolder
 
         if [ ! -e $albumFolder ]; then          # If a folder doesn't exist for that album:
             mkdir -p $albumFolder               # Make it. Make it using -p so it also makes the folder for album artist if needs be
@@ -53,8 +50,8 @@ convertAndTidy(){
     tidy $tidyFile
 }
 
-read -p "Do you want to [c]onvert, [t]idy, or [B]oth? [c/t/B]" -n 1 -r
-echo -e "\n"
+read -p "Do you want to [c]onvert, [t]idy, or [B]oth? [c/t/B]" -n 1 -r          # Convert, copy or both? I can do all three
+echo -e "\n"                                                                    # Both is the default
 
 if [ "$REPLY" == "c" ]; then
     thingToDo=convert
