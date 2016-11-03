@@ -1,0 +1,26 @@
+Metadata:
+major_brand     : M4A 
+minor_version   : 0
+compatible_brands: M4A mp42isom
+creation_time   : 2016-06-26 12:14:17
+title           : My Sweet Lord
+artist          : George Harrison
+composer        : George Harrison
+album           : Let It Roll: Songs By George Harrison
+genre           : Pop
+track           : 4/19
+disc            : 1/1
+date            : 1970
+gapless_playback: 0
+comment         : Best Of
+album_artist    : George Harrison
+encoder         : Lavf56.1.0
+Duration: 00:04:40.63, start: 0.000000, bitrate: 366
+kb/s
+Stream #0.0: Audio: mp3, 44100 Hz, 2 channels,
+       s16p, 320 kb/s
+       Stream #0.1: Video: png, rgb24, 1417x1417,
+       90k tbn
+       Metadata:
+title           : 
+comment         : Other
