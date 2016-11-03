@@ -7,17 +7,19 @@ musicPath=/mnt/usbStick/Music
 #files=$(find $musicPath/ -name *.m4a)
 files=$musicPath/*.mp3
 
-function stripQuery {
-    echo $(echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//") | sed -e "s/:/_/"
-}
+stripQuery() {                                                                      # This is a long one. First it finds an instance of $2 in the output of avprobe
+    $(echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//") | sed -e "s/:/_/"    # Then it strips out the $2 part of the line, so you just get the bit of metadata you want
+}                                                                                   # Finally, it replaces all : with _, because we're using this for folder names and mkdir hates :
 
 for mp3File in $files
 do
     albumQuery="    album           : "
     albumArtistQuery="    album_artist    : "
-    album=$(echo $(stripQuery $mp3File $albumQuery) | sed -e "s/:/_/")
+
+    album=$(stripQuery $mp3File $albumQuery)
     albumArtist=$(stripQuery $mp3File $albumArtistQuery)
     albumFolder="$musicPath/$albumArtist/$album"
+
     $mp3Base=$(basename $mp3File)
     if [ ! -e $albumFolder ]; then
         mkdir -p $albumFolder
