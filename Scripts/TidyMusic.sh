@@ -3,31 +3,28 @@
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 
-#files=$(find ~/Music/iTunes/iTunes\ Media/Music -name *.m4a)
 musicPath=/mnt/usbStick/Music
+#files=$(find $musicPath/ -name *.m4a)
 files=$musicPath/*.mp3
 
 function stripQuery {
-    echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//"
+    echo $(echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//") | sed -e "s/:/_/"
 }
 
 for mp3File in $files
 do
-    #echo $mp3File
-    artistQuery="    artist          : "
     albumQuery="    album           : "
     albumArtistQuery="    album_artist    : "
-    artist=$(stripQuery $mp3File $artistQuery)
-    album=$(stripQuery $mp3File $albumQuery)
+    album=$(echo $(stripQuery $mp3File $albumQuery) | sed -e "s/:/_/")
     albumArtist=$(stripQuery $mp3File $albumArtistQuery)
-    #echo Artist: $artist / Album: $album / Album Artist: $albumArtist
     albumFolder="$musicPath/$albumArtist/$album"
-    echo $albumFolder
+    $mp3Base=$(basename $mp3File)
     if [ ! -e $albumFolder ]; then
         mkdir -p $albumFolder
-        echo "Creating folder for $album"
+        echo "Creating folder for $album at $albumFolder"
     fi
-    mv $mp3File $albumFolder/$(basename $mp3File)
+    echo "Moving $mp3Base to $albumFolder"
+    mv $mp3File $albumFolder/$mp3Base
 done
 
 IFS=$SAVEIFS
