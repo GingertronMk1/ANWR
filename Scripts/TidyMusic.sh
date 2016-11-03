@@ -4,7 +4,8 @@ SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 
 #files=$(find ~/Music/iTunes/iTunes\ Media/Music -name *.m4a)
-files=~/Desktop/Scratch/*.mp3
+musicPath=/mnt/usbStick/Music
+files=$musicPath/*.mp3
 
 function stripQuery {
     echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//"
@@ -20,7 +21,7 @@ do
     album=$(stripQuery $mp3File $albumQuery)
     albumArtist=$(stripQuery $mp3File $albumArtistQuery)
     #echo Artist: $artist / Album: $album / Album Artist: $albumArtist
-    albumFolder="/Users/Jack/Desktop/Scratch/$albumArtist/$album"
+    albumFolder="$musicPath/$albumArtist/$album"
     echo $albumFolder
     if [ ! -e $albumFolder ]; then
         mkdir -p $albumFolder
