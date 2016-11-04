@@ -1,14 +1,10 @@
 # Functions for days
-md () {
+md() {
     mkdir "$1"
     cd "$1"
 }
 
-rf () {
-    rm -rf "$1"
-}
-
-function gco {
+gco() {
     if [ -z "$1" ]; then
         git commit -v
     else
@@ -16,10 +12,10 @@ function gco {
     fi
 }
 
-function gca {
+gca() {
     git add --all && gco "$1"
 }
 
-function gcap {
+gcap() {
     gca "$1" && git push
 }
