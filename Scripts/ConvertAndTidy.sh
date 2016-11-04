@@ -6,6 +6,10 @@ IFS=$(echo -en "\n\b")
 musicPath=/Users/Jack/Desktop/Scratch
 files=$musicPath/*                           # Where the file things are (that you want copying)
 
+stripQuery() {                                                                          # Uses `sed` to strip the part of the metadate I don't want,
+    echo $(echo $(avprobe $1 2>&1 | grep $2) | sed -e "s/$2//") | sed -e "s/[:\/]/_/"   # as well as replacing the characters that might make folder
+}                                                                                       # handling a PITA with underscores
+
 convert() {
     if [ "${1: -4}" == ".m4a" ]; then
         local m4aFile=$1
@@ -25,10 +29,8 @@ tidy(){
         albumQuery="    album           : "             # Queries for grepping the output of avprobe
         albumArtistQuery="    album_artist    : "
 
-        # This bit takes the metadata outputted by avprobe and filters it to album and album artist, respectively
-        # The two "sed"s remove the bit of the line that's not the bit I want and replace : with _, as folders and : don't mix
-        album=$(echo $(echo $(avprobe $mp3File 2>&1 | grep $albumQuery) | sed -e "s/$albumQuery//") | sed -e "s/[:\/]/_/")
-        albumArtist=$(echo $(echo $(avprobe $mp3File 2>&1 | grep $albumArtistQuery) | sed -e "s/$albumArtistQuery//") | sed -e "s/[:\/]/_/")
+        album=$(stripQuery "$mp3File" "$albumQuery")
+        albumArtist=$(stripQuery "$mp3File" "$albumArtistQuery")
 
         albumFolder="$musicPath/$albumArtist/$album"
 
@@ -39,6 +41,8 @@ tidy(){
         echo "Moving $mp3Base to $albumFolder"
         mv $mp3File $albumFolder/$mp3Base   # Move the file from the base directory into the requisite folder
         echo "Moving successful!"
+    else
+        echo "$(basename $1) is not an MP3, skipping..."
     fi
 }
 
