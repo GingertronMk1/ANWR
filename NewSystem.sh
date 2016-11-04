@@ -2,9 +2,9 @@
 
 # Points things in the right direction for usefulness
 
-scriptDir="$(pwd)"
-dotDir="$(pwd)/Dotfiles"
-dotFiles=$(ls -A $scriptDir/Dotfiles)
+scriptDir="$(pwd -P)"
+dotDir="$scriptDir/Dotfiles"
+dotFiles=$dotDir/*
 
 #echo Script directory: $scriptDir
 #echo Dotfile directory: $dotDir
