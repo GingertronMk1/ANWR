@@ -13,6 +13,7 @@
     set showcmd             " Shows commands
     set lazyredraw          " Redraw only when necessary
     let mapleader = "\<Space>"   " Sets leader key to spacebar
+    set magic               " Better regex searching
 
     " Wildmenu settings{
         set wildmenu                    " Graphical menu of autocomplete options
