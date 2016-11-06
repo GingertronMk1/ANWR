@@ -42,4 +42,4 @@ fi
 if command -v htop >/dev/null; then         # If htop's installed, alias top to it
     alias top="htop"
 fi
-alias ls="ls -ACFhlp ${Colorflag} && ls -Al | wc -l"  # ls in a nice ordered coloured list with lots of info
+alias ls="ls -ACFhlp ${Colorflag}"  # ls in a nice ordered coloured list with lots of info
