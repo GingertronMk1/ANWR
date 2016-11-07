@@ -3,22 +3,45 @@
 SAVEIFS=$IFS            # Filenames with spaces are tricky buggers
 IFS=$(echo -en "\n\b")  # This is how you get around it. Just...
 
-#files=$(find /Users/Jack/Music/iTunes/iTunes\ Media/Music -name *.m4a)
 files=~/Desktop/Scratch/*.m4a
-destination="illiac-local:/mnt/usbStick/Music"
+#destServer="illiac-local"
+destServer="illiac"
+#destFolder=/mnt/usbStick/Music
+
+queryMetadata() {                                                                                       # Strip query out of metadata
+    echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//" | sed -e "s/[:\/]/_/"                       # Replace FS-problematic chars with _
+}                                                                                                       # as well as spaces with escaped spaces
+
+checkDirectory() {
+    if [ ! -d "$1" ]; then
+        mkdir -p "$1"
+    fi
+}
 
 for m4aFile in $files
 do
-    if [ "${m4aFile: -4}" == ".m4a" ]; then
+    # Convert
+    if [ "${m4aFile: -4}" == ".m4a" ]; then                         # If it is an m4a file:
         mp3File=$(echo ${m4aFile} |sed -e 's/m4a/mp3/')             # Make a filename for the mp3 versions
         mp3Base=$(basename $mp3File)                                # For debugging, get rid of the file path
-        echo "Converting $(basename $m4aFile) to $mp3Base"
-        avconv -v quiet -i $m4aFile -ab 320k -ac 2 -ar 44100 $mp3File        # Convert from m4a to 320kbps mp3
+        avconv -v quiet -i $m4aFile -ab 320k -ac 2 -ar 44100 $mp3File   # Convert m4as to mp3s
     fi
-    echo "Copying $mp3Base to $destination"
-    scp $mp3File $destination                                   # Copy file to ssh server
-    echo "Deleting local copy of $mp3Base"
-    rm $mp3File                                                 # Delete local copy of mp3 version
+    
+    # Query
+    album=$(queryMetadata "$m4aFile" "    album           : ")          # Query avprobe for album name
+    albumArtist=$(queryMetadata "$m4aFile" "    album_artist    : ")    # and album artist name, then
+    albumFolder="$destFolder/$albumArtist/$album"                       # Make a folder path based on these
+    destination="$destServer:'$albumFolder'"                            # And append that to the destination server
+
+    # Pre-Tidy
+    if (ssh $destServer '[ ! -d "$albumFolder" ]'); then                # If the folder for the album doesn't exist on the server
+        echo "Making $albumFolder"
+        ssh $destServer mkdir -p "'$albumFolder'"                       # Make it, recursively on the off chance as the album artist folder's not there
+    fi
+
+    # Copy
+    scp "$mp3File" "$destination"                                       # Copy mp3 file to server
+    rm $mp3File                                                         # Delete local copy of file
 done
 
 IFS=$SAVEIFS    # ...don't forget to put things back where you found them

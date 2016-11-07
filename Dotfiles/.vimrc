@@ -168,6 +168,9 @@
 
         " wc now displays a word count at the bottom
         nnoremap wc g<C-g>
+
+        " <leader>d diffs this
+        nnoremap <leader>d :diffthis<CR>
         " }
 
     " Spelling{
