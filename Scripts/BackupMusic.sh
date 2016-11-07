@@ -7,6 +7,7 @@ files=~/Desktop/Scratch/*.m4a
 #destServer="illiac-local"
 destServer="illiac"
 #destFolder=/mnt/usbStick/Music
+destFolder=/mnt/usbStick/Scratch
 
 queryMetadata() {                                                                                       # Strip query out of metadata
     echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//" | sed -e "s/[:\/]/_/"                       # Replace FS-problematic chars with _
