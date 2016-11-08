@@ -10,7 +10,7 @@ destServer="illiac"
 destFolder=/mnt/usbStick/Scratch
 
 queryMetadata() {                                                                                       # Strip query out of metadata
-    echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//" | sed -e "s/[:\/]/_/"                       # Replace FS-problematic chars with _
+    echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//" | sed -e "s/[:\/\.]/_/"                     # Replace FS-problematic chars with _
 }                                                                                                       # as well as spaces with escaped spaces
 
 checkDirectory() {
@@ -22,9 +22,9 @@ checkDirectory() {
 for m4aFile in $files
 do
     # Convert
-    if [ "${m4aFile: -4}" == ".m4a" ]; then                         # If it is an m4a file:
-        mp3File=$(echo ${m4aFile} |sed -e 's/m4a/mp3/')             # Make a filename for the mp3 versions
-        mp3Base=$(basename $mp3File)                                # For debugging, get rid of the file path
+    if [ "${m4aFile: -4}" == ".m4a" ]; then                             # If it is an m4a file:
+        mp3File=$(echo ${m4aFile} |sed -e 's/m4a/mp3/')                 # Make a filename for the mp3 versions
+        mp3Base=$(basename $mp3File)                                    # For debugging, get rid of the file path
         avconv -v quiet -i $m4aFile -ab 320k -ac 2 -ar 44100 $mp3File   # Convert m4as to mp3s
     fi
     
@@ -35,10 +35,12 @@ do
     destination="$destServer:'$albumFolder'"                            # And append that to the destination server
 
     # Pre-Tidy
-    if (ssh $destServer '[ ! -d "$albumFolder" ]'); then                # If the folder for the album doesn't exist on the server
-        echo "Making $albumFolder"
-        ssh $destServer mkdir -p "'$albumFolder'"                       # Make it, recursively on the off chance as the album artist folder's not there
-    fi
+    sshQuery="[ ! -d '$albumFolder' ] && (mkdir -p '$albumFolder')"
+    #if (ssh $destServer '[ ! -d "$albumFolder" ]'); then                # If the folder for the album doesn't exist on the server
+        #echo "Making $albumFolder"
+        #ssh $destServer mkdir -p "'$albumFolder'"                       # Make it, recursively on the off chance as the album artist folder's not there
+    #fi
+    ssh $destServer "$sshQuery"
 
     # Copy
     scp "$mp3File" "$destination"                                       # Copy mp3 file to server
