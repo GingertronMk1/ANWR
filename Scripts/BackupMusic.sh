@@ -35,12 +35,8 @@ do
     destination="$destServer:'$albumFolder'"                            # And append that to the destination server
 
     # Pre-Tidy
-    sshQuery="[ ! -d '$albumFolder' ] && (mkdir -p '$albumFolder')"
-    #if (ssh $destServer '[ ! -d "$albumFolder" ]'); then                # If the folder for the album doesn't exist on the server
-        #echo "Making $albumFolder"
-        #ssh $destServer mkdir -p "'$albumFolder'"                       # Make it, recursively on the off chance as the album artist folder's not there
-    #fi
-    ssh $destServer "$sshQuery"
+    sshQuery="[ ! -d '$albumFolder' ] && (mkdir -p '$albumFolder'; echo Creating '$albumFolder')"   # See below
+    ssh $destServer "$sshQuery"     # SSH into the destination, create album folder if it doesn't exist
 
     # Copy
     scp "$mp3File" "$destination"                                       # Copy mp3 file to server
