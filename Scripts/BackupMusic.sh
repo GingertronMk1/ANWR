@@ -9,8 +9,9 @@ musicFiles=~/Desktop/Scratch/*.m4a
 #destFolder=/mnt/usbStick/Music
 destFolder=/mnt/usbStick/Scratch
 
-queryMetadata() {                                                                       # Strip query out of metadata, and while you're there,
-    echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//g" | sed -e "s/[:\/\.]/_/g"   # replace FS-problematic chars with underscores
+queryMetadata() {
+    # Get just the relevant bit from metadata, as well as replacing FS-problematic chars with underscores
+    echo $(avprobe "$1" 2>&1 | grep "$2") | sed -e "s/$2//g" | sed -e "s/[:\/\.]/_/g"
 }
 
 for m4aFile in $musicFiles
