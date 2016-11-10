@@ -1,0 +1,21 @@
+Green="\e[0;32m\]"
+Cyan="\e[0;36m\]"
+BWhite="\e[1;37m\]"
+NC="\e[0m\]"
+
+Split="$BWhite | $NC"
+if [ ! "$SSH_CLIENT" ]; then
+    ColourStyle=$Green
+else
+    ColourStyle=$Cyan
+fi
+PS1="$ColourStyle\h$NC"
+PS1+="$Split"
+PS1+="$ColourStyle\u$NC"
+PS1+="$Split"
+PS1+="$ColourStyle\d, \A$NC"
+PS1+="$Split"
+PS1+="$ColourStyle\w"
+PS1+="\n > $NC"
+
+PS2="$ColourStyle > $NC"
