@@ -14,7 +14,8 @@ alias vi="vim"                  # shouldn't really come in handy, but it might o
 alias ifconfig="/sbin/ifconfig" # Silly ifconfig
 alias res=". ~/.bashrc" # Re-source .bashrc, which re-sources everything else
 alias rf="rm -rf"       # Remove folder
-alias cls="clear"
+alias cls="clear"       # Saves 2 keystrokes
+alias rsync="rsync -rtuv --progress --exclude '*.DS_Store'" # Saves a lot of keystrokes
 
 # I'm lazy and the word git has too many letters
 alias gadd="git add"
@@ -24,6 +25,11 @@ alias gpush="git push"
 alias gpull="git pull"
 alias gstat="git status"
 alias gdiff="git diff"
+
+# Backing up using rsync to my Pi
+alias backupmusic="rsync --delete /Users/Jack/Music/iTunes/iTunes\ Media/Music/ illiac:/media/sda2/Music"
+alias backupmovies="rsync /Users/Jack/Music/iTunes/iTunes\ Media/Movies/ illiac:/media/sda2/Movies"
+alias backuptv="rsync /Users/Jack/Music/iTunes/iTunes\ Media/TV\ Shows/ illiac:/media/sda2/TV"
 
 # Useful Pi commands made shorter
 alias piconf="sudo raspi-config"    # Lets me configure my Pi
