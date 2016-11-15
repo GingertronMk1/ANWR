@@ -16,6 +16,7 @@ alias res=". ~/.bashrc" # Re-source .bashrc, which re-sources everything else
 alias rf="rm -rf"       # Remove folder
 alias cls="clear"       # Saves 2 keystrokes
 alias rsync="rsync -rtuv --progress --exclude '*.DS_Store'" # Saves a lot of keystrokes
+alias du="du -h"    # I mean, duh
 
 # I'm lazy and the word git has too many letters
 alias gadd="git add"
