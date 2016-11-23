@@ -8,3 +8,5 @@
     stat = status
 [push]
     default = simple
+[core]
+    excludesfile = ~/.gitignore

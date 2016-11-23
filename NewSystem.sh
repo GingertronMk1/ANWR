@@ -12,10 +12,10 @@ dotFiles=$dotDir/*
 
 cd ~
 
-for file in $dotFiles
+for file in "$dotFiles"
 do
     [ -e $file ] && (rm $file; echo "Deleting existing copy of $file in ~")
-    ln -s $dotDir/$file $file  # Create a symlink to this directory's copy in ~
+    ln -s $dotDir/$file # Create a symlink to this directory's copy in ~
 done
 
 [ ! -e .vim ] && (mkdir -p .vim; echo "Creating .vim folder")        # If the .vim folder doesn't exist, create it
