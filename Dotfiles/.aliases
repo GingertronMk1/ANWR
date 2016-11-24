@@ -14,7 +14,9 @@ alias vi="vim"                  # shouldn't really come in handy, but it might o
 alias ifconfig="/sbin/ifconfig" # Silly ifconfig
 alias res=". ~/.bashrc" # Re-source .bashrc, which re-sources everything else
 alias rf="rm -rf"       # Remove folder
-alias cls="clear"
+alias cls="clear"       # Saves 2 keystrokes
+alias rsync="rsync --exclude '*.DS_Store'" # Saves a lot of keystrokes
+alias du="du -h"    # I mean, duh
 
 # I'm lazy and the word git has too many letters
 alias gadd="git add"

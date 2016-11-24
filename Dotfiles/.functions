@@ -19,3 +19,30 @@ gca() {
 gcap() {
     gca "$1" && git push
 }
+
+function sshcheck {
+    if [ "ssh illiac-local" ]; then     # If ILLIAC's available on the local network
+        target="illiac-local"           # Point to it
+    else
+        target="illiac"                 # Otherwise, point to it via the internet
+    fi
+    echo $target
+}
+
+function backupmusic {
+    target=$(sshcheck)
+    echo "Backing up music to $target"
+    rsync -rtuv --progress --delete /Users/Jack/Music/iTunes/iTunes\ Media/Music/ $target:~/Music/
+}
+
+function backupmovies {
+    target=$(sshcheck)
+    echo "Backing up movies to $target"
+    rsync -rtuv --progress /Users/Jack/Music/iTunes/iTunes\ Media/Movies/ $target:~/Videos/Movies/
+}
+
+function backuptv {
+    target=$(sshcheck)
+    echo "Backing up TV shows to $target"
+    rsync -rtuv --progress /Users/Jack/Music/iTunes/iTunes\ Media/TV\ Shows/ $target:~/Videos/TV/
+}
