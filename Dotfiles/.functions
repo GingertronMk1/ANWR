@@ -22,11 +22,10 @@ gcap() {
 
 function sshcheck {
     if [ "ssh illiac-local" ]; then     # If ILLIAC's available on the local network
-        target="illiac-local"           # Point to it
+        echo "illiac-local"           # Point to it
     else
-        target="illiac"                 # Otherwise, point to it via the internet
+        echo "illiac"                 # Otherwise, point to it via the internet
     fi
-    echo $target
 }
 
 function backupmusic {
