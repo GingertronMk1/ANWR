@@ -171,6 +171,9 @@
 
         " <leader>d diffs this
         nnoremap <leader>d :diffthis<CR>
+
+        " ww saves
+        nnoremap ww :up<CR>
         " }
 
     " Spelling{

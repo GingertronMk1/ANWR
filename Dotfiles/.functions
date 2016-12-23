@@ -20,8 +20,9 @@ gcap() {
     gca "$1" && git push
 }
 
-function sshcheck {
-    if [ "ssh illiac-local" ]; then     # If ILLIAC's available on the local network
+function picheck {
+    ssh -q -o BatchMode=yes -o ConnectTimeout=5 illiac-local exit
+    if [ $? -eq 0 ]; then     # If ILLIAC's available on the local network
         echo "illiac-local"           # Point to it
     else
         echo "illiac"                 # Otherwise, point to it via the internet
@@ -29,19 +30,19 @@ function sshcheck {
 }
 
 function backupmusic {
-    target=$(sshcheck)
+    target=$(picheck)
     echo "Backing up music to $target"
-    rsync -rtuv --progress --delete /Users/Jack/Music/iTunes/iTunes\ Media/Music/ $target:~/Music/
+    rsync -rtuv --progress /Users/Jack/Music/iTunes/iTunes\ Media/Music/ $target:~/Music/
 }
 
 function backupmovies {
-    target=$(sshcheck)
+    target=$(picheck)
     echo "Backing up movies to $target"
     rsync -rtuv --progress /Users/Jack/Music/iTunes/iTunes\ Media/Movies/ $target:~/Videos/Movies/
 }
 
 function backuptv {
-    target=$(sshcheck)
+    target=$(picheck)
     echo "Backing up TV shows to $target"
     rsync -rtuv --progress /Users/Jack/Music/iTunes/iTunes\ Media/TV\ Shows/ $target:~/Videos/TV/
 }
