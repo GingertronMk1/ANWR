@@ -32,7 +32,7 @@ function picheck {
 function backupmusic {
     target=$(picheck)
     echo "Backing up music to $target"
-    rsync -rtuv --progress /Users/Jack/Music/iTunes/iTunes\ Media/Music/ $target:~/Music/
+    rsync -rtuv --progress --delete /Users/Jack/Music/iTunes/iTunes\ Media/Music/ $target:~/Music/
 }
 
 function backupmovies {
