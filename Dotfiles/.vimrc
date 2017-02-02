@@ -187,7 +187,13 @@ augroup textfiles " {
   autocmd BufEnter *.txt,*.tex,*.md :iabbrev <pi> π
   autocmd BufEnter *.txt,*.tex,*.md :iabbrev <lambda> λ
   autocmd BufEnter *.txt,*.tex,*.md :iabbrev <delta> δ
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <contained> ϵ
+  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <epsilon> ϵ
+  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <contained> ∈
+  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <and> ∧
+  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <therefore> ∴
+  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <implies> ⇒
+  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <delta> δ
+  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <subset> ⊆
   autocmd BufEnter *.txt,*.tex,*.md :setlocal spell spelllang=en_gb
   autocmd BufEnter *.txt,*.tex,*.md :set dictionary=~/usr/share/dict/words
   autocmd BufEnter *.txt :setlocal textwidth=120
@@ -201,6 +207,6 @@ augroup markdown " {
   autocmd BufEnter *.md :nnoremap <Leader>i ciw*<C-r>"*<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>b ciw**<C-r>"**<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>u ciw__<C-r>"__<Esc>
-
+  autocmd BufEnter *.md :nnoremap <Leader>f ciw`<C-r>"`<Esc>
   " }
 " }
