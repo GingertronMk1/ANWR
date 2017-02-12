@@ -5,6 +5,7 @@ set matchpairs=<:>,{:},(:),[:]
 set modelines=0         " Some security thing, I guess
 set encoding=utf-8      " Standardizes text to UTF-8
 set noswapfile          " No more swap file nonsense
+set nobackup            " No more backup file nonsense
 set backspace=indent,eol,start
 set foldlevel=100       " Unfolds everything by default
 set foldmethod=indent   " Folds based on indentation
@@ -42,6 +43,7 @@ set expandtab           " Inserts <shiftwidth> spaces when tab is pressed
 set smarttab            " Tabs in front of lines are <shiftwidth> spaces
 set shiftwidth=2        " 4 spaces constitute one tab
 set tabstop=2           " How many spaces a tab counts for in a file
+set softtabstop=2       " Backspace goes back 2 spaces in 'tab' chars
 " }
 
 " UI Changes{
@@ -170,6 +172,10 @@ nnoremap <leader>d :diffthis<CR>
 
 " ww saves
 nnoremap ww :up<CR>
+
+" Better indentation in visual mode
+vnoremap > >gv
+vnoremap < <gv
 " }
 
 " }
@@ -184,18 +190,20 @@ augroup end " }
 
 augroup textfiles " {
   au!
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <pi> π
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <lambda> λ
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <delta> δ
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <epsilon> ϵ
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <contained> ∈
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <and> ∧
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <therefore> ∴
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <implies> ⇒
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <delta> δ
-  autocmd BufEnter *.txt,*.tex,*.md :iabbrev <subset> ⊆
-  autocmd BufEnter *.txt,*.tex,*.md :setlocal spell spelllang=en_gb
-  autocmd BufEnter *.txt,*.tex,*.md :set dictionary=~/usr/share/dict/words
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <pi> π
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <lambda> λ
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <delta> δ
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <epsilon> ϵ
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <contained> ∈
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <and> ∧
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <therefore> ∴
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <implies> ⇒
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <alpha> α
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <delta> δ
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <subset> ⊆
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <union> ∪
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :setlocal spell spelllang=en_gb
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :set dictionary=~/usr/share/dict/words
   autocmd BufEnter *.txt :setlocal textwidth=120
 augroup end
 " }
