@@ -143,12 +143,11 @@ nnoremap <C-down> 5<C-W>-
 nnoremap <C-left> 5<C-W><
 nnoremap <C-right> 5<C-W>>
 
-" A number n + Enter takes you to line n
+" A number `n` + Enter takes you to line `n`
 nnoremap <CR> G0
 
-" Shift + key does the opposite of key
+" Shift + u redoes
 nnoremap U <C-R>
-nnoremap W b
 
 " Swapping the behaviour of p and shift-p, as well as autoindenting pasted text
 nnoremap p P=`]<C-o>
@@ -202,6 +201,7 @@ augroup textfiles " {
   autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <delta> δ
   autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <subset> ⊆
   autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <union> ∪
+  autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <sigma> σ
   autocmd BufEnter *.txt,*.tex,*.md,*.lhs :setlocal spell spelllang=en_gb
   autocmd BufEnter *.txt,*.tex,*.md,*.lhs :set dictionary=~/usr/share/dict/words
   autocmd BufEnter *.txt :setlocal textwidth=120
@@ -210,11 +210,17 @@ augroup end
 
 augroup markdown " {
   au!
-  autocmd BufEnter *.md :setlocal shiftwidth=2
-  autocmd BufEnter *.md :setlocal tabstop=2
   autocmd BufEnter *.md :nnoremap <Leader>i ciw*<C-r>"*<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>b ciw**<C-r>"**<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>u ciw__<C-r>"__<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>f ciw`<C-r>"`<Esc>
   " }
+
+augroup latex " {
+  au!
+  autocmd BufEnter *.tex :nnoremap <Leader>i ciw\textit{<C-r>"}<Esc>
+  autocmd BufEnter *.tex :nnoremap <Leader>b ciw\textbf{<C-r>"}<Esc>
+  autocmd BufEnter *.tex :nnoremap <Leader>u ciw\underline{<C-r>"}<Esc>
+  autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
+  autocmd BufEnter *.tex :setlocal textwidth=120
 " }
