@@ -33,7 +33,7 @@ alias pitemp="vcgencmd measure_temp"    # Tells me how hot things are getting
 alias pimem="vcgencmd get_mem arm && vcgencmd get_mem gpu"  # Shows the split between CPU and GPU memory
 
 # Other
-alias compnotes="pdflatex Notes.tex"
+alias comptex="pdflatex *.tex"
 alias cbuild="echo 'Moving File!' && cp ~/Git/G52GRP/Jack/FourthTry/webcam_face_pose_ex.cpp .. && cmake --build . --config Release && Echo 'Moving Back!' && cp webcam_face_pose_ex ~/Git/G52GRP/Jack/FourthTry"
 
 # Setting things on a conditional basis
