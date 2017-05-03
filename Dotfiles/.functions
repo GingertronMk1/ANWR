@@ -1,36 +1,42 @@
 # Functions for days
 md() {
-    mkdir "$1"
-    cd "$1"
+  mkdir "$1"
+  cd "$1"
 }
 
 gco() {
-    if [ -z "$1" ]; then
-        git commit -v
-    else
-        git commit -m "$1"
-    fi
+  if [ -z "$1" ]; then
+    git commit -v
+  else
+    git commit -m "$1"
+  fi
 }
 
 gca() {
-    git add --all && gco "$1"
+  git add --all && gco "$1"
 }
 
 gcap() {
-    gca "$1" && git push
+  gca "$1" && git push
 }
 
 function picheck {
-    ssh -q -o BatchMode=yes -o ConnectTimeout=5 illiac-local exit
-    if [ $? -eq 0 ]; then     # If ILLIAC's available on the local network
-        echo "illiac-local"           # Point to it
-    else
-        echo "illiac"                 # Otherwise, point to it via the internet
-    fi
+  ssh -q -o BatchMode=yes -o ConnectTimeout=5 illiac-local exit
+  if [ $? -eq 0 ]; then     # If ILLIAC's available on the local network
+    echo "illiac-local"           # Point to it
+  else
+    echo "illiac"                 # Otherwise, point to it via the internet
+  fi
 }
 
 function backupmusic {
-    target=$(picheck)
-    echo "Backing up music to $target"
-    rsync -rtuv --progress --delete /Users/Jack/Music/iTunes/iTunes\ Media/Music/ $target:~/Music/
+  target=$(picheck)
+  echo "Backing up music to $target"
+  rsync -rtuv --progress --delete $MUSIC/ $target:~/Music/
+}
+
+function returnmusic {
+  target=$(picheck)
+  echo "Returning music from $target"
+  rsync -rtuv --progress $target:~/Music/ $MUSIC/
 }
