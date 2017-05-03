@@ -11,3 +11,5 @@
 *.log
 *.toc
 *.aux
+*.doc
+*.docx
