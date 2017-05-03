@@ -5,7 +5,9 @@ IFS=$(echo -en "\n\b")
 
 musicPath=/Users/Jack/Desktop/Scratch
 #musicPath=/mnt/usbStick/Music
+#musicPath=/Volumes/SD\ Card/Other
 files=$musicPath/*                               # Where the file things are (that you want copying)
+destFolder=/Volumes/SD\ CARD/MP3s
 
 stripQuery() {                                                                          # Uses `sed` to strip the part of the metadate I don't want,
     echo $(echo $(avprobe $1 2>&1 | grep $2) | sed -e "s/$2//") | sed -e "s/[:\/]/_/"   # as well as replacing the characters that might make folder
@@ -33,7 +35,7 @@ tidy(){
         album=$(stripQuery "$mp3File" "$albumQuery")
         albumArtist=$(stripQuery "$mp3File" "$albumArtistQuery")
 
-        albumFolder="$musicPath/$albumArtist/$album"
+        albumFolder="$destFolder/$albumArtist/$album"
 
         if [ ! -e $albumFolder ]; then          # If a folder doesn't exist for that album:
             mkdir -p $albumFolder               # Make it. Make it using -p so it also makes the folder for album artist if needs be
@@ -51,6 +53,7 @@ convertAndTidy(){
     tidyFile=$(echo $1 | sed -e 's/m4a/mp3/')
     convert $1
     tidy $tidyFile
+    echo "$(ls $musicPath | wc -l) remaining, $(find $destFolder -type f | wc -l) in destination folder"
 }
 
 read -p "Do you want to [c]onvert, [t]idy, or [B]oth? [c/t/B]" -n 1 -r          # Convert, copy or both? I can do all three
