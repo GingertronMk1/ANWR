@@ -3,13 +3,8 @@
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 
-musicPath=/Users/Jack/Desktop/Scratch
 #musicPath=/mnt/usbStick/Music
-files=$musicPath/*                               # Where the file things are (that you want copying)
-
-stripQuery() {                                                                          # Uses `sed` to strip the part of the metadate I don't want,
-  echo $(echo $(avprobe $1 2>&1 | grep $2) | sed -e "s/$2//") | sed -e "s/[:\/]/_/"   # as well as replacing the characters that might make folder
-}                                                                                       # handling a PITA with underscores
+files=$SCRATCHFOLDER/*                               # Where the file things are (that you want copying)
 
 convert() {
   if [ "${1: -4}" == ".m4a" ]; then
