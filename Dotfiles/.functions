@@ -1,4 +1,5 @@
 # Functions for days
+
 md() {
   mkdir "$1"
   cd "$1"
@@ -39,4 +40,11 @@ function returnmusic {
   target=$(picheck)
   echo "Returning music from $target"
   rsync -rtuv --progress $target:~/Music/ $MUSIC/
+}
+
+function scratchconvert {
+  cd $GITFOLDER/ANWR/Scripts
+  ./convert2mp3.sh
+  ls $SCRATCHFOLDER
+  cd -
 }
