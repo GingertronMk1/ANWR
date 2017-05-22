@@ -13,6 +13,7 @@ alias df="df -h"                # df looks nice
 alias vi="vim"                  # shouldn't really come in handy, but it might one day
 alias ifconfig="/sbin/ifconfig" # Silly ifconfig
 alias res=". ~/.bashrc" # Re-source .bashrc, which re-sources everything else
+alias rm="rm -v"        # I like knowing things
 alias rf="rm -rf"       # Remove folder
 alias cls="clear"       # Saves 2 keystrokes
 alias rsync="rsync --exclude '*.DS_Store'" # Saves a lot of keystrokes
