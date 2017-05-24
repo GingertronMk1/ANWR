@@ -15,10 +15,12 @@ set showcmd             " Shows commands
 set lazyredraw          " Redraw only when necessary
 let mapleader = "\<Space>"   " Sets leader key to spacebar
 set magic               " Better regex searching. Also, NEVER BELIEVE IT'S NOT SOOO
+set nostartofline       " Seems useful
+set confirm             " Ask to save changes rather than just not letting me do something
 
 " Wildmenu settings{
 set wildmenu                    " Graphical menu of autocomplete options
-set wildmode=list:full
+set wildmode=list:longest,full
 set wildignore=*.o,*.obj,*~     " stuff to ignore when tab completing
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
