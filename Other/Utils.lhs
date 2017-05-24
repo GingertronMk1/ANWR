@@ -151,6 +151,6 @@ Let's try merge-sort
 > mergesort [] = []
 > mergesort [x] = [x]
 > mergesort xs = merge (mergesort f) (mergesort s)
->                where f = take (div xslength 2) xs
->                      s = drop (div xslength 2) xs
->                      xslength = length xs
+>                where f = take (div xsLength 2) xs
+>                      s = drop (div xsLength 2) xs
+>                      xsLength = length xs
