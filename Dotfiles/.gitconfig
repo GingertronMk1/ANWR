@@ -5,7 +5,10 @@
     ui = auto
 [alias]
     com = commit
-    stat = status
+    comm = commit -m
+    df = diff
+    master = checkout master
+    st = status
 [push]
     default = simple
 [core]
