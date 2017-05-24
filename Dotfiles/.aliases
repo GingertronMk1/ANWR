@@ -12,7 +12,7 @@ alias fuck='sudo "$(history -p !!)"'    # fuck = sudo !!
 alias df="df -h"                # df looks nice
 alias vi="vim"                  # shouldn't really come in handy, but it might one day
 alias ifconfig="/sbin/ifconfig" # Silly ifconfig
-alias res=". ~/.bashrc" # Re-source .bashrc, which re-sources everything else
+alias res="cd ~ && . .bashrc && cd -" # Re-source .bashrc, which re-sources everything else
 alias rm="rm -v"        # I like knowing things
 alias rf="rm -rf"       # Remove folder
 alias cls="clear"       # Saves 2 keystrokes
@@ -23,6 +23,7 @@ alias du="du -h"    # I mean, duh
 alias gadd="git add"
 alias gadda="git add ."     # In da git add . da vida honey...
 alias gcom="git commit -m"  # GCOM: Enemy Uncommitted
+alias gclone="git clone"
 alias gpush="git push"
 alias gpull="git pull"
 alias gstat="git status"
