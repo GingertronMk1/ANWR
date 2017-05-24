@@ -5,22 +5,6 @@ md() {
   cd "$1"
 }
 
-gco() {
-  if [ -z "$1" ]; then
-    git commit -v
-  else
-    git commit -m "$1"
-  fi
-}
-
-gca() {
-  git add --all && gco "$1"
-}
-
-gcap() {
-  gca "$1" && git push
-}
-
 function picheck {
   ssh -q -o BatchMode=yes -o ConnectTimeout=5 illiac-local exit
   if [ $? -eq 0 ]; then     # If ILLIAC's available on the local network
