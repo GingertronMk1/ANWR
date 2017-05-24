@@ -19,17 +19,6 @@ alias cls="clear"       # Saves 2 keystrokes
 alias rsync="rsync --exclude '*.DS_Store'" # Saves a lot of keystrokes
 alias du="du -h"    # I mean, duh
 
-# I'm lazy and the word git has too many letters
-alias gadd="git add"
-alias gadda="git add ."     # In da git add . da vida honey...
-alias gcom="git commit -m"  # GCOM: Enemy Uncommitted
-alias gclone="git clone"
-alias gpush="git push"
-alias gpull="git pull"
-alias gstat="git status"
-alias gdiff="git diff"
-alias grm="git rm"
-
 # Useful Pi commands made shorter
 alias piconf="sudo raspi-config"    # Lets me configure my Pi
 alias pitemp="vcgencmd measure_temp"    # Tells me how hot things are getting
