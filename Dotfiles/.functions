@@ -28,7 +28,6 @@ function returnmusic {
 
 function scratchconvert {
   cd $GITFOLDER/ANWR/Scripts
-  ./convert2mp3.sh
-  ls $SCRATCHFOLDER
+  ./audioconv.sh
   cd -
 }
