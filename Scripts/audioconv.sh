@@ -22,8 +22,8 @@ flacConvert() {
   rm $1
 }
 
-read -p "Convert to [1]: mp3 or [2]: flac" -n 1 -r
-echo -e "$REPLY\n"
+read -p "Convert to [1]: mp3 or [2]: flac    " -n 1 -r
+echo -e "\n"
 
 find $folder -name '*.m4a' | while read line; do
   if [ "$REPLY" == "1" ]; then
