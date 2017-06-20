@@ -4,33 +4,54 @@ SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 
 #musicPath=/mnt/usbStick/Music
-folder=$SCRATCHFOLDER/                               # Where the file things are (that you want copying)
+folder=$SCRATCHFOLDER   # Where the file things are (that you want copying)
+
+files=$folder/*.m4a
 
 mp3Convert() {
-    mp3File=$(echo $1 | sed -e 's/m4a/mp3/')
-    echo "Converting $(basename $1) to $(basename $mp3File)"
-    avconv -v quiet -i $1 -ab 320k -ac 2 -ar 44100  $mp3File
-    echo "Conversion successful!"
-    rm $1
+  baseFile=$1
+  mp3File=$2
+  echo "Converting $1 to $mp3File"
+  avconv -v quiet -i $baseFile -ab 320k -ac 2 -ar 44100  $mp3File
+  echo "Conversion successful!"
+  rm $baseFile
 }
 
 flacConvert() {
-  flacFile=$(echo $1 | sed -e 's/m4a/flac/')
-  echo "Converting $(basename $1) to $(basename $flacFile)"
-  avconv -v quiet -i $1 -f flac  $flacFile
+  baseFile=$1
+  flacFile=$2
+  echo "Converting $baseFile to $flacFile"
+  avconv -v quiet -i $baseFile -f flac  $flacFile
   echo "Conversion successful!"
-  rm $1
+  rm $baseFile
 }
 
-read -p "Convert to [1]: mp3 or [2]: flac    " -n 1 -r
+wavconvert() {
+  baseFile=$1
+  wavFile=$2
+  echo "Converting $baseFile to $wavFile"
+  avconv -v quiet -i $baseFile -f wav $wavFile
+  echo "Conversion successful!"
+  rm $baseFile
+}
+
+waveformConvert() {
+  echo "Generating waveform png for $1"
+  ffmpeg -v quiet -i $1 -filter_complex "showwavespic=s=6400x1200" -frames:v 1 $2
+  echo "Generation successful!"
+}
+
+echo -e "Convert to:\n[1]: mp3\n[2]: flac\n[3]: wav\n[4]: waveform png\n"
+read -n 1 -r
 echo -e "\n"
 
-find $folder -name '*.m4a' | while read line; do
-  if [ "$REPLY" == "1" ]; then
-    mp3Convert $line
-  elif [ "$REPLY" == "2" ]; then
-    flacConvert $line
-  fi
+for line in $files; do
+  case $REPLY in
+    1) mp3Convert $line $(echo $line | sed -e 's/m4a/mp3/');;
+    2) flacConvert $line $(echo $line | sed -e 's/m4a/flac/');;
+    3) wavconvert $line $(echo $line | sed -e 's/m4a/wav/');;
+    4) waveformConvert $line $(echo $line | sed -e 's/m4a/png/');;
+  esac
   echo -e "Next!\n"
 done
 
