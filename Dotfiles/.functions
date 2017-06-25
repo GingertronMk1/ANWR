@@ -31,3 +31,9 @@ function scratchconvert {
   ./audioconv.sh
   cd -
 }
+
+function gpp {
+  local sourcefile=$1
+  local targetfile=$(echo $sourcefile | sed -e 's/cpp/run/')
+  g++ -std=c++11 $sourcefile -o $targetfile
+}
