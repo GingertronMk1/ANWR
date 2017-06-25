@@ -105,6 +105,9 @@ noremap K 1G
 " 'vv' visually selects a line
 noremap vv 0v$
 
+" 'V' selects to the end of the line, mirroring 'D', 'C', etc.
+noremap V v$
+
 " Leader + s puts me in find and replace mode
 noremap <leader>s :%s///g<left><left><left>
 
@@ -133,11 +136,14 @@ nnoremap <leader><leader> za
 " Leader + various keys has the same effect as ':' + key + enter
 nnoremap <leader>w :up <CR>
 nnoremap <leader>q :q <CR>
-nnoremap <leader>e :e ~
+nnoremap <leader>e :e ~/
 nnoremap <leader>v :vsplit ~/
 nnoremap <leader>h :split ~/
 nnoremap <leader>x :x <CR>
 nnoremap <leader>Q :q! <CR>
+
+" Leader + 'r' reloads the document
+nnoremap <leader>r :e<CR>
 
 " Ctrl + arrow keys resize splits
 nnoremap <C-up> 5<C-W>+
