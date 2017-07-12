@@ -27,6 +27,7 @@ alias pimem="vcgencmd get_mem arm && vcgencmd get_mem gpu"  # Shows the split be
 # Other
 alias comptex="pdflatex *.tex"
 alias :e="fg"
+alias scratchconvert="$GITFOLDER/ANWR/Scripts/audioconv.sh"
 
 # Setting things on a conditional basis
 if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
