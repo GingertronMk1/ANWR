@@ -1,8 +1,7 @@
 # Functions for days
 
 md() {
-  mkdir "$1"
-  cd "$1"
+  mkdir "$1" && cd "$1"
 }
 
 function picheck {
@@ -17,19 +16,25 @@ function picheck {
 function backupmusic {
   target=$(picheck)
   echo "Backing up music to $target"
-  rsync -rtuv --progress --delete $MUSIC/ $target:~/Music/
+  rsync -rtuvP --delete "$MUSIC/" $target:~/Music/
+}
+
+function backuptv {
+  target=$(picheck)
+  echo "Backing up TV shows to $target"
+  rsync -rtuvP "$TVSHOWS" $target:~/Videos
+}
+
+function backupmovies {
+  target=$(picheck)
+  echo "Backing up movies to $target"
+  rsync -rtuvP "$MOVIES" $target:~/Videos
 }
 
 function returnmusic {
   target=$(picheck)
   echo "Returning music from $target"
   rsync -rtuv --progress $target:~/Music/ $MUSIC/
-}
-
-function scratchconvert {
-  cd $GITFOLDER/ANWR/Scripts
-  ./audioconv.sh
-  cd -
 }
 
 function gpp {
