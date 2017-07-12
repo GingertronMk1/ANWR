@@ -5,9 +5,9 @@
 . .prompt
 
 # Shell options for days
-shopt -s nocaseglob;    # Case insensitive pathname extension
-shopt -s histappend;    # Don"t overwrite bash_history
-shopt -s cdspell;       # Spell correction in cd
+shopt -s nocaseglob     # Case insensitive pathname extension
+shopt -s histappend     # Don"t overwrite bash_history
+shopt -s cdspell        # Spell correction in cd
 shopt -s checkwinsize   # Checks window size
 shopt -s nullglob       # I think this means using a wildcard won't return the "*" char
 
