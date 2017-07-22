@@ -10,47 +10,46 @@ files=$folder/*.m4a
 
 mp3Convert() {
   baseFile=$1
-  mp3File=$2
-  echo "Converting $1 to $mp3File"
-  avconv -v quiet -i $baseFile -ab 320k -ac 2 -ar 44100  $mp3File
+  newFile=$(echo $line | sed -e 's/m4a/mp3/g')
+  echo "Converting $1 to $newFile"
+  avconv -v quiet -i $baseFile -ab 320k -ac 2 -ar 44100 $newFile
   echo "Conversion successful!"
-  rm $baseFile
 }
 
 flacConvert() {
   baseFile=$1
-  flacFile=$2
-  echo "Converting $baseFile to $flacFile"
-  avconv -v quiet -i $baseFile -f flac  $flacFile
+  newFile=$(echo $line | sed -e 's/m4a/flac/g')
+  echo "Converting $baseFile to $newFile"
+  avconv -v quiet -i $baseFile -f flac $newFile
   echo "Conversion successful!"
-  rm $baseFile
 }
 
-wavconvert() {
+wavConvert() {
   baseFile=$1
-  wavFile=$2
-  echo "Converting $baseFile to $wavFile"
-  avconv -v quiet -i $baseFile -f wav $wavFile
+  newFile=$(echo $line | sed -e 's/m4a/wav/g')
+  echo "Converting $baseFile to $newFile"
+  avconv -v quiet -i $baseFile -f wav $newFile
   echo "Conversion successful!"
-  rm $baseFile
 }
 
 waveformConvert() {
   echo "Generating waveform png for $1"
-  ffmpeg -v quiet -i $1 -filter_complex "showwavespic=s=6400x1200" -frames:v 1 $2
+  newFile=$(echo $line | sed -e 's/m4a/png/g')
+  ffmpeg -v quiet -i $1 -filter_complex "showwavespic=s=6400x1200" -frames:v 1 $newFile
   echo "Generation successful!"
 }
 
-echo -e "Convert to:\n[1]: mp3\n[2]: flac\n[3]: wav\n[4]: waveform png\n"
+echo -e "Convert to:\n[1]: mp3\n[2]: flac\n[3]: wav\n[4]: waveform png\n[0]: flac & wav"
 read -n 1 -r
 echo -e "\n"
 
 for line in $files; do
   case $REPLY in
-    1) mp3Convert $line $(echo $line | sed -e 's/m4a/mp3/');;
-    2) flacConvert $line $(echo $line | sed -e 's/m4a/flac/');;
-    3) wavconvert $line $(echo $line | sed -e 's/m4a/wav/');;
-    4) waveformConvert $line $(echo $line | sed -e 's/m4a/png/');;
+    1) mp3Convert $line && rm $line;;
+    2) flacConvert $line && rm $line;;
+    3) wavConvert $line && rm $line;;
+    4) waveformConvert $line;;
+    0) flacConvert $line && wavConvert $line;;
   esac
   echo -e "Next!\n"
 done
