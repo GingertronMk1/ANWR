@@ -25,11 +25,11 @@ function backuptv {
   rsync -rtuvP "$TVSHOWS" $target:~/Videos
 }
 
-function backupmovies {
-  target=$(picheck)
-  echo "Backing up movies to $target"
-  rsync -rtuvP "$MOVIES" $target:~/Videos
-}
+#function backupmovies {
+  #target=$(picheck)
+  #echo "Backing up movies to $target"
+  #rsync -rtuvP "$MOVIES" $target:~/Videos
+#}
 
 function returnmusic {
   target=$(picheck)
