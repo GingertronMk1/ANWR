@@ -209,3 +209,17 @@ removedups' (a:as) ys = if elem a ys then removedups' as ys
 
 sieve n = sieve' [1..n]
 sieve' (x:xs) = if elem x xs then sieve' xs else xs
+
+
+screenDims :: (Double, Double) -> Double -> (Double, Double)
+screenDims (x, y) d = (a , a*r)
+                      where r = x/y
+                            a = sqrt (d*d / (1 + r*r))
+
+{-
+a^2 + (a*r)^2 = d ^ 2
+a^2 * (1 + r ^ 2) = d ^ 2
+a^2 = d^2 / (1 + r^2)
+a = sqrt(d^2 / (1+r^2))
+
+-}
