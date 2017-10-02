@@ -15,3 +15,7 @@
 *.docx
 *.zip
 *.out
+*.rtf
+*.metadata
+*.recommenders
+/SWM/DiamondHunter2/nbproject/private/
