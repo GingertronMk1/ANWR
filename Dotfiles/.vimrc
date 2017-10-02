@@ -5,6 +5,7 @@ set matchpairs=<:>,{:},(:),[:]
 set modelines=0         " Some security thing, I guess
 set encoding=utf-8      " Standardizes text to UTF-8
 set noswapfile          " No more swap file nonsense
+set backupdir=~/.vim/backups  " Shouldn't have to do this...
 set nobackup            " No more backup file nonsense
 set backspace=indent,eol,start
 set foldlevel=100       " Unfolds everything by default
@@ -17,6 +18,7 @@ let mapleader = "\<Space>"   " Sets leader key to spacebar
 set magic               " Better regex searching. Also, NEVER BELIEVE IT'S NOT SOOO
 set nostartofline       " Seems useful
 set confirm             " Ask to save changes rather than just not letting me do something
+set viminfo+=n~/.vim/viminfo  " Fuck the viminfo file off somewhere else for now
 
 " Wildmenu settings{
 set wildmenu                    " Graphical menu of autocomplete options
