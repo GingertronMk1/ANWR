@@ -6,11 +6,11 @@ IFS=$(echo -en "\n\b")
 #musicPath=/mnt/usbStick/Music
 folder=$SCRATCHFOLDER   # Where the file things are (that you want copying)
 
-files=$folder/*.m4a
+files=$(find $folder -name "*.flac")
 
 mp3Convert() {
   baseFile=$1
-  newFile=$(echo $line | sed -e 's/m4a/mp3/g')
+  newFile=$(echo $line | sed -e 's/flac/mp3/g')
   echo "Converting $1 to $newFile"
   avconv -v quiet -i $baseFile -ab 320k -ac 2 -ar 44100 $newFile
   echo "Conversion successful!"
@@ -18,7 +18,7 @@ mp3Convert() {
 
 flacConvert() {
   baseFile=$1
-  newFile=$(echo $line | sed -e 's/m4a/flac/g')
+  newFile=$(echo $line | sed -e 's/flac/flac/g')
   echo "Converting $baseFile to $newFile"
   avconv -v quiet -i $baseFile -f flac $newFile
   echo "Conversion successful!"
@@ -26,7 +26,7 @@ flacConvert() {
 
 wavConvert() {
   baseFile=$1
-  newFile=$(echo $line | sed -e 's/m4a/wav/g')
+  newFile=$(echo $line | sed -e 's/flac/wav/g')
   echo "Converting $baseFile to $newFile"
   avconv -v quiet -i $baseFile -f wav $newFile
   echo "Conversion successful!"
@@ -34,7 +34,7 @@ wavConvert() {
 
 waveformConvert() {
   echo "Generating waveform png for $1"
-  newFile=$(echo $line | sed -e 's/m4a/png/g')
+  newFile=$(echo $line | sed -e 's/flac/png/g')
   ffmpeg -v quiet -i $1 -filter_complex "showwavespic=s=6400x1200" -frames:v 1 $newFile
   echo "Generation successful!"
 }
