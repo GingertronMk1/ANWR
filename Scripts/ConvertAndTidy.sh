@@ -6,8 +6,10 @@ IFS=$(echo -en "\n\b")
 musicPath=/Users/Jack/Desktop/Scratch
 #musicPath=/mnt/usbStick/Music
 #musicPath=/Volumes/SD\ Card/Other
-files=$musicPath/*                               # Where the file things are (that you want copying)
-destFolder=/Volumes/SD\ CARD/MP3s
+#files=$musicPath/*                               # Where the file things are (that you want copying)
+#destFolder=/Volumes/SD\ CARD/MP3s
+destFolder=$musicPath
+files=$(find /Users/Jack/Desktop/Scratch -type f)
 
 stripQuery() {                                                                          # Uses `sed` to strip the part of the metadate I don't want,
     echo $(echo $(avprobe $1 2>&1 | grep $2) | sed -e "s/$2//") | sed -e "s/[:\/]/_/"   # as well as replacing the characters that might make folder
@@ -16,24 +18,25 @@ stripQuery() {                                                                  
 convert() {
     if [ "${1: -4}" == ".m4a" ]; then
         local m4aFile=$1
-        mp3File=$(echo $m4aFile | sed -e 's/m4a/mp3/')       # Make a filename for the mp3 version
-        echo "Converting $(basename $m4aFile) to $(basename $mp3File)"
-        avconv -v quiet -i $m4aFile -ab 320k -ac 2 -ar 44100 $mp3File   # Convert from m4a to 320kbps mp3
+        outFile=$(echo $m4aFile | sed -e 's/m4a/flac/')       # Make a filename for the mp3 version
+        echo "Converting $(basename $m4aFile) to $(basename $outFile)"
+        avconv -v quiet -i $m4aFile -f flac $outFile   # Convert from m4a to 320kbps mp3
         echo "Conversion successful!"
-        rm $m4aFile
+        #rm $m4aFile
     fi
 }
 
 tidy(){
-    if [ "${1: -4}" == ".mp3" ]; then
-        local mp3File=$1
-        mp3Base=$(basename $mp3File)
+  if [ 1 ]; then
+    #if [ "${1: -4}" == ".mp3" ]; then
+        local outFile=$1
+        mp3Base=$(basename $outFile)
         echo "Tidying $mp3Base"
-        albumQuery="    album           : "             # Queries for grepping the output of avprobe
+        albumQuery="    ALBUM           : "             # Queries for grepping the output of avprobe
         albumArtistQuery="    album_artist    : "
 
-        album=$(stripQuery "$mp3File" "$albumQuery")
-        albumArtist=$(stripQuery "$mp3File" "$albumArtistQuery")
+        album=$(stripQuery "$outFile" "$albumQuery")
+        albumArtist=$(stripQuery "$outFile" "$albumArtistQuery")
 
         albumFolder="$destFolder/$albumArtist/$album"
 
@@ -42,7 +45,7 @@ tidy(){
             echo "Creating folder for $album"
         fi
         echo "Moving $mp3Base to $albumFolder"
-        mv $mp3File $albumFolder/$mp3Base   # Move the file from the base directory into the requisite folder
+        mv $outFile $albumFolder/$mp3Base   # Move the file from the base directory into the requisite folder
         echo "Moving successful!"
     else
         echo "$(basename $1) is not an MP3, skipping..."
