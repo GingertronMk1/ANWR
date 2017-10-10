@@ -1,6 +1,6 @@
 " Vim colour file
 
-" Author: Jack Ellis <jackellis1504@me.com>
+" Author: Jack Ellis <jackellis1504@gmail.com>
 " https://github.com/gingertronmk1
 
 hi clear
@@ -80,8 +80,8 @@ if has("spell")
 endif
 
 hi Statement       ctermfg=161               cterm=bold
-hi StatusLine      ctermfg=238 ctermbg=253
-hi StatusLineNC    ctermfg=244 ctermbg=232
+hi StatusLine      ctermfg=22  ctermbg=253
+hi StatusLineNC    ctermfg=52  ctermbg=253
 hi StorageClass    ctermfg=208
 hi Structure       ctermfg=81
 hi Tag             ctermfg=161
