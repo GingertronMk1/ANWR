@@ -178,6 +178,9 @@ nnoremap <leader>d :diffthis<CR>
 " ww saves
 nnoremap ww :up<CR>
 
+" WW forces a save
+nnoremap WW :w!<CR>
+
 " Better indentation in visual mode
 vnoremap > >gv
 vnoremap < <gv
