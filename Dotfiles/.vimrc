@@ -159,10 +159,6 @@ nnoremap <CR> G0
 " Shift + u redoes
 nnoremap U <C-R>
 
-" Swapping the behaviour of p and shift-p, as well as autoindenting pasted text
-nnoremap p P=`]<C-o>
-nnoremap P p=`]<C-o>
-
 " Finally making the arrow kews do something more useful
 nnoremap <Up> k{j
 nnoremap <Down> k}j
@@ -232,5 +228,5 @@ augroup latex " {
   autocmd BufEnter *.tex :nnoremap <Leader>b ciw\textbf{<C-r>"}<Esc>
   autocmd BufEnter *.tex :nnoremap <Leader>u ciw\underline{<C-r>"}<Esc>
   autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
-  autocmd BufEnter *.tex :setlocal textwidth=120
+  autocmd BufEnter *.tex :setlocal textwidth=1024
 " }
