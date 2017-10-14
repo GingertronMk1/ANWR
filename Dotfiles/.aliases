@@ -18,6 +18,7 @@ alias rf="rm -rf"       # Remove folder
 alias cls="clear"       # Saves 2 keystrokes
 alias rsync="rsync --exclude '*.DS_Store'" # Saves a lot of keystrokes
 alias du="du -h"    # I mean, duh
+alias ssh="ssh -o ConnectTimeout=5"
 
 # Useful Pi commands made shorter
 alias piconf="sudo raspi-config"    # Lets me configure my Pi
