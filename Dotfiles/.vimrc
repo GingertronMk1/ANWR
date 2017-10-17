@@ -167,9 +167,9 @@ nnoremap <leader>Q :q!<CR>
 nnoremap <leader>W :w!<CR>
 
 " Creating splits and tabs using leader key
-nnoremap <leader>v :vsplit ~/<CR>
-nnoremap <leader>h :split ~/<CR>
-nnoremap <leader>t :tabnew ~/<CR>
+nnoremap <leader>v :vsplit.<CR>
+nnoremap <leader>h :split.<CR>
+nnoremap <leader>t :tabnew.<CR>
 
 " ww saves
 nnoremap ww :up<CR>
@@ -209,14 +209,7 @@ vnoremap < <gv
 "------------------------------------------------------------------------------
 " FileType-Specific{
 "------------------------------------------------------------------------------
-augroup dotfiles " Folding is a useful thing {
-  au!
-  autocmd BufEnter *.vimrc :set foldmethod=marker
-  autocmd BufEnter *.vimrc :set foldmarker={,}
-  autocmd BufEnter *.macos,*.aliases,*.functions,*.prompt :set syntax=sh
-augroup end 
-
-augroup textfiles " {
+augroup textfiles
   au!
   autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <pi> π
   autocmd BufEnter *.txt,*.tex,*.md,*.lhs :iabbrev <lambda> λ
@@ -237,7 +230,7 @@ augroup textfiles " {
 augroup end
 
 
-augroup markdown " {
+augroup markdown
   au!
   autocmd BufEnter *.md :nnoremap <Leader>i ciw*<C-r>"*<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>b ciw**<C-r>"**<Esc>
@@ -245,12 +238,11 @@ augroup markdown " {
   autocmd BufEnter *.md :nnoremap <Leader>f ciw`<C-r>"`<Esc>
   
 
-  augroup latex " {
-    au!
-    autocmd BufEnter *.tex :nnoremap <Leader>i ciw\textit{<C-r>"}<Esc>
-    autocmd BufEnter *.tex :nnoremap <Leader>b ciw\textbf{<C-r>"}<Esc>
-    autocmd BufEnter *.tex :nnoremap <Leader>u ciw\underline{<C-r>"}<Esc>
-    autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
-    autocmd BufEnter *.tex :command Comp ! pdflatex %
-    autocmd BufEnter *.tex :setlocal textwidth=1024
-    
+augroup latex
+  au!
+  autocmd BufEnter *.tex :nnoremap <Leader>i ciw\textit{<C-r>"}<Esc>
+  autocmd BufEnter *.tex :nnoremap <Leader>b ciw\textbf{<C-r>"}<Esc>
+  autocmd BufEnter *.tex :nnoremap <Leader>u ciw\underline{<C-r>"}<Esc>
+  autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
+  autocmd BufEnter *.tex :command Comp ! pdflatex %
+  autocmd BufEnter *.tex :setlocal textwidth=1024
