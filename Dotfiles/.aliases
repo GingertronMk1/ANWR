@@ -29,7 +29,6 @@ alias pimem="vcgencmd get_mem arm && vcgencmd get_mem gpu"  # Shows the split be
 alias compnotes="pdflatex Notes.tex"
 alias :e="fg"     # I'm horrifyingly used to using :e to get back to editing a document in GHCi
 alias scratchconvert="~/Git/ANWR/Scripts/audioconv.sh"
-alias howmuchmusic="echo $(find $MUSIC -name '*.flac' | wc -l) FLAC, $(find $MUSIC -name '*.mp3' | wc -l) MP3, with $(find $MUSIC -name 'cover.jpg' | wc -l) cover artworks"
 
 # Setting things on a conditional basis
 if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
