@@ -72,33 +72,27 @@ set scrolloff=3         " Margin of 5 lines around edge of screen
 set splitbelow          " Horizontal splits below current window
 set splitright          " Vertical splits to the right of current window
 set textwidth=9999      " Basically no columnal restriction
-
 set t_Co=256            " Force 256 colours
 try                     " colorscheme changing if possible
   colorscheme jack      " If my bastardised molokai's installed, use it
 catch
   colorscheme elflord   " Otherwise, use elflord
 endtry
-
 set background=dark     " Light backgrounds look awful
-
 try " font changing if possible
   set guifont=Menlo:h11
 catch
   set guifont=Courier\ New:h11
 endtry
-
 set laststatus=2        " Shows status line at all times
 set cmdheight=1
-
 " The next bit is my statusline broken down into the individual components
-set statusline=f:\ %F\            " Current file
+set statusline=F:\ %F\            " Current file
 set statusline+=%m\               " Modified flag
-set statusline+=wd:\ %{getcwd()}  " Current dir
+set statusline+=WD:\ %{getcwd()}  " Current dir
 set statusline+=%=                " Swap to the right for the next bit
-set statusline+=Line:\ %l\         " Current line
-set statusline+=Column:\ %c        " Current column
-
+set statusline+=L:\ %l\         " Current line
+set statusline+=C:\ %c        " Current column
 
 "------------------------------------------------------------------------------
 " Abbreviations
@@ -116,48 +110,36 @@ iabbrev (intersect) ∩
 " 'H' takes you to the beginning of a line, and 'L' to the end
 noremap H 0
 noremap L $
-
 " 'K' takes you to the top of the doc, and 'J' to the bottom
 noremap J G$
 noremap K 1G
-
 " 'vv' visually selects a line
 noremap vv 0v$
-
 " 'V' selects to the end of the line, mirroring 'D', 'C', etc.
 noremap V v$
-
 " Leader + s puts me in find and replace mode
 noremap <leader>s :%s///g<left><left><left>
-
 " 'F1' opens help.
 noremap <F1> K
-
 " <c-'key'> = <c-w> + 'key'
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
-
 " Tab navigation and creation
 inoremap <C-t>l <Esc>:tabn<CR>
 inoremap <C-t>h <Esc>:tabp<CR>
 nnoremap <C-t>l :tabp<CR>
 nnoremap <C-t>h :tabp<CR>
-
 " '==' aligns whole document
 noremap == 1GvG=
-
 " Swap : and ;
 noremap : ;
 noremap ; :
-
 " Leader + m unhighlights search pattern
 noremap <leader>m :nohl <CR>
-
 " Hitting leader twice toggles fold
 nnoremap <leader><leader> za
-
 " Leader + various keys has the same effect as ':' + key + enter
 nnoremap <leader>w :up<CR>
 nnoremap <leader>q :q<CR>
@@ -165,43 +147,32 @@ nnoremap <leader>e :e ~/
 nnoremap <leader>x :x<CR>
 nnoremap <leader>Q :q!<CR>
 nnoremap <leader>W :w!<CR>
-
 " Creating splits and tabs using leader key
 nnoremap <leader>v :vsplit.<CR>
 nnoremap <leader>h :split.<CR>
 nnoremap <leader>t :tabnew.<CR>
-
 " ww saves
 nnoremap ww :up<CR>
-
 " WW forces a save
 nnoremap WW :up!<CR>
-
 " Leader + 'r' reloads the document
 nnoremap <leader>r :e<CR>
-
 " Ctrl + arrow keys resize vsplits
 nnoremap <C-left> 5<C-w><
 nnoremap <C-right> 5<C-w>>
-
 " A number `n` + Enter takes you to line `n`
 nnoremap <CR> G0
-
 " Shift + u redoes
 nnoremap U <C-R>
-
 " Finally making the arrow kews do something more useful
-nnoremap <Up> k{j
-nnoremap <Down> k}j
+nnoremap <Up> {
+nnoremap <Down> }
 nnoremap <Left> b
 nnoremap <Right> w
-
 " wc now displays a word count at the bottom
 nnoremap wc g<C-g>
-
 " <leader>d diffs this
 nnoremap <leader>d :diffthis<CR>
-
 " Better indentation in visual mode
 vnoremap > >gv
 vnoremap < <gv
@@ -228,21 +199,17 @@ augroup textfiles
   autocmd BufEnter *.txt,*.tex,*.md,*.lhs :set dictionary=~/usr/share/dict/words
   autocmd BufEnter *.txt :setlocal textwidth=120
 augroup end
-
-
 augroup markdown
   au!
   autocmd BufEnter *.md :nnoremap <Leader>i ciw*<C-r>"*<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>b ciw**<C-r>"**<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>u ciw__<C-r>"__<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>f ciw`<C-r>"`<Esc>
-  
-
 augroup latex
   au!
   autocmd BufEnter *.tex :nnoremap <Leader>i ciw\textit{<C-r>"}<Esc>
   autocmd BufEnter *.tex :nnoremap <Leader>b ciw\textbf{<C-r>"}<Esc>
   autocmd BufEnter *.tex :nnoremap <Leader>u ciw\underline{<C-r>"}<Esc>
   autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
-  autocmd BufEnter *.tex :command Comp ! pdflatex %
+  autocmd BufEnter *.tex :command Comp !pdflatex %
   autocmd BufEnter *.tex :setlocal textwidth=1024
