@@ -231,5 +231,6 @@ augroup latex " {
   autocmd BufEnter *.tex :nnoremap <Leader>b ciw\textbf{<C-r>"}<Esc>
   autocmd BufEnter *.tex :nnoremap <Leader>u ciw\underline{<C-r>"}<Esc>
   autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
+  autocmd BufEnter *.tex :command Comp ! pdflatex %
   autocmd BufEnter *.tex :setlocal textwidth=1024
 " }
