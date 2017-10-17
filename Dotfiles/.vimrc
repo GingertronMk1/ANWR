@@ -101,7 +101,7 @@ set statusline+=Column:\ %c        " Current column
 
 
 "------------------------------------------------------------------------------
-" Abbreviations{
+" Abbreviations
 "------------------------------------------------------------------------------
 iabbrev ldis ಠ_ಠ
 iabbrev lsad ಥ_ಥ
@@ -111,7 +111,7 @@ iabbrev (union) ∪
 iabbrev (intersect) ∩
 
 "------------------------------------------------------------------------------
-" Remappings{
+" Remappings
 "------------------------------------------------------------------------------
 " 'H' takes you to the beginning of a line, and 'L' to the end
 noremap H 0
@@ -207,7 +207,7 @@ vnoremap > >gv
 vnoremap < <gv
 
 "------------------------------------------------------------------------------
-" FileType-Specific{
+" FileType-Specific
 "------------------------------------------------------------------------------
 augroup textfiles
   au!
