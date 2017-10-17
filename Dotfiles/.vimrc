@@ -1,26 +1,36 @@
-" General Settings{
+"------------------------------------------------------------------------------
+" General Settings
+"------------------------------------------------------------------------------
 set nocompatible        " Less vi-ey. Still vi-ey enough though
 filetype on             " Allows filetype checking
 set matchpairs=<:>,{:},(:),[:]
 set modelines=0         " Some security thing, I guess
 set encoding=utf-8      " Standardizes text to UTF-8
 set noswapfile          " No more swap file nonsense
-set backupdir=~/.vim/backups  " Shouldn't have to do this...
 set nobackup            " No more backup file nonsense
 set backspace=indent,eol,start
 set foldlevel=100       " Unfolds everything by default
 set foldmethod=indent   " Folds based on indentation
 set list                " Puts below characters in their places
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
-set showcmd             " Shows commands
+set showcmd             " Shows commands as I type them
 set lazyredraw          " Redraw only when necessary
 let mapleader = "\<Space>"   " Sets leader key to spacebar
 set magic               " Better regex searching. Also, NEVER BELIEVE IT'S NOT SOOO
-set nostartofline       " Seems useful
+set nostartofline       " Stop the cursor going to the start of each new line I go to
 set confirm             " Ask to save changes rather than just not letting me do something
+set backupdir=~/.vim/backups  " Fuck the backup file off somewhere else for now
 set viminfo+=n~/.vim/viminfo  " Fuck the viminfo file off somewhere else for now
+set incsearch           " Starts searching as soon as / is typed
+set ignorecase          " All searches are case-insensitive
+set smartcase           " Lowercase searches are case-insensitive
+if exists("&undodir")
+  set undodir=~/.vim/undo
+endif
 
-" Wildmenu settings{
+"------------------------------------------------------------------------------
+" Wildmenu settings
+"------------------------------------------------------------------------------
 set wildmenu                    " Graphical menu of autocomplete options
 set wildmode=list:longest,full
 set wildignore=*.o,*.obj,*~     " stuff to ignore when tab completing
@@ -34,13 +44,10 @@ set wildignore+=log/**          " See above
 set wildignore+=tmp/**          " See above
 set wildignore+=*.png,*.jpg,*.gif " You know, cos I don't want to edit pictures in Vim weirdly enough
 set wildignore+=*.toc,*.log       " The shit that pdflatex pumps out
-" }
-if exists("&undodir")
-  set undodir=~/.vim/undo
-endif
-" }
 
-" Indentation settings{
+"------------------------------------------------------------------------------
+" Indentation settings
+"------------------------------------------------------------------------------
 set autoindent          " Automatically indents lines
 set smartindent         " Inserts an extra indent in certain cases
 set shiftround          " Rounds indentation to a multiple of <shiftwidth>
@@ -49,32 +56,31 @@ set smarttab            " Tabs in front of lines are <shiftwidth> spaces
 set shiftwidth=2        " 4 spaces constitute one tab
 set tabstop=2           " How many spaces a tab counts for in a file
 set softtabstop=2       " Backspace goes back 2 spaces in 'tab' chars
-" }
 
-" UI Changes{
+"------------------------------------------------------------------------------
+" UI Tweaks
+"------------------------------------------------------------------------------
 set number              " Puts line number in front of each line
 set numberwidth=1       " Line numbers take less space
-set incsearch           " Starts searching as soon as / is typed
 set hlsearch            " Highlights searched things
-set ignorecase          " All searches are case-insensitive
-set smartcase           " Lowercase searches are case-insensitive
 set mouse=a             " Allows mouse control
 syntax on               " Highlights syntax. It's C21. Jesus.
 filetype indent on      " Smarter indentation based on file type
 set ruler               " Shows cursor all the time
 set nowrap              " Text doesn't wrap at edge of window
-set scrolloff=5         " Margin of 5 lines around edge of screen
+set scrolloff=3         " Margin of 5 lines around edge of screen
 set splitbelow          " Horizontal splits below current window
 set splitright          " Vertical splits to the right of current window
 set textwidth=9999      " Basically no columnal restriction
-set background=dark     " Light backgrounds look awful
-set t_Co=256            " Force 256 colours
 
-try " colorscheme changing if possible
-  colorscheme jack    " If my bastardised molokai's installed, use it
+set t_Co=256            " Force 256 colours
+try                     " colorscheme changing if possible
+  colorscheme jack      " If my bastardised molokai's installed, use it
 catch
-  colorscheme elflord " Otherwise, use elflord
+  colorscheme elflord   " Otherwise, use elflord
 endtry
+
+set background=dark     " Light backgrounds look awful
 
 try " font changing if possible
   set guifont=Menlo:h11
@@ -86,24 +92,27 @@ set laststatus=2        " Shows status line at all times
 set cmdheight=1
 
 " The next bit is my statusline broken down into the individual components
-set statusline=%F\          " Current file
-set statusline+=%m          " Modified flag
-set statusline+=%=          " Swap to the right for the next bit
-set statusline+=Line:\%l\   " Current line
-set statusline+=Column:\%c  " Current column
-" }
+set statusline=f:\ %F\            " Current file
+set statusline+=%m\               " Modified flag
+set statusline+=wd:\ %{getcwd()}  " Current dir
+set statusline+=%=                " Swap to the right for the next bit
+set statusline+=Line:\ %l\         " Current line
+set statusline+=Column:\ %c        " Current column
 
-" Abbreviations, Remappings, Spelling{
+
+"------------------------------------------------------------------------------
 " Abbreviations{
+"------------------------------------------------------------------------------
 iabbrev ldis ಠ_ಠ
 iabbrev lsad ಥ_ಥ
 iabbrev lhap ಥ‿ಥ
 iabbrev lmis ಠ‿ಠ
 iabbrev (union) ∪
 iabbrev (intersect) ∩
-" }
 
+"------------------------------------------------------------------------------
 " Remappings{
+"------------------------------------------------------------------------------
 " 'H' takes you to the beginning of a line, and 'L' to the end
 noremap H 0
 noremap L $
@@ -130,6 +139,12 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
+" Tab navigation and creation
+inoremap <C-t>l <Esc>:tabn<CR>
+inoremap <C-t>h <Esc>:tabp<CR>
+nnoremap <C-t>l :tabp<CR>
+nnoremap <C-t>h :tabp<CR>
+
 " '==' aligns whole document
 noremap == 1GvG=
 
@@ -147,11 +162,14 @@ nnoremap <leader><leader> za
 nnoremap <leader>w :up<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>e :e ~/
-nnoremap <leader>v :vsplit ~/
-nnoremap <leader>h :split ~/
 nnoremap <leader>x :x<CR>
 nnoremap <leader>Q :q!<CR>
 nnoremap <leader>W :w!<CR>
+
+" Creating splits and tabs using leader key
+nnoremap <leader>v :vsplit ~/<CR>
+nnoremap <leader>h :split ~/<CR>
+nnoremap <leader>t :tabnew ~/<CR>
 
 " ww saves
 nnoremap ww :up<CR>
@@ -187,17 +205,16 @@ nnoremap <leader>d :diffthis<CR>
 " Better indentation in visual mode
 vnoremap > >gv
 vnoremap < <gv
-" }
 
-" }
-
+"------------------------------------------------------------------------------
 " FileType-Specific{
+"------------------------------------------------------------------------------
 augroup dotfiles " Folding is a useful thing {
   au!
   autocmd BufEnter *.vimrc :set foldmethod=marker
   autocmd BufEnter *.vimrc :set foldmarker={,}
   autocmd BufEnter *.macos,*.aliases,*.functions,*.prompt :set syntax=sh
-augroup end " }
+augroup end 
 
 augroup textfiles " {
   au!
@@ -218,7 +235,7 @@ augroup textfiles " {
   autocmd BufEnter *.txt,*.tex,*.md,*.lhs :set dictionary=~/usr/share/dict/words
   autocmd BufEnter *.txt :setlocal textwidth=120
 augroup end
-" }
+
 
 augroup markdown " {
   au!
@@ -226,7 +243,7 @@ augroup markdown " {
   autocmd BufEnter *.md :nnoremap <Leader>b ciw**<C-r>"**<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>u ciw__<C-r>"__<Esc>
   autocmd BufEnter *.md :nnoremap <Leader>f ciw`<C-r>"`<Esc>
-  " }
+  
 
   augroup latex " {
     au!
@@ -236,4 +253,4 @@ augroup markdown " {
     autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
     autocmd BufEnter *.tex :command Comp ! pdflatex %
     autocmd BufEnter *.tex :setlocal textwidth=1024
-    " }
+    
