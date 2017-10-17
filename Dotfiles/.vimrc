@@ -24,15 +24,16 @@ set viminfo+=n~/.vim/viminfo  " Fuck the viminfo file off somewhere else for now
 set wildmenu                    " Graphical menu of autocomplete options
 set wildmode=list:longest,full
 set wildignore=*.o,*.obj,*~     " stuff to ignore when tab completing
-set wildignore+=*vim/backups*
-set wildignore+=*sass-cache*
-set wildignore+=*DS_Store*
-set wildignore+=vendor/rails/**
-set wildignore+=vendor/cache/**
-set wildignore+=*.gem
-set wildignore+=log/**
-set wildignore+=tmp/**
-set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*vim/backups*   " vim backup stuff
+set wildignore+=*sass-cache*    " NFI TBH
+set wildignore+=*DS_Store*      " It's in every folder on a Mac and does sweet FA
+set wildignore+=vendor/rails/** " The next few I can't remember why they're here
+set wildignore+=vendor/cache/** " See above
+set wildignore+=*.gem           " See above
+set wildignore+=log/**          " See above
+set wildignore+=tmp/**          " See above
+set wildignore+=*.png,*.jpg,*.gif " You know, cos I don't want to edit pictures in Vim weirdly enough
+set wildignore+=*.toc,*.log       " The shit that pdflatex pumps out
 " }
 if exists("&undodir")
   set undodir=~/.vim/undo
@@ -70,7 +71,7 @@ set background=dark     " Light backgrounds look awful
 set t_Co=256            " Force 256 colours
 
 try " colorscheme changing if possible
-  colorscheme jack    " If molokai's installed, use it
+  colorscheme jack    " If my bastardised molokai's installed, use it
 catch
   colorscheme elflord " Otherwise, use elflord
 endtry
@@ -82,7 +83,14 @@ catch
 endtry
 
 set laststatus=2        " Shows status line at all times
-set statusline=%F\ %m
+set cmdheight=1
+
+" The next bit is my statusline broken down into the individual components
+set statusline=%F\          " Current file
+set statusline+=%m          " Modified flag
+set statusline+=%=          " Swap to the right for the next bit
+set statusline+=Line:\%l\   " Current line
+set statusline+=Column:\%c  " Current column
 " }
 
 " Abbreviations, Remappings, Spelling{
@@ -147,11 +155,9 @@ nnoremap <leader>Q :q! <CR>
 " Leader + 'r' reloads the document
 nnoremap <leader>r :e<CR>
 
-" Ctrl + arrow keys resize splits
-nnoremap <C-up> 5<C-W>+
-nnoremap <C-down> 5<C-W>-
-nnoremap <C-left> 5<C-W><
-nnoremap <C-right> 5<C-W>>
+" Ctrl + arrow keys resize vsplits
+nnoremap <C-left> 5<C-w><
+nnoremap <C-right> 5<C-w>>
 
 " A number `n` + Enter takes you to line `n`
 nnoremap <CR> G0
