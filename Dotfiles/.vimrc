@@ -144,13 +144,20 @@ noremap <leader>m :nohl <CR>
 nnoremap <leader><leader> za
 
 " Leader + various keys has the same effect as ':' + key + enter
-nnoremap <leader>w :up <CR>
-nnoremap <leader>q :q <CR>
+nnoremap <leader>w :up<CR>
+nnoremap <leader>q :q<CR>
 nnoremap <leader>e :e ~/
 nnoremap <leader>v :vsplit ~/
 nnoremap <leader>h :split ~/
-nnoremap <leader>x :x <CR>
-nnoremap <leader>Q :q! <CR>
+nnoremap <leader>x :x<CR>
+nnoremap <leader>Q :q!<CR>
+nnoremap <leader>W :w!<CR>
+
+" ww saves
+nnoremap ww :up<CR>
+
+" WW forces a save
+nnoremap WW :up!<CR>
 
 " Leader + 'r' reloads the document
 nnoremap <leader>r :e<CR>
@@ -170,22 +177,12 @@ nnoremap <Up> k{j
 nnoremap <Down> k}j
 nnoremap <Left> b
 nnoremap <Right> w
-inoremap <Up> <Esc>k{ji
-inoremap <Down> <Esc>k}ji
-inoremap <Left> <Esc>hbi
-inoremap <Right> <Esc>lwi
 
 " wc now displays a word count at the bottom
 nnoremap wc g<C-g>
 
 " <leader>d diffs this
 nnoremap <leader>d :diffthis<CR>
-
-" ww saves
-nnoremap ww :up<CR>
-
-" WW forces a save
-nnoremap WW :w!<CR>
 
 " Better indentation in visual mode
 vnoremap > >gv
@@ -199,7 +196,7 @@ augroup dotfiles " Folding is a useful thing {
   au!
   autocmd BufEnter *.vimrc :set foldmethod=marker
   autocmd BufEnter *.vimrc :set foldmarker={,}
-  autocmd BufEnter .macos,.aliases,.functions,.prompt :set syntax=sh
+  autocmd BufEnter *.macos,*.aliases,*.functions,*.prompt :set syntax=sh
 augroup end " }
 
 augroup textfiles " {
@@ -231,12 +228,12 @@ augroup markdown " {
   autocmd BufEnter *.md :nnoremap <Leader>f ciw`<C-r>"`<Esc>
   " }
 
-augroup latex " {
-  au!
-  autocmd BufEnter *.tex :nnoremap <Leader>i ciw\textit{<C-r>"}<Esc>
-  autocmd BufEnter *.tex :nnoremap <Leader>b ciw\textbf{<C-r>"}<Esc>
-  autocmd BufEnter *.tex :nnoremap <Leader>u ciw\underline{<C-r>"}<Esc>
-  autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
-  autocmd BufEnter *.tex :command Comp ! pdflatex %
-  autocmd BufEnter *.tex :setlocal textwidth=1024
-" }
+  augroup latex " {
+    au!
+    autocmd BufEnter *.tex :nnoremap <Leader>i ciw\textit{<C-r>"}<Esc>
+    autocmd BufEnter *.tex :nnoremap <Leader>b ciw\textbf{<C-r>"}<Esc>
+    autocmd BufEnter *.tex :nnoremap <Leader>u ciw\underline{<C-r>"}<Esc>
+    autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
+    autocmd BufEnter *.tex :command Comp ! pdflatex %
+    autocmd BufEnter *.tex :setlocal textwidth=1024
+    " }
