@@ -5,7 +5,7 @@ md() {
 }
 
 function picheck {
-  ssh -q -o BatchMode=yes -o ConnectTimeout=5 illiac-local exit
+  ssh -q -o BatchMode=yes illiac-local exit
   if [ $? -eq 0 ]; then     # If ILLIAC's available on the local network
     echo "illiac-local"           # Point to it
   else
@@ -16,26 +16,14 @@ function picheck {
 function backupmusic {
   target=$(picheck)
   echo "Backing up music to $target"
-  rsync -rtuvP --delete ~/Music/Music/ $target:~/Music/
+  rsync -rtuvP --delete $MUSIC/ $target:~/Music/
 }
 
 function returnmusic {
   target=$(picheck)
   echo "Returning music from $target"
-  rsync -rtuvP $target:~/Music/ ~/Music/
+  rsync -rtuvP $target:~/Music/ $MUSIC/
 }
-
-#function backuptv {
-#  target=$(picheck)
-#  echo "Backing up TV shows to $target"
-#  rsync -rtuvP "$TVSHOWS" $target:~/Videos
-#}
-#
-#function backupmovies {
-#  target=$(picheck)
-#  echo "Backing up movies to $target"
-#  rsync -rtuvP "$MOVIES" $target:~/Videos
-#}
 
 function gpp {
   local sourcefile=$1
