@@ -17,4 +17,3 @@ shopt -s checkwinsize   # Checks window size
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
-
