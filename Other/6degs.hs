@@ -3,24 +3,76 @@ import System.Directory
 import System.IO.Unsafe
 import Data.Char
 
-data ActorTree a = Node a [ActorTree a] deriving Show
+data Tree a = Node a [Tree a] deriving Show
+type Actor = String
+
+treeLim :: Int
+treeLim = 3
 
 showsPath :: String
 showsPath = "/Users/Jack/Git/history-project/_shows/"
 
-me :: String
+me :: Actor
 me = "Jack Ellis"
 
-limitTree :: Int -> ActorTree String -> ActorTree String
+ian :: Actor
+ian = "Ian Sheard"
+
+omid :: Actor
+omid = "Omid Faramarzi"
+
+sosborne :: Actor
+sosborne = "Sam Osborne"
+
+jamie :: Actor
+jamie = "Jamie Drew"
+
+testTree :: Tree Actor
+testTree = Node ian [Node omid [], Node sosborne [Node me []]]
+
+limitTree :: Int -> Tree Actor -> Tree Actor
 limitTree 0 (Node x _) = Node x []
 limitTree n (Node x ts) = Node x [limitTree (n-1) t | t <- ts]
 
+treeGen' :: Actor -> [Actor] -> Tree Actor
 treeGen' actorName actorsDone = if elem actorName actorsDone then Node actorName []
                                                              else Node actorName [treeGen' a (actorName:actorsDone) | a <- allFellow actorName, notElem a actorsDone]
 
+treeGen :: Actor -> Tree Actor
 treeGen actorName = treeGen' actorName []
 
-limitedTree actorName = limitTree 5 $ treeGen actorName
+limitedTree actorName = limitTree treeLim $ treeGen actorName
+
+treeCheck target (Node a []) = if a == target then Node 1 [] else Node 1000 []
+treeCheck target (Node a as) = if a == target then Node 1 [] else Node (1 + (minimum ns)) []
+                                              where ns = map (nodeVal . (treeCheck target)) as
+
+sixDegs target base = if calcVal > treeLim then 1000
+                                           else calcVal
+                      where calcVal = nodeVal (treeCheck target (limitedTree base)) - 1
+
+nodeVal :: Tree Int -> Int
+nodeVal (Node n _) = n
+--
+--sixDegs' :: Int -> Int -> Actor -> Tree Actor -> Tree Int
+--sixDegs' n current target (Node _ []) = Node current []
+--sixDegs' n current target (Node a as) = if n >= current then Node current []
+--                                        else if a == target then Node n []
+--                                        else Node (minimum (sixDegsMap as)) (sixDegsMap as)
+--                                        where sixDegsMap as = map (sixDegs' (n+1) current target) as
+--                                              nodeVal (Node n []) = n
+--                                              nodeVal (Node n ns) = minimum (n:(map nodeVal ns))
+
+--treeCheck target (Node a as) = if a == target then Node 1 [] else Node (map getVal ns) as
+--                                              where ns = map (treeCheck target) as
+
+getVal :: Tree Int -> Int
+getVal (Node n []) = n
+getVal (Node n ns) = maximum (map getVal ns)
+
+--sixDegs target goFrom = sixDegs' 0 1000 target $ limitedTree goFrom
+
+
 
 
 names s = do filecontent <- readFile s
@@ -36,10 +88,10 @@ getAllShows = do showsDirs <- getDirectoryContents showsPath
 allShowsEver :: [String]
 allShowsEver = flatten $ allShowsBuilder getAllShows
 
-showsPlusPathFun :: [[Char]] -> [[Char]]
+showsPlusPathFun :: [String] -> [String]
 showsPlusPathFun s = map (showsPath++) s
 
-filterDots :: [[Char]] -> [[Char]]
+filterDots :: [String] -> [String]
 filterDots l = filter dotsFilter l
                where dotsFilter f = head f /= '.'
 
