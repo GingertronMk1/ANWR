@@ -21,8 +21,10 @@ filetype plugin on      " Probs does nowt for me but oh well
 filetype indent on      " Smarter indentation based on file type
 set history=500         " Lots of history
 set showmatch           " Explicitly show matched paren pairs
-" These are those matched pairs
-set matchpairs=<:>,{:},(:),[:]
+set matchpairs=<:>      " Starting the matchpairs set
+set matchpairs+={:}     " Adding braces
+set matchpairs+=(:)     " Adding parentheses
+set matchpairs+=[:]     " Adding brackets
 set mat=1               " How long to blink on typing the other paren
 set modelines=0         " Security option
 set encoding=utf-8      " Standardizes text to UTF-8
@@ -35,6 +37,7 @@ let mapleader="\<Space>"   " Sets leader key to spacebar
 set magic               " Better regex searching. Also, NEVER BELIEVE IT'S NOT SOOO
 set nostartofline       " Stop the cursor going to the start of each new line I go to
 set confirm             " Ask to save changes rather than just not letting me do something
+set autoread            " Automatically update the file if it's changed by something else
 set incsearch           " Starts searching as soon as / is typed
 set ignorecase          " All searches are case-insensitive
 set smartcase           " Lowercase searches are case-insensitive
