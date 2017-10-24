@@ -31,7 +31,7 @@ A few test variables now:
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 > treeLim :: Int
-> treeLim = 3
+> treeLim = 4
 > showsPath :: String
 > showsPath = "/Users/Jack/Git/history-project/_shows/"
 > escapePath :: String
@@ -84,7 +84,7 @@ First we have to filter it down to just MarkDown files and also get rid of anyth
 Now we have a comprehensive list of all shows in the history site's archive
 
 > allShows :: [ShowName]
-> allShows = filter (\s -> isInfixOf ".md" s && not (isInfixOf ".." s)) allShowsFlat
+> allShows = filter (\s -> isInfixOf ".md" s && not (isInfixOf ".." s) && not (isInfixOf "freshers_fringe" s)) allShowsFlat
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Now that we've got a list of all of the shows, we need to extract from it a list of all actors.
@@ -222,3 +222,6 @@ TESTING
 
 > treeSize :: Int -> Actor -> Int
 > treeSize d a = length $ flatTree $ limitTree d $ treeGen a
+
+> compareSize :: [Int]
+> compareSize = map (\x -> treeSize x me) [1..treeLim]
