@@ -19,3 +19,5 @@
 *.metadata
 *.recommenders
 /SWM/DiamondHunter2/nbproject/private/
+*.o
+*.hi
