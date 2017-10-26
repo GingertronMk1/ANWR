@@ -202,7 +202,7 @@ For use when the program is compiled using GHC; main takes two names entered and
 >           a1Tree <- treeGenIO allDetails a1
 >           pp (treeCheck allDetails a2 a1Tree)
 >           where flatCommas = flatten . intersperse ", "
->                 pp (Node (as, ss, i) _) = if i > treeLim then putStrLn "These people are not linked"
+>                 pp (Node (as, ss, i) _) = if i > treeLim then putStrLn $ "These people are either not linked or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation"
 >                                                          else putStrLn $ head as ++ " and " ++ last as ++
 >                                                                          " are linked as follows: " ++ (links as ss) ++ ".\n" ++
 >                                                                          "They have " ++ [intToDigit i] ++ " degrees of separation."
