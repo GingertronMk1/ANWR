@@ -31,7 +31,7 @@ A few test variables now:
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 > treeLim :: Int
-> treeLim = 3
+> treeLim = 4
 > showsPath :: String
 > showsPath = "/Users/Jack/Git/history-project/_shows/"
 > escapePath :: String
@@ -46,6 +46,8 @@ A few test variables now:
 > sosborne = "Sam Osborne"
 > jamie :: Actor
 > jamie = "Jamie Drew"
+> rose :: Actor
+> rose = "Rose Edgeworth"
 > testTree :: Tree Actor
 > testTree = limitTree 2 $ treeGen me
 
@@ -53,15 +55,41 @@ A few test variables now:
 First we need to build a list of all of the shows that have records on the history site, step by step.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+First within this, build the first level of directories: the years
+
+> baseDirs :: IO [FilePath]
+> baseDirs = do baseDir <- getDirectoryContents showsPath
+>               return $ map (\s -> showsPath ++ s ++ "/") $ drop 2 baseDir
+
+Then we take that, and extract the contents, prepending the containing directory
+
+> dirBuilder' = do baseDir <- baseDirs
+>                  return $ map getDirContentsPrep baseDir
+>                  where getDirContentsPrep s = do contents <- getDirectoryContents s
+>                                                  return $ map (s++) (drop 2 contents)
+
+Finally, we use `sequence` to pull all the IO out to the front so we can work on the list as a pure type
+
+> allShowsDo :: IO [FilePath]
+> allShowsDo = do allDirs' <- dirBuilder'
+>                 allDirs <- sequence allDirs'
+>                 return $ filter showFilter $ flatten allDirs
+>                 where showFilter s = isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)
+
+This is for debugging, it tells me how many shows we've got. If it doesn't match the value on `history.newtheatre.org.uk`, something's up
+
+> allShowsLength = do allShows <- allShowsDo
+>                     return $ length allShows
+
 First we take the `showsPath` variable and returns a list of all of the directories inside
 
-> getAllShows :: IO [FilePath]
-> getAllShows = getDirectoryContents showsPath
+> getAllShows :: [FilePath]
+> getAllShows = unsafePerformIO $ getDirectoryContents showsPath
 
 Now we prepend the `showsPath` variable to all of these file names (whilst removing the IO from them)
 
 > allShowDirs :: [FilePath]
-> allShowDirs = map (showsPath++) (unsafePerformIO getAllShows)
+> allShowDirs = map (showsPath++) getAllShows
 
 Up next, getting all of their contents, making the heads of these lists the containing directory so we can prepend that later
 More removal of IO as well here
@@ -91,17 +119,19 @@ Now that we've got a list of all of the shows, we need to extract from it a list
 First we're going to extract just the actors from a single show, as such:
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-> actorNames :: ShowName -> IO [Actor]
+> actorNames :: FilePath -> IO (ShowName, [Actor])
 > actorNames s = do filecontent <- readFile s
->                   return $ peopleNames $ lines filecontent
+>                   let fileLines = lines filecontent
+>                   return $ (s, peopleNames fileLines)
 
 > actorFilter :: [String] -> [String]
 > actorFilter ss = takeWhile (\s -> not (isInfixOf "crew:" s)) ss
 
-> something ss = dropWhile (\s -> not (isInfixOf "cast:" s)) ss
+> dropUntilCast :: [String] -> [String]
+> dropUntilCast ss = dropWhile (\s -> not (isInfixOf "cast:" s)) ss
 
 > filterPeople :: [String] -> [String]
-> filterPeople ss = filter (\s -> isInfixOf " name:" s) $ something $ actorFilter ss
+> filterPeople ss = filter (isInfixOf " name:") $ dropUntilCast $ actorFilter ss
 
 > stripEndSpace :: String -> String
 > stripEndSpace (c:' ':[]) = [c]
@@ -111,13 +141,22 @@ First we're going to extract just the actors from a single show, as such:
 > peopleNames :: [String] -> [Actor]
 > peopleNames ss = map (stripEndSpace . drop 2 . dropWhile (/= ':')) $ filterPeople ss
 
-> actorss :: [[Actor]]
-> actorss = filter (/= []) $ map (unsafePerformIO . actorNames) allShows
+> actorsInShows :: [(ShowName, [Actor])]
+> actorsInShows = unsafePerformIO actorsInShowsDo
+
+> actorsInShowsDo :: IO [(FilePath, [Actor])]
+> actorsInShowsDo = do showNames <- allShowsDo
+>                      showNamesIO <- sequence $ map actorNames showNames
+>                      return $ filter (\s -> snd s /= []) showNamesIO
+
 > flatten :: [[a]] -> [a]
 > flatten ass = [a | as <- ass, a <- as]
 
-> allActors :: [String]
-> allActors = rmdups $ flatten $ actorss
+> getTitle :: [String] -> String
+> getTitle = extractTitle . head . filter (isInfixOf "title:")
+
+> extractTitle :: String -> String
+> extractTitle = init . tail . dropWhile (/= '\"')
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 So, we can generate a list of all actors ever at the NNT (that the history site knows of).
@@ -135,7 +174,7 @@ allFellow takes an Actor name, and the list of all Actors (`actorss`), filters `
 
 > allFellow :: Actor -> [Actor]
 > allFellow n = rmdups [a | as <- allFellow' n, a <- as, a /= n]
->               where allFellow' n = filter (elem n) actorss
+>               where allFellow' n = filter (elem n) (map snd actorsInShows)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Generating trees now: given an actor's name, we generate a list of all of their fellow actors and use that to generate a tree of their connection to the theatre population
@@ -154,43 +193,29 @@ This tree is obviously infinite, having no final case, so we need to limit it
 
 treeCheck takes a tree and a target name, and returns the distance from the root node to the first instance of the target name
 
-> treeCheck :: Actor -> Tree Actor -> Tree Int
-> treeCheck target (Node a []) = if a == target then Node 1 [] else Node 1000 []
-> treeCheck target (Node a as) = if a == target then Node 1 [] else Node (1 + (minimum ns)) []
->                                               where ns = map (nodeVal . (treeCheck target)) as
-
-> treeCheck2 :: Actor -> Tree Actor -> Tree ([Actor], Int)
-> treeCheck2 target (Node a []) = if a == target then Node ([a], 0) [] else Node ([a], 1000) []
-> treeCheck2 target (Node a as) = if a == target then Node ([a], 0) [] else Node (a:b, 1+c) []
->                                 where (b, c) = minTuple $ map (nodeVal2 . (treeCheck2 target)) as
+> treeCheck :: Actor -> Tree Actor -> Tree ([Actor], [ShowName], Int)
+> treeCheck target (Node a []) = if a == target then Node ([a], [], 0) [] else Node ([a], [], 1000) []
+> treeCheck target (Node a as) = if a == target then Node ([a], [], 0) [] else Node (a:b, link:oldLink, 1+c) []
+>                                where (b, oldLink, c) = minTuple2 $ map (nodeVal3 . treeCheck target) as
+>                                      link = findShowsWActors a (head b)
+>                                      findShowsWActors a1 a2 = fst . head $ filter (\s -> elem a1 (snd s) && elem a2 (snd s)) actorsInShows
 
 nodeVal takes the Tree Int generated by treeCheck and takes just the Int from it
 
-> nodeVal :: Tree Int -> Int
-> nodeVal (Node n _) = n
+> nodeVal3 :: Tree (a,b,c) -> (a,b,c)
+> nodeVal3 (Node (a,b,c) _) = (a,b,c)
 
-> nodeVal2 :: Tree (a,b) -> (a,b)
-> nodeVal2 (Node (a,b) _) = (a, b)
+> ppTrail :: Actor -> Actor -> String
+> ppTrail a1 a2 = if c > treeLim then "These people are not linked"
+>                                else a1 ++ " and " ++ a2 ++ " are linked by these people: " ++ flatten (intersperse ", " a) ++ " and via these shows " ++ flatten (intersperse ", " b)
+>                 where Node (a,b,c) as = treeCheck a2 $ limitedTree a1
 
-> trail :: Actor -> Actor -> ([Actor], Int)
-> trail a1 a2 = (a, b)
->               where (a,b) = nodeVal2 $ treeCheck2 a2 $ limitedTree a1
-
-> minTuple :: Ord a => [(a1,a)] -> (a1,a)
-> minTuple (x:xs) = minTail x xs
->                   where minTail x [] = x
->                         minTail (p,q) (m:ms)
->                           | q > snd m = minTail m ms
->                           | otherwise = minTail (p,q) ms
-
-sixDegs uses treeCheck and limitedTree to take two Actor names and return the degree of separation
-If this value is greater than the size of the tree (it'll be 1000 and something), it returns 1000
-The thought does occur that I should be using Maybe for this but oh well I've come this far
-
-> sixDegs :: Actor -> Actor -> Int
-> sixDegs target base = if calcVal > treeLim then 1000
->                                            else calcVal
->                       where calcVal = nodeVal (treeCheck target (limitedTree base)) - 1
+> minTuple2 :: Ord a => [(a1,a2,a)] -> (a1,a2,a)
+> minTuple2 (x:xs) = minTail x xs
+>                    where minTail x [] = x
+>                          minTail (p,q,r) ((d,e,f):ms)
+>                            | r > f = minTail (d,e,f) ms
+>                            | otherwise = minTail (p,q,r) ms
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 For use when the program is compiled using GHC; main takes two names entered and returns either the degree or an 'x' if the degree is too great
@@ -199,9 +224,19 @@ For use when the program is compiled using GHC; main takes two names entered and
 > main :: IO()
 > main = do a1 <- getLine
 >           a2 <- getLine
->           let sixDegsChar = if sixD == 1000 then 'x' else intToDigit sixD
->                             where sixD = sixDegs a1 a2
->           putStrLn $ sixDegsChar:[]
+>           putStrLn $ ppTrail a1 a2
+
+
+
+
+
+
+> main2 :: IO()
+> main2 = do a1 <- getLine
+>            a2 <- getLine
+>            let a1Tree = limitedTree a1
+>--            actorShowList <- map actorNames allShows
+>            putStrLn $ a1 ++ a2
 
 Prettily printing a tree, for no real reason other than it looks cool
 
@@ -216,10 +251,15 @@ Prettily printing a tree, for no real reason other than it looks cool
 This flattens a tree into a single list; useful for measuring how changing the treeLim value affects the size of the tree
 
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+TODO
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
--------------------------------------------------------------------------------
+Refactor main so the files are only accessed once
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 OTHER
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 This is all stuff that doesn't take into account whether someone acted in a show or was on the backstage team for it.
 Including this would make the whole program exponentially more massive and slow to run.
@@ -246,3 +286,6 @@ TESTING
 
 > compareSize :: [Int]
 > compareSize = map (\x -> treeSize x me) [1..treeLim]
+
+
+> testList = [me, ian, jamie, omid]
