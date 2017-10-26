@@ -231,6 +231,7 @@ For use when the program is compiled using GHC; main takes two names entered and
 >           pp (treeCheck allDetails a2 a1Tree)
 >           where flatCommas = flatten . intersperse ", "
 >                 pp (Node (as, ss, i) _) = if i > treeLim then putStrLn $ "These people are either not linked or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation"
+>                                           else if i == 0 then putStrLn $ "You've put the same person twice you idiot"
 >                                                          else putStrLn $ head as ++ " and " ++ last as ++
 >                                                                          " are linked as follows: " ++ (links as ss) ++ ".\n" ++
 >                                                                          "They have " ++ [intToDigit i] ++ " degrees of separation."
