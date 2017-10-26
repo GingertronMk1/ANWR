@@ -52,6 +52,8 @@ A few test variables now:
 > jamie = "Jamie Drew"
 > rose :: Actor
 > rose = "Rose Edgeworth"
+> testShows = ["Camp Macbeth", "Uz and Them"]
+> testPeople = [me, "Angharad Davies", ian]
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 First we need to build a list of all of the shows that have records on the history site, step by step.
@@ -109,7 +111,10 @@ First we're going to extract just the actors from a single show, as such:
 > peopleNames ss = map (stripEndSpace . drop 2 . dropWhile (/= ':')) $ filterPeople ss
 
 > getTitle :: [String] -> String
-> getTitle = stripEndSpace . drop 2 . dropWhile (/= ':') . head . filter (isInfixOf "title:")
+> getTitle = stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':') . head . filter (isInfixOf "title:")
+
+> stripQuotes s = if head s == '\"' && last s == '\"' then (init . tail) s
+>                                                     else s
 
 > allShowDetails :: IO Details
 > allShowDetails = do showNames <- allShowsDo
@@ -199,9 +204,31 @@ For use when the program is compiled using GHC; main takes two names entered and
 >           where flatCommas = flatten . intersperse ", "
 >                 pp (Node (as, ss, i) _) = if i > treeLim then putStrLn "These people are not linked"
 >                                                          else putStrLn $ head as ++ " and " ++ last as ++
->                                                                          " are linked by these people: " ++ (flatCommas as) ++
->                                                                          ", via these shows: " ++ (flatCommas ss) ++
->                                                                          " with " ++ [intToDigit i] ++ " degrees of separation."
+>                                                                          " are linked as follows: " ++ (links as ss) ++ ".\n" ++
+>                                                                          "They have " ++ [intToDigit i] ++ " degrees of separation."
+
+> actorLink :: [Actor] -> [(Actor, Actor)]
+> actorLink (a:[]) = []
+> actorLink (a:b:as) = (a,b):(actorLink (b:as))
+
+> actorLinkWShow :: [(Actor, Actor)] -> [ShowName] -> [(Actor, ShowName, Actor)]
+> actorLinkWShow (a:[]) (s:[]) = [(fst a, s, snd a)]
+> actorLinkWShow (a:as) (s:ss) = (fst a, s, snd a):(actorLinkWShow as ss)
+
+> actorLinkString :: [(Actor, Actor)] -> String
+> actorLinkString (as:[]) = fst as ++ " -> " ++ snd as
+> actorLinkString (as:ass) = fst as ++ " -> " ++ snd as ++ ", " ++ actorLinkString ass
+
+> showLink :: [Actor] -> [ShowName] -> [(Actor, ShowName, Actor)]
+> showLink as ss = actorLinkWShow (actorLink as) ss
+
+> ppLinks :: [(Actor, ShowName, Actor)] -> String
+> ppLinks ((a1,s,a2):[]) = a1 ++ " was in " ++ s ++ " with " ++ a2
+> ppLinks ((a1,s,a2):as) = a1 ++ " was in " ++ s ++ " with " ++ a2 ++ ", " ++ ppLinks as
+
+> links :: [Actor] -> [ShowName] -> String
+> links as ss = ppLinks $ showLink as ss
+
 
 Prettily printing a tree, for no real reason other than it looks cool
 
@@ -234,7 +261,7 @@ TESTING
 >                  return $ map (length . flatTree) trees
 
 > my1Tree = do allDetails <- allShowDetails
->              tree <- limTreeIO 4 allDetails me
+>              tree <- limTreeIO 3 allDetails me
 >              ppTree tree
 
 This is for debugging, it tells me how many shows we've got. If it doesn't match the value on `history.newtheatre.org.uk`, something's up
@@ -242,4 +269,6 @@ This is for debugging, it tells me how many shows we've got. If it doesn't match
 > allShowsLength = do allShow <- allShowsDo
 >                     return $ length allShow
 
-
+> allShowTitles = do allShows <- allShowDetails
+>                    let allTitles = map getSecond allShows
+>                    return (allTitles, length allTitles)
