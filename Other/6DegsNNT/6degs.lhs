@@ -1,6 +1,7 @@
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 We're first going to import some things:
 - Data.List for isInfixOf, sort, and group
+- Data.Ord for sorting fun times
 - System.Directory so we can muck about with files and dirs
 - System.IO.Unsafe so we can do things we really oughtn't
 - Data.Char for intToDigit
@@ -8,6 +9,7 @@ We're first going to import some things:
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 > import Data.List
+> import Data.Ord
 > import System.Directory
 > import System.IO.Unsafe
 > import Data.Char
@@ -126,7 +128,7 @@ We can get rid of any trailing whitespace now
 And the final bit of formatting, cleaning up everything that's not just the person's name
 
 > peopleNames :: [String] -> [Actor]
-> peopleNames ss = map (stripEndSpace . drop 2 . dropWhile (/= ':')) $ filterPeople ss
+> peopleNames ss = map (stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':')) $ filterPeople ss
 
 A similar thing can be done for the title, but we also have to strip quote marks because naming is inconsistent
 
@@ -171,9 +173,8 @@ Up first, a helper function to remove duplicates, making use of some fun bits fr
 Now the meat.
 allFellow takes an Actor name, and the list of all Actors (`actorss`), filters `actorss` to just the lists with the target in them, and flattens out that list, removing duplicates
 
-> allFellows :: Details -> Actor -> IO [Actor]
-> allFellows dt n = do return $ rmdups [a | as <- (filter (elem n) (thirds dt)), a <- as, a /= n]
->                      where thirds = map getThird
+> allFellows :: Details -> Actor -> [Actor]
+> allFellows dt a = (rmdups . flatten . filter (elem a)) (map (getThird) dt)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Generating trees now: given an actor's name, we generate a list of all of their fellow actors and use that to generate a tree of their connection to the theatre population
@@ -183,16 +184,16 @@ This tree is obviously infinite, having no final case, so we need to limit it
 Okidokie then, this has to work a little differently to usual because nested IO gets messy fast.
 We'll start with a function that builds a tree of a certain size by default, building a tree in the usual way.
 
-> limTreeIO :: Int -> Details -> Actor -> IO (Tree Actor)
-> limTreeIO 0 dt actorName = do return $ Node actorName []
-> limTreeIO n dt actorName = do fellows <- allFellows dt actorName
->                               fellowTrees <- sequence (map (limTreeIO (n-1) dt) fellows)
->                               return $ Node actorName fellowTrees
+> treeGen :: Details -> Actor -> Tree Actor
+> treeGen dt actorName = Node actorName [treeGen dt a | a <- allFellows dt actorName, a /= actorName]
 
-Now we plumb that into a function that automatically applies the right limit (as defined at the top of the file)
 
-> treeGenIO :: Details -> Actor -> IO (Tree Actor)
-> treeGenIO dt actorName = limTreeIO treeLim dt actorName
+> limTree :: Int -> Tree a -> Tree a
+> limTree 0 (Node a as) = Node a []
+> limTree n (Node a as) = Node a [limTree (n-1) a2 | a2 <- as]
+
+> limitedTree :: Details -> Actor -> Tree Actor
+> limitedTree dt a = limTree treeLim $ treeGen dt a
 
 treeCheck does the bulk of the work in this program, taking a prebuilt list of show details, the name of an Actor, the tree of another Actor, and returns a tree whose root is the link between the two actors.
 Yeah, it does a lot, I could probably do to break it down a bit more tbh.
@@ -227,14 +228,23 @@ For use when the program is compiled using GHC; main takes two names entered and
 > main = do a1 <- getLine
 >           a2 <- getLine
 >           allDetails <- allShowDetails
->           a1Tree <- treeGenIO allDetails a1
->           pp (treeCheck allDetails a2 a1Tree)
+>           pp (treeCheck allDetails a2 (limitedTree allDetails a1))
 >           where flatCommas = flatten . intersperse ", "
 >                 pp (Node (as, ss, i) _) = if i > treeLim then putStrLn $ "These people are either not linked or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation"
 >                                           else if i == 0 then putStrLn $ "You've put the same person twice you idiot"
 >                                                          else putStrLn $ head as ++ " and " ++ last as ++
 >                                                                          " are linked as follows: " ++ (links as ss) ++ ".\n" ++
 >                                                                          "They have " ++ [intToDigit i] ++ " degrees of separation."
+
+> mainTest :: IO()
+> mainTest = do allDetails <- allShowDetails
+>               pp (treeCheck allDetails ian (limitedTree allDetails me))
+>               where flatCommas = flatten . intersperse ", "
+>                     pp (Node (as, ss, i) _) = if i > treeLim then putStrLn $ "These people are either not linked or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation"
+>                                               else if i == 0 then putStrLn $ "You've put the same person twice you idiot"
+>                                                              else putStrLn $ head as ++ " and " ++ last as ++
+>                                                                              " are linked as follows: " ++ (links as ss) ++ ".\n" ++
+>                                                                              "They have " ++ [intToDigit i] ++ " degrees of separation."
 
 Lots of helper functions now to create the string for the above, and make it all look nice
 
@@ -245,10 +255,6 @@ Lots of helper functions now to create the string for the above, and make it all
 > actorLinkWShow :: [(Actor, Actor)] -> [ShowName] -> [(Actor, ShowName, Actor)]
 > actorLinkWShow (a:[]) (s:[]) = [(fst a, s, snd a)]
 > actorLinkWShow (a:as) (s:ss) = (fst a, s, snd a):(actorLinkWShow as ss)
-
-> actorLinkString :: [(Actor, Actor)] -> String
-> actorLinkString (as:[]) = fst as ++ " -> " ++ snd as
-> actorLinkString (as:ass) = fst as ++ " -> " ++ snd as ++ ", " ++ actorLinkString ass
 
 > showLink :: [Actor] -> [ShowName] -> [(Actor, ShowName, Actor)]
 > showLink as ss = actorLinkWShow (actorLink as) ss
@@ -273,13 +279,17 @@ TESTING
 
 Prettily printing a tree, for no real reason other than it looks cool
 
-> ppTree' (Node a []) depth = a
-> ppTree' (Node a as) depth = a ++ "\n" ++
+> ppTree'' (Node a []) depth = a
+> ppTree'' (Node a as) depth = a ++ "\n" ++
 >                             replicate depth ' ' ++
->                             flatten (map (\x -> (ppTree' x (depth+2)) ++ '\n':( replicate depth ' ')) as)
+>                             flatten (map (\x -> (ppTree'' x (depth+2)) ++
+>                             '\n':( replicate depth ' ')) as)
 
-> ppTree :: Tree String -> IO ()
-> ppTree (Node a as) = putStrLn $ ppTree' (Node a as) 2
+> ppTree' :: Tree String -> IO ()
+> ppTree' (Node a as) = putStrLn $ ppTree'' (Node a as) 2
+
+> ppTree actorName = do allDetails <- allShowDetails
+>                       ppTree' $ limitedTree allDetails actorName
 
 
 This flattens a tree into a single list; useful for measuring how changing the treeLim value affects the size of the tree
@@ -287,13 +297,15 @@ This flattens a tree into a single list; useful for measuring how changing the t
 > flatTree (Node a []) = [a]
 > flatTree (Node a as) = a :(flatten $ map flatTree as)
 
-> treeLenComp = do allDetails <- allShowDetails
->                  trees <- sequence $ map (\x -> limTreeIO x allDetails me) [treeLim..treeLim]
->                  return $ map (length . flatTree) trees
+> treeLenComp name = do allDetails <- allShowDetails
+>                       let trees = map (\x ->  limTree x (treeGen allDetails name)) [1..treeLim]
+>                       return $ map (length . flatTree) trees
 
-> my1Tree = do allDetails <- allShowDetails
->              tree <- limTreeIO 3 allDetails me
->              ppTree tree
+> mostFellows = do allDetails <- allShowDetails
+>                  let allActorsEver = (rmdups . flatten) (map getThird allDetails)
+>                  return $ (reverse . sortBy (comparing snd)) $ map (\x -> (x, length (allFellows allDetails x))) allActorsEver
+>                  where maxFellows c (t:[]) = if snd t > snd c then t else c
+>                        maxFellows c (t:ts) = if snd t > snd c then maxFellows t ts else maxFellows c ts
 
 This is for debugging, it tells me how many shows we've got. If it doesn't match the value on `history.newtheatre.org.uk`, something's up
 
