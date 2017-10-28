@@ -20,14 +20,13 @@ We're first going to import some things:
 Now defining some data types:
 - A Tree for a recursive data type
 - And Actor and ShowName for type clarity
-- Details for the list we're going to generate that contains all the important bits of a show
+- [Detail] for the list we're going to generate that contains all the important bits of a show
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 > data Tree a = Node a [Tree a] deriving Show
 > type Actor = String
 > type ShowName = String
 > type Detail = (FilePath, ShowName, [Actor])
-> type Details = [Detail]
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 A few test variables now:
@@ -42,6 +41,8 @@ A few test variables now:
 > treeLim = 4
 > showsPath :: String
 > showsPath = "/Users/Jack/Git/history-project/_shows/"
+
+
 > escapePath :: String
 > escapePath = showsPath ++ "17_18/escape_for_dummies_lakeside.md"
 > me :: Actor
@@ -60,63 +61,44 @@ A few test variables now:
 > testPeople = [me, "Angharad Davies", ian]
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-First we need to build a list of all of the shows that have records on the history site, step by step.
+First we need to build a list of all of the shows that have records on the history site
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-First within this, build the first level of directories: the years, prepending them with the show path and a forward slash
+Surprisingly enough, this isn't that many lines. First we get all of the contents of the directory where the shows are kept
+Then we drop the first 2 (. and ..), and to that list we map the prepending of the showsPath and the appending of a `/` because filepaths
+We also map a little functions that extracts the contents of a directory (in this case the files themselves), and prepends the containing folder
+And that is the filepath for all of the shows that have records at the NNT
 
-> baseDirs :: IO [FilePath]
-> baseDirs = do baseDir <- getDirectoryContents showsPath
->               return $ map (\s -> showsPath ++ s ++ "/") $ drop 2 baseDir
-
-Then we take that, and extract the contents, prepending the containing directory. This is a messy type but it's OK, the IO'll get pulled out later
-
-> dirBuilder :: IO [IO [FilePath]]
-> dirBuilder = do baseDir <- baseDirs
->                 return $ map getDirContentsPrep baseDir
->                 where getDirContentsPrep s = do contents <- getDirectoryContents s
->                                                 return $ map (s++) (drop 2 contents)
-
-Finally, we use `sequence` to pull all the IO out to the front (told you it'd be fine) so we can work on the list as a pure type within other `do` blocks.
-We're left with a Monadic list of all show filepaths, excluding the "Freshers Fringe"s, cos otherwise this program becomes very boring (and computationally difficult)
-
-> allShowsDo :: IO [FilePath]
-> allShowsDo = do allDirs' <- dirBuilder
->                 allDirs <- sequence allDirs'
->                 return $ filter showFilter $ flatten allDirs
->                 where showFilter s = isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)
+> allShows :: IO [IO [FilePath]]
+> allShows = do baseDir <- getDirectoryContents showsPath
+>               return $ map (getDirContentsPrep . (\s -> showsPath ++ s ++ "/")) (drop 2 baseDir)
+>               where getDirContentsPrep s = do contents <- getDirectoryContents s
+>                                               return $ map (s++) (drop 2 contents)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Now that we've got a list of all of the shows, we need to extract from it a list of all actors.
 First we're going to extract just the actors from a single show, as such:
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-This is the final product: a function that takes a FilePath and returns a 3-tuple containing the filepath, the show title, and a list of actors in the show.
-
 > showDetails :: FilePath -> IO Detail
 > showDetails s = do fileContents <- strictReadFile s
 >                    let fileLines = lines fileContents
 >                    return (s, getTitle fileLines, peopleNames fileLines)
+>                    where strictReadFile = fmap T.unpack . TIO.readFile
 
-This basically means we can cock about with files a bit more than we otherwise might be able to
+> allShowDetails :: IO [Detail]
+> allShowDetails = do allDirs' <- allShows
+>                     allDirs <- sequence allDirs'
+>                     sequence $ map showDetails $ filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) (flatten allDirs)
 
-> strictReadFile :: FilePath -> IO String
-> strictReadFile = fmap T.unpack . TIO.readFile
+Little bits now to deal with the way the files are formatted, starting with extracting just the "paragraph" that contains the cast
 
-In the .md files that inform this program, the "cast" section comes before the "crew" section, so we'll take everything before crew
-
-> actorFilter :: [String] -> [String]
-> actorFilter ss = takeWhile (\s -> not (isInfixOf "crew:" s)) ss
-
-And because it turns out naming's weird, we'll drop everything before the word "cast"
-
-> dropUntilCast :: [String] -> [String]
-> dropUntilCast ss = dropWhile (\s -> not (isInfixOf "cast:" s)) ss
+> extractCast = dropWhile (\s -> not (isInfixOf "cast:" s)) . takeWhile (\s -> not (isInfixOf "crew:" s)) 
 
 Now taking just the lines that correspond to people's names
 
 > filterPeople :: [String] -> [String]
-> filterPeople ss = filter (isInfixOf " name:") $ dropUntilCast $ actorFilter ss
+> filterPeople ss = filter (isInfixOf " name:") $ extractCast ss
 
 We can get rid of any trailing whitespace now
 
@@ -137,24 +119,11 @@ A similar thing can be done for the title, but we also have to strip quote marks
 
 This is the function that allows us to do that last part
 
+> stripQuotes :: String -> String
 > stripQuotes s = if head s == '\"' && last s == '\"' then (init . tail) s
 >                                                     else s
 
 Finally, we map the showDetails function we've been building for the last few dozen lines and apply it to every show there's a record of.
-
-> allShowDetails :: IO Details
-> allShowDetails = do showNames <- allShowsDo
->                     showDetailsIO <- sequence $ map showDetails showNames
->                     return showDetailsIO
-
-Helpers to extract various bits of info from the show details (Haskell gets shaky around 3-tuples)
-
-> getFirst :: (a,b,c) -> a
-> getFirst (a,b,c) = a
-> getSecond :: (a,b,c) -> b
-> getSecond (a,b,c) = b
-> getThird :: (a,b,c) -> c
-> getThird (a,b,c) = c
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 So, we can generate a list of all actors ever at the NNT (that the history site knows of).
@@ -170,46 +139,40 @@ Up first, a helper function to remove duplicates, making use of some fun bits fr
 > flatten :: [[a]] -> [a]
 > flatten ass = [a | as <- ass, a <- as]
 
-Now the meat.
-allFellow takes an Actor name, and the list of all Actors (`actorss`), filters `actorss` to just the lists with the target in them, and flattens out that list, removing duplicates
+Helpers to extract various bits of info from the show details (Haskell gets shaky around 3-tuples)
 
-> allFellows :: Details -> Actor -> [Actor]
-> allFellows dt a = (rmdups . flatten . filter (elem a)) (map (getThird) dt)
+> getFirst :: (a,b,c) -> a
+> getFirst (a,b,c) = a
+> getSecond :: (a,b,c) -> b
+> getSecond (a,b,c) = b
+> getThird :: (a,b,c) -> c
+> getThird (a,b,c) = c
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Generating trees now: given an actor's name, we generate a list of all of their fellow actors and use that to generate a tree of their connection to the theatre population
 This tree is obviously infinite, having no final case, so we need to limit it
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Okidokie then, this has to work a little differently to usual because nested IO gets messy fast.
-We'll start with a function that builds a tree of a certain size by default, building a tree in the usual way.
-
-> treeGen :: Details -> Actor -> Tree Actor
+> treeGen :: [Detail] -> Actor -> Tree Actor
 > treeGen dt actorName = Node actorName [treeGen dt a | a <- allFellows dt actorName, a /= actorName]
+>                        where allFellows dt a = (rmdups . flatten . filter (elem a)) (map getThird dt)
 
 > limTree :: Int -> Tree a -> Tree a
 > limTree 0 (Node a as) = Node a []
 > limTree n (Node a as) = Node a [limTree (n-1) a2 | a2 <- as]
 
-> limitedTree :: Details -> Actor -> Tree Actor
+> limitedTree :: [Detail] -> Actor -> Tree Actor
 > limitedTree dt a = limTree treeLim $ treeGen dt a
 
-treeCheck does the bulk of the work in this program, taking a prebuilt list of show details, the name of an Actor, the tree of another Actor, and returns a tree whose root is the link between the two actors.
-Yeah, it does a lot, I could probably do to break it down a bit more tbh.
-
-> treeCheck :: Details -> Actor -> Tree Actor -> Tree ([Actor], [ShowName], Int)
+> treeCheck :: [Detail] -> Actor -> Tree Actor -> Tree ([Actor], [ShowName], Int)
 > treeCheck detailList target (Node a []) = if a == target then Node ([a], [], 0) [] else Node ([a], [], 1000) []
 > treeCheck detailList target (Node a as) = if a == target then Node ([a], [], 0) [] else Node (a:prevA, link:prevLink, 1+c) []
 >                                            where (prevA, prevLink, c) = minTuple $ map (nodeVal . treeCheck detailList target) as
 >                                                  link = findShowWActors a (head prevA) detailList
 >                                                  findShowWActors a1 a2 detailList = getSecond . head $ filter (\s -> elem a1 (getThird s) && elem a2 (getThird s)) detailList
 
-nodeVal takes the Tree Int generated by treeCheck and takes just the Int from it
-
 > nodeVal :: Tree (a,b,c) -> (a,b,c)
 > nodeVal (Node (a,b,c) _) = (a,b,c)
-
-minTuple, used in conjunction with nodeVal, lets us find the lowest degree of separation between two actors in the tree
 
 > minTuple :: Ord a => [(a1,a2,a)] -> (a1,a2,a)
 > minTuple (x:[]) = x
@@ -222,26 +185,17 @@ For use when the program is compiled using GHC; main takes two names entered and
 > main :: IO()
 > main = do a1 <- getLine
 >           a2 <- getLine
->           allDetails <- allShowDetails
->           pp (treeCheck allDetails a2 (limitedTree allDetails a1))
->           where flatCommas = flatten . intersperse ", "
->                 pp (Node (as, ss, i) _) = if i > treeLim then putStrLn $ "These people are either not linked or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation"
->                                           else if i == 0 then putStrLn $ "You've put the same person twice you idiot"
->                                                          else putStrLn $ head as ++ " and " ++ last as ++
->                                                                          " are linked as follows: " ++ (links as ss) ++ ".\n" ++
->                                                                          "They have " ++ [intToDigit i] ++ " degrees of separation."
+>           main' a1 a2
 
-> mainTest :: IO()
-> mainTest = do allDetails <- allShowDetails
->               pp (treeCheck allDetails ian (limitedTree allDetails me))
->               where flatCommas = flatten . intersperse ", "
->                     pp (Node (as, ss, i) _) = if i > treeLim then putStrLn $ "These people are either not linked or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation"
->                                               else if i == 0 then putStrLn $ "You've put the same person twice you idiot"
->                                                              else putStrLn $ head as ++ " and " ++ last as ++
->                                                                              " are linked as follows: " ++ (links as ss) ++ ".\n" ++
->                                                                              "They have " ++ [intToDigit i] ++ " degrees of separation."
-
-Lots of helper functions now to create the string for the above, and make it all look nice
+> main' :: Actor -> Actor -> IO()
+> main' a1 a2  = do allDetails <- allShowDetails
+>                   pp (treeCheck allDetails a2 (limitedTree allDetails a1))
+>                   where flatCommas = flatten . intersperse ", "
+>                         pp (Node (as, ss, i) _) = if i > treeLim then putStrLn $ "These people are either not linked or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation"
+>                                                   else if i == 0 then putStrLn $ "You've put the same person twice you idiot"
+>                                                                  else putStrLn $ head as ++ " and " ++ last as ++
+>                                                                                  " are linked as follows: " ++ (links as ss) ++ ".\n" ++
+>                                                                                  "They have " ++ [intToDigit i] ++ " degrees of separation."
 
 > actorLink :: [Actor] -> [(Actor, Actor)]
 > actorLink (a:[]) = []
@@ -251,15 +205,10 @@ Lots of helper functions now to create the string for the above, and make it all
 > actorLinkWShow (a:[]) (s:[]) = [(fst a, s, snd a)]
 > actorLinkWShow (a:as) (s:ss) = (fst a, s, snd a):(actorLinkWShow as ss)
 
-> showLink :: [Actor] -> [ShowName] -> [(Actor, ShowName, Actor)]
-> showLink as ss = actorLinkWShow (actorLink as) ss
-
-> ppLinks :: [(Actor, ShowName, Actor)] -> String
-> ppLinks ((a1,s,a2):[]) = a1 ++ " was in " ++ s ++ " with " ++ a2
-> ppLinks ((a1,s,a2):as) = a1 ++ " was in " ++ s ++ " with " ++ a2 ++ ", " ++ ppLinks as
-
 > links :: [Actor] -> [ShowName] -> String
-> links as ss = ppLinks $ showLink as ss
+> links as ss = ppLinks $ actorLinkWShow (actorLink as) ss
+>               where ppLinks ((a1,s,a2):as) = let a1sa2String = a1 ++ " was in " ++ s ++ " with " ++ a2
+>                                              in if as == [] then a1sa2String else a1sa2String ++ ", " ++ ppLinks as
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -271,48 +220,3 @@ Refactor main so the files are only accessed once:    DONE WOOP WOOP
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 TESTING
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-Prettily printing a tree, for no real reason other than it looks cool
-
-> ppTree'' (Node a []) depth = a
-> ppTree'' (Node a as) depth = a ++ "\n" ++
->                             replicate depth ' ' ++
->                             flatten (map (\x -> (ppTree'' x (depth+2)) ++
->                             '\n':( replicate depth ' ')) as)
-
-> ppTree' :: Tree String -> IO ()
-> ppTree' (Node a as) = putStrLn $ ppTree'' (Node a as) 2
-
-> ppTree actorName n = do allDetails <- allShowDetails
->                         ppTree' $ limTree n $ treeGen allDetails actorName
-
-
-This flattens a tree into a single list; useful for measuring how changing the treeLim value affects the size of the tree
-
-> flatTree (Node a []) = [a]
-> flatTree (Node a as) = a :(flatten $ map flatTree as)
-
-> treeLenComp name = do allDetails <- allShowDetails
->                       let trees = map (\x ->  limTree x (treeGen allDetails name)) [1..treeLim]
->                       return $ map (length . flatTree) trees
-
-> mostFellows = do allDetails <- allShowDetails
->                  let allActorsEver = (rmdups . flatten) (map getThird allDetails)
->                  return $ (reverse . sortBy (comparing snd)) $ map (\x -> (x, length (allFellows allDetails x))) allActorsEver
->                  where maxFellows c (t:[]) = if snd t > snd c then t else c
->                        maxFellows c (t:ts) = if snd t > snd c then maxFellows t ts else maxFellows c ts
-
-> personFellows name = do allPeopleFellows <- mostFellows
->                         return $ filter (\s -> fst s == name) allPeopleFellows
-
-> allFellows2 name = do allDetails <- allShowDetails
->                       return $ allFellows allDetails name
-
-This is for debugging, it tells me how many shows we've got. If it doesn't match the value on `history.newtheatre.org.uk`, something's up
-
-> allShowsLength = do allShow <- allShowsDo
->                     return $ length allShow
-
-> allShowTitles = do allShows <- allShowDetails
->                    let allTitles = map getSecond allShows
->                    return (allTitles, length allTitles)
