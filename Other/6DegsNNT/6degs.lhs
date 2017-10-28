@@ -65,7 +65,7 @@ First we need to build a list of all of the shows that have records on the histo
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Surprisingly enough, this isn't that many lines. First we get all of the contents of the directory where the shows are kept
-Then we drop the first 2 (. and ..), and to that list we map the prepending of the showsPath and the appending of a `/` because filepaths
+Then we drop the first 2 (`.` and `..`), and to that list we map the prepending of the showsPath and the appending of a `/` because filepaths
 We also map a little functions that extracts the contents of a directory (in this case the files themselves), and prepends the containing folder
 And that is the filepath for all of the shows that have records at the NNT
 
@@ -80,61 +80,62 @@ Now that we've got a list of all of the shows, we need to extract from it a list
 First we're going to extract just the actors from a single show, as such:
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-> showDetails :: FilePath -> IO Detail
-> showDetails s = do fileContents <- strictReadFile s
->                    let fileLines = lines fileContents
->                    return (s, getTitle fileLines, peopleNames fileLines)
->                    where strictReadFile = fmap T.unpack . TIO.readFile
+OK, so the formatting means that we first take everything before the "crew" section, then drop everything before the "cast" section
 
-> allShowDetails :: IO [Detail]
-> allShowDetails = do allDirs' <- allShows
->                     allDirs <- sequence allDirs'
->                     sequence $ map showDetails $ filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) (flatten allDirs)
-
-Little bits now to deal with the way the files are formatted, starting with extracting just the "paragraph" that contains the cast
-
+> extractCast :: [String] -> [Actor]
 > extractCast = dropWhile (\s -> not (isInfixOf "cast:" s)) . takeWhile (\s -> not (isInfixOf "crew:" s)) 
 
-Now taking just the lines that correspond to people's names
+After that, we filter such that only the lines containing names remain
 
 > filterPeople :: [String] -> [String]
 > filterPeople ss = filter (isInfixOf " name:") $ extractCast ss
 
-We can get rid of any trailing whitespace now
+Next, two helpers: the first strips any trailing white space from the name, and the second removes any quote marks surrounding it
 
 > stripEndSpace :: String -> String
 > stripEndSpace (c:' ':[]) = [c]
 > stripEndSpace (c:[]) = [c]
 > stripEndSpace (c:cs) = c:(stripEndSpace cs)
 
-And the final bit of formatting, cleaning up everything that's not just the person's name
-
-> peopleNames :: [String] -> [Actor]
-> peopleNames ss = map (stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':')) $ filterPeople ss
-
-A similar thing can be done for the title, but we also have to strip quote marks because naming is inconsistent
-
-> getTitle :: [String] -> String
-> getTitle = stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':') . head . filter (isInfixOf "title:")
-
-This is the function that allows us to do that last part
-
 > stripQuotes :: String -> String
 > stripQuotes s = if head s == '\"' && last s == '\"' then (init . tail) s
 >                                                     else s
 
-Finally, we map the showDetails function we've been building for the last few dozen lines and apply it to every show there's a record of.
+With those, we can extract just the name from the string
+
+> peopleNames :: [String] -> [Actor]
+> peopleNames ss = map (stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':')) $ filterPeople ss
+
+Also we can use them to get the title as well, which is nice
+
+> getTitle :: [String] -> String
+> getTitle = stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':') . head . filter (isInfixOf "title:")
+
+Applying these, we can extract the details from a specific file
+
+> showDetails :: FilePath -> IO Detail
+> showDetails s = do fileContents <- strictReadFile s
+>                    let fileLines = lines fileContents
+>                    return (s, getTitle fileLines, peopleNames fileLines)
+>                    where strictReadFile = fmap T.unpack . TIO.readFile
+
+And finally, we can map this across all of the shows (i.e. that list we generated with `allShows`
+
+> allShowDetails :: IO [Detail]
+> allShowDetails = do allDirs' <- allShows
+>                     allDirs <- sequence allDirs'
+>                     sequence $ map showDetails $ filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) (flatten allDirs)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-So, we can generate a list of all actors ever at the NNT (that the history site knows of).
-Now, we need some way of finding all actors one particular actor has acted with.
-Act doesn't seem like part of a word anymore.
+Helper functions!
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Up first, a helper function to remove duplicates, making use of some fun bits from Data.List
+First, duplicate removal
 
 > rmdups :: Ord a => [a] -> [a]
 > rmdups = map head . group . sort
+
+Flattening lists of lists
 
 > flatten :: [[a]] -> [a]
 > flatten ass = [a | as <- ass, a <- as]
@@ -147,6 +148,17 @@ Helpers to extract various bits of info from the show details (Haskell gets shak
 > getSecond (a,b,c) = b
 > getThird :: (a,b,c) -> c
 > getThird (a,b,c) = c
+
+Extracting the value from a Node of a Tree
+
+> nodeVal :: Tree a -> a
+> nodeVal (Node a _) = a
+
+You know how Haskell doesn't like 3-tuples? Sometimes you need to find the smallest tuple from a list of them
+
+> minTuple :: Ord a => [(a1,a2,a)] -> (a1,a2,a)
+> minTuple (x:[]) = x
+> minTuple (x@(a,b,c):y@(m,n,o):xs) = if c < o then minTuple (x:xs) else minTuple (y:xs)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Generating trees now: given an actor's name, we generate a list of all of their fellow actors and use that to generate a tree of their connection to the theatre population
@@ -171,21 +183,33 @@ This tree is obviously infinite, having no final case, so we need to limit it
 >                                                  link = findShowWActors a (head prevA) detailList
 >                                                  findShowWActors a1 a2 detailList = getSecond . head $ filter (\s -> elem a1 (getThird s) && elem a2 (getThird s)) detailList
 
-> nodeVal :: Tree (a,b,c) -> (a,b,c)
-> nodeVal (Node (a,b,c) _) = (a,b,c)
-
-> minTuple :: Ord a => [(a1,a2,a)] -> (a1,a2,a)
-> minTuple (x:[]) = x
-> minTuple (x@(a,b,c):y@(m,n,o):xs) = if c < o then minTuple (x:xs) else minTuple (y:xs)
-
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-For use when the program is compiled using GHC; main takes two names entered and returns either the degree or an 'x' if the degree is too great
+So, we're generating a tuple containing a list of actors, and the show-based links between them
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-> main :: IO()
-> main = do a1 <- getLine
->           a2 <- getLine
->           main' a1 a2
+First, we take the list of Actors, and put them together in tuples
+
+> actorLink :: [Actor] -> [(Actor, Actor)]
+> actorLink (a:[]) = []
+> actorLink (a:b:as) = (a,b):(actorLink (b:as))
+
+Then, we take that list, the list of shows, and make a 3-tuple with the two Actors around the ShowName
+
+> actorLinkWShow :: [(Actor, Actor)] -> [ShowName] -> [(Actor, ShowName, Actor)]
+> actorLinkWShow (a:[]) (s:[]) = [(fst a, s, snd a)]
+> actorLinkWShow (a:as) (s:ss) = (fst a, s, snd a):(actorLinkWShow as ss)
+
+And finally, we take a list of actors and shows, and using the above functions, we can generate a string with each link
+
+> links :: [Actor] -> [ShowName] -> String
+> links as ss = ppLinks $ actorLinkWShow (actorLink as) ss
+>               where ppLinks ((a1,s,a2):as) = let a1sa2String = a1 ++ " was in " ++ s ++ " with " ++ a2
+>                                              in if as == [] then a1sa2String else a1sa2String ++ ", " ++ ppLinks as
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Finish line!
+Using everything above here, we can get two Actors, and return a printed String with the shortest link between them.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 > main' :: Actor -> Actor -> IO()
 > main' a1 a2  = do allDetails <- allShowDetails
@@ -197,26 +221,8 @@ For use when the program is compiled using GHC; main takes two names entered and
 >                                                                                  " are linked as follows: " ++ (links as ss) ++ ".\n" ++
 >                                                                                  "They have " ++ [intToDigit i] ++ " degrees of separation."
 
-> actorLink :: [Actor] -> [(Actor, Actor)]
-> actorLink (a:[]) = []
-> actorLink (a:b:as) = (a,b):(actorLink (b:as))
+> main :: IO()
+> main = do a1 <- getLine
+>           a2 <- getLine
+>           main' a1 a2
 
-> actorLinkWShow :: [(Actor, Actor)] -> [ShowName] -> [(Actor, ShowName, Actor)]
-> actorLinkWShow (a:[]) (s:[]) = [(fst a, s, snd a)]
-> actorLinkWShow (a:as) (s:ss) = (fst a, s, snd a):(actorLinkWShow as ss)
-
-> links :: [Actor] -> [ShowName] -> String
-> links as ss = ppLinks $ actorLinkWShow (actorLink as) ss
->               where ppLinks ((a1,s,a2):as) = let a1sa2String = a1 ++ " was in " ++ s ++ " with " ++ a2
->                                              in if as == [] then a1sa2String else a1sa2String ++ ", " ++ ppLinks as
-
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------
-TODO
---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-Refactor main so the files are only accessed once:    DONE WOOP WOOP
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------
-TESTING
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
