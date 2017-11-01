@@ -3,7 +3,6 @@ We're first going to import some things:
 - Data.List for isInfixOf, sort, and group
 - Data.Ord for sorting fun times
 - System.Directory so we can muck about with files and directories
-- System.IO.Unsafe so we can do things we really oughtn't
 - Data.Char for intToDigit
 - And finally Data.Text and Data.Text.IO for stricter file reading
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -88,24 +87,26 @@ After that, we filter such that only the lines containing names remain
 > filterPeople :: [String] -> [String]
 > filterPeople ss = filter (isInfixOf " name:") $ extractCast ss
 
-Next, two helpers: the first strips any trailing white space from the name, and the second removes any quote marks surrounding it
+Next, a helper to remove any thing that isn't someone's name in the line
+Basically my problem is that people's names are incredibly inconsistent on the History Site
 
-> stripEndSpace :: String -> String
-> stripEndSpace s = if last s == ' ' then init s else s
+> stripShit :: String -> String
+> stripShit s = if hs == ' ' || hs == ':' || hs == '\"' || hs == '\'' then stripShit $ tail s
+>               else if ls == ' ' || ls == '\"' || ls == '\''         then stripShit $ init s
+>                                                                     else s
+>               where hs = head s
+>                     ls = last s
 
-> stripQuotes :: String -> String
-> stripQuotes s = if head s == '\"' && last s == '\"' then (init . tail) s
->                                                     else s
 
 With those, we can extract just the name from the string
 
 > peopleNames :: [String] -> [Actor]
-> peopleNames ss = map (stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':')) $ filterPeople ss
+> peopleNames ss = map (stripShit . dropWhile (/= ':')) $ filterPeople ss
 
 Also we can use them to get the title as well, which is nice
 
 > getTitle :: [String] -> String
-> getTitle = stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':') . head . filter (isInfixOf "title:")
+> getTitle = stripShit . dropWhile (/= ':') . head . filter (isInfixOf "title:")
 
 Applying these, we can extract the details from a specific file
 
@@ -194,7 +195,13 @@ Using everything above here, we can get two Actors, and return a printed String 
 >                                                                                  " are linked as follows:\n" ++ (links as ss) ++ "\n" ++
 >                                                                                  "They have " ++ [intToDigit i] ++ " degrees of separation."
 
-> main :: IO()
+> main :: IO ()
 > main = do a1 <- getLine
 >           a2 <- getLine
 >           main' a1 a2
+
+
+TESTING
+
+> test = do dt <- allShowDetails
+>           return $ (rmdups . flatten . map snd) dt
