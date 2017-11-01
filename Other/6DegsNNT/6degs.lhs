@@ -26,7 +26,7 @@ Now defining some data types:
 > data Tree a = Node a [Tree a] deriving Show
 > type Actor = String
 > type ShowName = String
-> type Detail = (FilePath, ShowName, [Actor])
+> type Detail = (ShowName, [Actor])
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 A few test variables now:
@@ -93,9 +93,7 @@ After that, we filter such that only the lines containing names remain
 Next, two helpers: the first strips any trailing white space from the name, and the second removes any quote marks surrounding it
 
 > stripEndSpace :: String -> String
-> stripEndSpace (c:' ':[]) = [c]
-> stripEndSpace (c:[]) = [c]
-> stripEndSpace (c:cs) = c:(stripEndSpace cs)
+> stripEndSpace s = if last s == ' ' then init s else s
 
 > stripQuotes :: String -> String
 > stripQuotes s = if head s == '\"' && last s == '\"' then (init . tail) s
@@ -104,19 +102,19 @@ Next, two helpers: the first strips any trailing white space from the name, and 
 With those, we can extract just the name from the string
 
 > peopleNames :: [String] -> [Actor]
-> peopleNames ss = map (stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':')) $ filterPeople ss
+> peopleNames ss = map (stripEndSpace . stripQuotes . drop 2 . dropWhile (/= ':')) $ filterPeople ss
 
 Also we can use them to get the title as well, which is nice
 
 > getTitle :: [String] -> String
-> getTitle = stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':') . head . filter (isInfixOf "title:")
+> getTitle = stripEndSpace . stripQuotes . drop 2 . dropWhile (/= ':') . head . filter (isInfixOf "title:")
 
 Applying these, we can extract the details from a specific file
 
 > showDetails :: FilePath -> IO Detail
 > showDetails s = do fileContents <- strictReadFile s
 >                    let fileLines = lines fileContents
->                    return (s, getTitle fileLines, peopleNames fileLines)
+>                    return (getTitle fileLines, peopleNames fileLines)
 >                    where strictReadFile = fmap T.unpack . TIO.readFile
 
 And finally, we can map this across all of the shows (i.e. that list we generated with `allShows`
@@ -124,7 +122,7 @@ And finally, we can map this across all of the shows (i.e. that list we generate
 > allShowDetails :: IO [Detail]
 > allShowDetails = do allDirs' <- allShows
 >                     allDirs <- sequence allDirs'
->                     sequence $ map showDetails $ filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) (flatten allDirs)
+>                     (sequence . map showDetails) (filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) (flatten allDirs))
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Helper functions!
@@ -139,15 +137,6 @@ Flattening lists of lists
 
 > flatten :: [[a]] -> [a]
 > flatten ass = [a | as <- ass, a <- as]
-
-Helpers to extract various bits of info from the show details (Haskell gets shaky around 3-tuples)
-
-> getFirst :: (a,b,c) -> a
-> getFirst (a,b,c) = a
-> getSecond :: (a,b,c) -> b
-> getSecond (a,b,c) = b
-> getThird :: (a,b,c) -> c
-> getThird (a,b,c) = c
 
 Extracting the value from a Node of a Tree
 
@@ -167,7 +156,7 @@ This tree is obviously infinite, having no final case, so we need to limit it
 
 > treeGen :: [Detail] -> Actor -> Tree Actor
 > treeGen dt actorName = Node actorName [treeGen dt a | a <- allFellows dt actorName, a /= actorName]
->                        where allFellows dt a = (rmdups . flatten . filter (elem a)) (map getThird dt)
+>                        where allFellows dt a = (rmdups . flatten . filter (elem a)) (map snd dt)
 
 > limTree :: Int -> Tree a -> Tree a
 > limTree 0 (Node a as) = Node a []
@@ -181,7 +170,7 @@ This tree is obviously infinite, having no final case, so we need to limit it
 > treeCheck detailList target (Node a as) = if a == target then Node ([a], [], 0) [] else Node (a:prevA, link:prevLink, 1+c) []
 >                                            where (prevA, prevLink, c) = minTuple $ map (nodeVal . treeCheck detailList target) as
 >                                                  link = findShowWActors a (head prevA) detailList
->                                                  findShowWActors a1 a2 detailList = getSecond . head $ filter (\s -> elem a1 (getThird s) && elem a2 (getThird s)) detailList
+>                                                  findShowWActors a1 a2 detailList = fst . head $ filter (\s -> elem a1 (snd s) && elem a2 (snd s)) detailList
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 So, we're generating a tuple containing a list of actors, and the show-based links between them
@@ -203,8 +192,8 @@ And finally, we take a list of actors and shows, and using the above functions, 
 
 > links :: [Actor] -> [ShowName] -> String
 > links as ss = ppLinks $ actorLinkWShow (actorLink as) ss
->               where ppLinks ((a1,s,a2):as) = let a1sa2String = a1 ++ " was in " ++ s ++ " with " ++ a2
->                                              in if as == [] then a1sa2String else a1sa2String ++ ", " ++ ppLinks as
+>               where ppLinks ((a1,s,a2):as) = let a1sa2String = "- " ++ a1 ++ " was in " ++ s ++ " with " ++ a2 ++ "\n"
+>                                              in if as == [] then a1sa2String else a1sa2String ++ ppLinks as
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Finish line!
@@ -218,11 +207,10 @@ Using everything above here, we can get two Actors, and return a printed String 
 >                         pp (Node (as, ss, i) _) = if i > treeLim then putStrLn $ "These people are either not linked or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation"
 >                                                   else if i == 0 then putStrLn $ "You've put the same person twice you idiot"
 >                                                                  else putStrLn $ head as ++ " and " ++ last as ++
->                                                                                  " are linked as follows: " ++ (links as ss) ++ ".\n" ++
+>                                                                                  " are linked as follows:\n" ++ (links as ss) ++ "\n" ++
 >                                                                                  "They have " ++ [intToDigit i] ++ " degrees of separation."
 
 > main :: IO()
 > main = do a1 <- getLine
 >           a2 <- getLine
 >           main' a1 a2
-
