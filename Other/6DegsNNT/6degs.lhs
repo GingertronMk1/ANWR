@@ -2,7 +2,7 @@
 We're first going to import some things:
 - Data.List for isInfixOf, sort, and group
 - Data.Ord for sorting fun times
-- System.Directory so we can muck about with files and dirs
+- System.Directory so we can muck about with files and directories
 - System.IO.Unsafe so we can do things we really oughtn't
 - Data.Char for intToDigit
 - And finally Data.Text and Data.Text.IO for stricter file reading
@@ -11,7 +11,6 @@ We're first going to import some things:
 > import Data.List
 > import Data.Ord
 > import System.Directory
-> import System.IO.Unsafe
 > import Data.Char
 > import qualified Data.Text as T
 > import qualified Data.Text.IO as TIO
@@ -42,7 +41,6 @@ A few test variables now:
 > showsPath :: String
 > showsPath = "/Users/Jack/Git/history-project/_shows/"
 
-
 > escapePath :: String
 > escapePath = showsPath ++ "17_18/escape_for_dummies_lakeside.md"
 > me :: Actor
@@ -57,8 +55,8 @@ A few test variables now:
 > jamie = "Jamie Drew"
 > rose :: Actor
 > rose = "Rose Edgeworth"
-> testShows = ["Camp Macbeth", "Uz and Them"]
-> testPeople = [me, "Angharad Davies", ian]
+> rj :: Actor
+> rj = "RJ"
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 First we need to build a list of all of the shows that have records on the history site
@@ -102,12 +100,12 @@ Next, two helpers: the first strips any trailing white space from the name, and 
 With those, we can extract just the name from the string
 
 > peopleNames :: [String] -> [Actor]
-> peopleNames ss = map (stripEndSpace . stripQuotes . drop 2 . dropWhile (/= ':')) $ filterPeople ss
+> peopleNames ss = map (stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':')) $ filterPeople ss
 
 Also we can use them to get the title as well, which is nice
 
 > getTitle :: [String] -> String
-> getTitle = stripEndSpace . stripQuotes . drop 2 . dropWhile (/= ':') . head . filter (isInfixOf "title:")
+> getTitle = stripQuotes . stripEndSpace . drop 2 . dropWhile (/= ':') . head . filter (isInfixOf "title:")
 
 Applying these, we can extract the details from a specific file
 
@@ -117,7 +115,7 @@ Applying these, we can extract the details from a specific file
 >                    return (getTitle fileLines, peopleNames fileLines)
 >                    where strictReadFile = fmap T.unpack . TIO.readFile
 
-And finally, we can map this across all of the shows (i.e. that list we generated with `allShows`
+And finally, we can map this across all of the shows (i.e. that list we generated with `allShows`)
 
 > allShowDetails :: IO [Detail]
 > allShowDetails = do allDirs' <- allShows
@@ -176,31 +174,17 @@ This tree is obviously infinite, having no final case, so we need to limit it
 So, we're generating a tuple containing a list of actors, and the show-based links between them
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-First, we take the list of Actors, and put them together in tuples
-
-> actorLink :: [Actor] -> [(Actor, Actor)]
-> actorLink (a:[]) = []
-> actorLink (a:b:as) = (a,b):(actorLink (b:as))
-
-Then, we take that list, the list of shows, and make a 3-tuple with the two Actors around the ShowName
-
-> actorLinkWShow :: [(Actor, Actor)] -> [ShowName] -> [(Actor, ShowName, Actor)]
-> actorLinkWShow (a:[]) (s:[]) = [(fst a, s, snd a)]
-> actorLinkWShow (a:as) (s:ss) = (fst a, s, snd a):(actorLinkWShow as ss)
-
-And finally, we take a list of actors and shows, and using the above functions, we can generate a string with each link
-
 > links :: [Actor] -> [ShowName] -> String
-> links as ss = ppLinks $ actorLinkWShow (actorLink as) ss
->               where ppLinks ((a1,s,a2):as) = let a1sa2String = "- " ++ a1 ++ " was in " ++ s ++ " with " ++ a2 ++ "\n"
->                                              in if as == [] then a1sa2String else a1sa2String ++ ppLinks as
+> links (a1:a2:as) (s:ss) = case as of []        -> str
+>                                      otherwise -> str ++ links (a2:as) ss
+>                                      where str = "- " ++ a1 ++ " was in " ++ s ++ " with " ++ a2 ++ "\n"
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Finish line!
 Using everything above here, we can get two Actors, and return a printed String with the shortest link between them.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-> main' :: Actor -> Actor -> IO()
+> main' :: Actor -> Actor -> IO ()
 > main' a1 a2  = do allDetails <- allShowDetails
 >                   pp (treeCheck allDetails a2 (limitedTree allDetails a1))
 >                   where flatCommas = flatten . intersperse ", "
