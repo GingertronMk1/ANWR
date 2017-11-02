@@ -38,7 +38,7 @@ A few test variables now:
 > treeLim :: Int
 > treeLim = 4
 > showsPath :: String
-> showsPath = "/Users/Jack/Git/history-project/_shows/"
+> showsPath = "../../../history-project/_shows/"
 
 > me :: Actor
 > me = "Jack Ellis"
