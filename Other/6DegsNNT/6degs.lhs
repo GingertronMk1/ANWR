@@ -85,23 +85,23 @@ OK, so the formatting means that we first take everything before the "crew" sect
 After that, we filter such that only the lines containing names remain
 
 > filterPeople :: [String] -> [String]
-> filterPeople ss = filter (isInfixOf " name:") $ extractCast ss
+> filterPeople = filter (isInfixOf " name:") . extractCast
 
 Next, a helper to remove any thing that isn't someone's name in the line
+That is, trailing/leading non-letter characters
 Basically my problem is that people's names are incredibly inconsistent on the History Site
 
 > stripShit :: String -> String
 > stripShit s = if hs == ' ' || hs == ':' || hs == '\"' || hs == '\'' then stripShit $ tail s
->               else if ls == ' ' || ls == '\"' || ls == '\''         then stripShit $ init s
->                                                                     else s
+>               else if ls == ' ' || ls == '\"' || ls == '\'' then stripShit $ init s
+>               else s
 >               where hs = head s
 >                     ls = last s
 
-
-With those, we can extract just the name from the string
+With that, we can extract just the name from the string
 
 > peopleNames :: [String] -> [Actor]
-> peopleNames ss = map (stripShit . dropWhile (/= ':')) $ filterPeople ss
+> peopleNames = map (stripShit . dropWhile (/= ':')) . filterPeople
 
 Also we can use them to get the title as well, which is nice
 
@@ -162,23 +162,30 @@ This tree is obviously infinite, having no final case, so we need to limit it
 > limTree n (Node a as) = Node a [limTree (n-1) a2 | a2 <- as]
 
 > limitedTree :: [Detail] -> Actor -> Tree Actor
-> limitedTree dt a = limTree treeLim $ treeGen dt a
+> limitedTree dt a = limTree treeLim (treeGen dt a)
 
 > treeCheck :: [Detail] -> Actor -> Tree Actor -> Tree ([Actor], [ShowName], Int)
 > treeCheck detailList target (Node a []) = if a == target then Node ([a], [], 0) [] else Node ([a], [], 1000) []
 > treeCheck detailList target (Node a as) = if a == target then Node ([a], [], 0) [] else Node (a:prevA, link:prevLink, 1+c) []
 >                                            where (prevA, prevLink, c) = minTuple $ map (nodeVal . treeCheck detailList target) as
->                                                  link = findShowWActors a (head prevA) detailList
->                                                  findShowWActors a1 a2 detailList = fst . head $ filter (\s -> elem a1 (snd s) && elem a2 (snd s)) detailList
+>                                                  link = (fst . head . filter (\s -> elem a (snd s) && elem (head prevA) (snd s))) detailList
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-So, we're generating a tuple containing a list of actors, and the show-based links between them
+So we've got 2 lists: one with the actors that link two actors, and another with the shows by which they're linked.
+How to put these together, and make it all look nice...
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 > links :: [Actor] -> [ShowName] -> String
-> links (a1:a2:as) (s:ss) = case as of []        -> str
->                                      otherwise -> str ++ links (a2:as) ss
->                                      where str = "- " ++ a1 ++ " was in " ++ s ++ " with " ++ a2 ++ "\n"
+> links (a1:a2:as) (s:ss) = if as == [] then str else str ++ links (a2:as) ss
+>                           where str = "- " ++ a1 ++ " was in " ++ s ++ " with " ++ a2 ++ "\n"
+
+> ppLinks :: Tree ([Actor], [ShowName], Int) -> String
+> ppLinks (Node (as, ss, i) _)
+>   | i == 0      = "A person has 0 degrees of separation with themself by definition."
+>   | i == 1      = headAndLast ++ " were in " ++ head ss ++ " together, with 1 degree of separation."
+>   | i > treeLim = headAndLast ++ " are either not linked, or there are more than " ++ [intToDigit i] ++ " degrees of separation."
+>   | otherwise   = headAndLast ++ " are linked as follows:\n" ++ links as ss ++ "\nThey have " ++ [intToDigit i] ++ " degrees of separation."
+>   where headAndLast = head as ++ " and " ++ last as
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Finish line!
@@ -187,21 +194,9 @@ Using everything above here, we can get two Actors, and return a printed String 
 
 > main' :: Actor -> Actor -> IO ()
 > main' a1 a2  = do allDetails <- allShowDetails
->                   pp (treeCheck allDetails a2 (limitedTree allDetails a1))
->                   where flatCommas = flatten . intersperse ", "
->                         pp (Node (as, ss, i) _) = if i > treeLim then putStrLn $ "These people are either not linked or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation"
->                                                   else if i == 0 then putStrLn $ "You've put the same person twice you idiot"
->                                                                  else putStrLn $ head as ++ " and " ++ last as ++
->                                                                                  " are linked as follows:\n" ++ (links as ss) ++ "\n" ++
->                                                                                  "They have " ++ [intToDigit i] ++ " degrees of separation."
+>                   putStrLn $ ppLinks $ treeCheck allDetails a2 $ limitedTree allDetails a1
 
 > main :: IO ()
 > main = do a1 <- getLine
 >           a2 <- getLine
 >           main' a1 a2
-
-
-TESTING
-
-> test = do dt <- allShowDetails
->           return $ (rmdups . flatten . map snd) dt
