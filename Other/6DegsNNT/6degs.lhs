@@ -40,23 +40,16 @@ A few test variables now:
 > showsPath :: String
 > showsPath = "/Users/Jack/Git/history-project/_shows/"
 
-> escapePath :: String
-> escapePath = showsPath ++ "17_18/escape_for_dummies_lakeside.md"
 > me :: Actor
 > me = "Jack Ellis"
 > ian :: Actor
 > ian = "Ian Sheard"
 > omid :: Actor
 > omid = "Omid Faramarzi"
-> sosborne :: Actor
-> sosborne = "Sam Osborne"
-> jamie :: Actor
-> jamie = "Jamie Drew"
 > rose :: Actor
 > rose = "Rose Edgeworth"
 > rj :: Actor
 > rj = "RJ"
-> ttl = [Node (1,3,5) [], Node (4,2,7) [Node (1,1,1) [], Node (1000,1000,1000) []], Node (10,3,1) []]
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 First we need to build a list of all of the shows that have records on the history site
@@ -78,15 +71,8 @@ Now that we've got a list of all of the shows, we need to extract from it a list
 First we're going to extract just the actors from a single show, as such:
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-OK, so the formatting means that we first take everything before the "crew" section, then drop everything before the "cast" section
-
-> extractCast :: [String] -> [Actor]
-> extractCast = dropWhile (\s -> not (isInfixOf "cast:" s)) . takeWhile (\s -> not (isInfixOf "crew:" s)) 
-
-After that, we filter such that only the lines containing names remain
-
 > filterPeople :: [String] -> [String]
-> filterPeople = filter (isInfixOf " name:") . extractCast
+> filterPeople = filter (isInfixOf " name:") . dropWhile (\s -> not (isInfixOf "cast:" s)) . takeWhile (\s -> not (isInfixOf "crew:" s)) 
 
 Next, a helper to remove anything that isn't someone's name in the line
 That is, trailing/leading non-letter characters
@@ -118,11 +104,14 @@ Applying these, we can extract the details from a specific file
 >                    where strictReadFile = fmap T.unpack . TIO.readFile
 
 And finally, we can map this across all of the shows (i.e. that list we generated with `allShows`)
+We discount anything that's not a MarkDown file, is a Freshers' Fringe (otherwise this gets very dull), and any show with fewer than 2 actors
 
 > allShowDetails :: IO [Detail]
 > allShowDetails = do allDirs' <- allShows
 >                     allDirs <- sequence allDirs'
->                     (sequence . map showDetails) (filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) (flatten allDirs))
+>                     allDT <- (sequence . map showDetails) (filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) (flatten allDirs))
+>                     return $ filter (\s -> length (snd s) > 1) allDT
+>
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Helper functions!
@@ -138,8 +127,8 @@ Sometimes you need to find the smallest tuple from a list of Trees of them (with
 
 > minTreeple :: Ord a => [Tree (a1,a2,a)] -> (a1,a2,a)
 > minTreeple ((Node x _):[]) = x
-> minTreeple ((Node x@(a,b,c) xs):(Node y@(d,e,f) ys):ns) = if c < f then minTreeple ((Node x xs):ns) 
->                                                                    else minTreeple ((Node y ys):ns)
+> minTreeple ((Node x@(a,b,c) _):(Node y@(d,e,f) _):ns) = if c < f then minTreeple ((Node x []):ns) 
+>                                                                  else minTreeple ((Node y []):ns)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Generating trees now: given an actor's name, we generate a list of all of their fellow actors and use that to generate a tree of their connection to the theatre population
@@ -148,8 +137,7 @@ This tree is obviously infinite, having no final case, so we need to limit it
 
 > treeGen :: [Detail] -> Actor -> Tree Actor
 > treeGen dt actorName = Node actorName [treeGen dt a | a <- allFellows dt actorName, a /= actorName]
->                        where allFellows dt a = (rmdups . flatten . filter (elem a)) (map snd dt)
->                              rmdups = map head . group . sort
+>                        where allFellows dt a = (map head . group . sort . flatten . filter (elem a) . map snd) dt -- `map head . group . sort` removes duplicates
 
 > limTree :: Int -> Tree a -> Tree a
 > limTree 0 (Node a as) = Node a []
@@ -176,8 +164,8 @@ How to put these together, and make it all look nice...
 > ppLinks :: Tree ([Actor], [ShowName], Int) -> String
 > ppLinks (Node (as, ss, i) _)
 >   | i == 0      = "A person has 0 degrees of separation with themself by definition."
->   | i == 1      = headAndLast ++ " were in " ++ head ss ++ " together, with 1 degree of separation."
->   | i > treeLim = headAndLast ++ " are either not linked, or there are more than " ++ [intToDigit i] ++ " degrees of separation."
+>   | i == 1      = headAndLast ++ " were in " ++ head ss ++ " together\n\nThey have 1 degree of separation."
+>   | i > treeLim = "These people are either not linked, or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation."
 >   | otherwise   = headAndLast ++ " are linked as follows:\n" ++ links as ss ++ "\nThey have " ++ [intToDigit i] ++ " degrees of separation."
 >   where headAndLast = head as ++ " and " ++ last as
 
@@ -188,7 +176,7 @@ Using everything above here, we can get two Actors, and return a printed String 
 
 > main' :: Actor -> Actor -> IO ()
 > main' a1 a2  = do allDetails <- allShowDetails
->                   putStrLn $ ppLinks $ treeCheck allDetails a2 $ limitedTree allDetails a1
+>                   (putStrLn . ppLinks) $ treeCheck allDetails a2 $ limitedTree allDetails a1
 
 > main :: IO ()
 > main = do a1 <- getLine
