@@ -178,7 +178,7 @@ Finally, using everything above here, we can get two Actors, and return a printe
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 > main' :: Actor -> Actor -> IO ()
-> main' a1 a2  = do allShowDetails >>= (\d -> putStrLn . ppLinks $ treeCheck d a2 $ limitedTree d a1)
+> main' a1 a2  = allShowDetails >>= (\d -> putStrLn . ppLinks $ treeCheck d a2 $ limitedTree d a1)
 
 > main = do a1 <- getLine
 >           a2 <- getLine
