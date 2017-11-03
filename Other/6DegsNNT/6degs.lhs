@@ -79,11 +79,12 @@ That is, trailing/leading non-letter characters
 Basically my problem is that people's names are formatted incredibly inconsistently on the History Site
 
 > stripShit :: String -> String
-> stripShit s = if hs == ' ' || hs == ':' || hs == '\"' || hs == '\'' then stripShit $ tail s
->               else if ls == ' ' || ls == '\"' || ls == '\''         then stripShit $ init s
->                                                                     else s
->               where hs = head s
->                     ls = last s
+> stripShit s
+>  | hs == ' ' || hs == '\"' || hs == '\'' || hs == ':' = stripShit (tail s)
+>  | ls == ' ' || ls == '\"' || ls == '\''              = stripShit (init s)
+>  | otherwise                                          = s
+>  where hs = head s
+>        ls = last s
 
 With that, we can extract just the name from the string
 
@@ -98,10 +99,9 @@ Also we can use them to get the title as well, which is nice
 Applying these, we can extract the details from a specific file
 
 > showDetails :: FilePath -> IO Detail
-> showDetails s = do fileContents <- strictReadFile s
+> showDetails s = do fileContents <- (fmap T.unpack . TIO.readFile) s
 >                    let fileLines = lines fileContents
 >                    return (getTitle fileLines, getNames fileLines)
->                    where strictReadFile = fmap T.unpack . TIO.readFile
 
 And finally, we can map this across all of the shows (i.e. that list we generated with `allShows`)
 We discount anything that's not a MarkDown file, is a Freshers' Fringe (otherwise this gets very dull), and any show with fewer than 2 actors
@@ -109,7 +109,7 @@ We discount anything that's not a MarkDown file, is a Freshers' Fringe (otherwis
 > allShowDetails :: IO [Detail]
 > allShowDetails = do allDirs' <- allShows
 >                     allDirs <- sequence allDirs'
->                     allDT <- (sequence . map showDetails) (filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) (flatten allDirs))
+>                     allDT <- (sequence . map showDetails . filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) . flatten) allDirs
 >                     return $ filter (\s -> length (snd s) > 1) allDT
 >
 
@@ -117,40 +117,44 @@ We discount anything that's not a MarkDown file, is a Freshers' Fringe (otherwis
 Helper functions!
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Flattening lists of lists
-
 > flatten :: [[a]] -> [a]
 > flatten ass = [a | as <- ass, a <- as]
-
-You know how Haskell doesn't like 3-tuples?
-Sometimes you need to find the smallest tuple from a list of Trees of them (with respect to the third item)
-
-> minTreeple :: Ord a => [Tree (a1,a2,a)] -> (a1,a2,a)
-> minTreeple ((Node x _):[]) = x
-> minTreeple ((Node x@(a,b,c) _):(Node y@(d,e,f) _):ns) = if c < f then minTreeple ((Node x []):ns) 
->                                                                  else minTreeple ((Node y []):ns)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Generating trees now: given an actor's name, we generate a list of all of their fellow actors and use that to generate a tree of their connection to the theatre population
 This tree is obviously infinite, having no final case, so we need to limit it
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Generating a tree based on everyone an actor has worked with
+
 > treeGen :: [Detail] -> Actor -> Tree Actor
 > treeGen dt actorName = Node actorName [treeGen dt a | a <- allFellows dt actorName, a /= actorName]
 >                        where allFellows dt a = (map head . group . sort . flatten . filter (elem a) . map snd) dt -- `map head . group . sort` removes duplicates
+
+Limiting this tree, as it's otherwise infinite and that's a ballache
 
 > limTree :: Int -> Tree a -> Tree a
 > limTree 0 (Node a as) = Node a []
 > limTree n (Node a as) = Node a [limTree (n-1) a2 | a2 <- as]
 
+Putting these together because we're never gonna use treeGen naked after this
+
 > limitedTree :: [Detail] -> Actor -> Tree Actor
-> limitedTree dt a = limTree treeLim (treeGen dt a)
+> limitedTree dt a = limTree treeLim $ treeGen dt a
 
 > treeCheck :: [Detail] -> Actor -> Tree Actor -> Tree ([Actor], [ShowName], Int)
-> treeCheck detailList target (Node a []) = if a == target then Node ([a], [], 0) [] else Node ([a], [], 1000) []
-> treeCheck detailList target (Node a as) = if a == target then Node ([a], [], 0) [] else Node (a:prevA, link:prevLink, 1+c) []
->                                            where (prevA, prevLink, c) = minTreeple $ map (treeCheck detailList target) as
->                                                  link = (fst . head . filter (\s -> elem a (snd s) && elem (head prevA) (snd s))) detailList
+> treeCheck detailList target (Node a as)
+>  | null as && a == target       = Node ([a], [], 0) []
+>  | null as && a /= target       = Node ([a], [], 1000) []
+>  | not (null as) && a == target = Node ([a], [], 0) []
+>  | not (null as) && a /= target = Node (a:prevA, link:prevLink, 1+c) []
+>  where (prevA, prevLink, c) = (minTreeple . map (treeCheck detailList target)) as
+>        link = (fst . head . filter (\s -> elem a (snd s) && elem (head prevA) (snd s))) detailList
+
+> minTreeple :: Ord a => [Tree (a1,a2,a)] -> (a1,a2,a)
+> minTreeple ((Node x _):[]) = x
+> minTreeple ((Node (a,b,c) _):(Node (d,e,f) _):ns) = if c < f then minTreeple ((Node (a,b,c) []):ns) 
+>                                                              else minTreeple ((Node (d,e,f) []):ns)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 So we've got 2 lists: one with the actors that link two actors, and another with the shows by which they're linked.
@@ -170,15 +174,12 @@ How to put these together, and make it all look nice...
 >   where headAndLast = head as ++ " and " ++ last as
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Finish line!
-Using everything above here, we can get two Actors, and return a printed String with the shortest link between them.
+Finally, using everything above here, we can get two Actors, and return a printed String with the shortest link between them.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 > main' :: Actor -> Actor -> IO ()
-> main' a1 a2  = do allDetails <- allShowDetails
->                   (putStrLn . ppLinks) $ treeCheck allDetails a2 $ limitedTree allDetails a1
+> main' a1 a2  = do allShowDetails >>= (\d -> putStrLn . ppLinks $ treeCheck d a2 $ limitedTree d a1)
 
-> main :: IO ()
 > main = do a1 <- getLine
 >           a2 <- getLine
 >           main' a1 a2
