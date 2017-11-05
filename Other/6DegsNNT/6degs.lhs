@@ -25,12 +25,12 @@ Now defining some data types:
 > type Actor = String
 > type ShowName = String
 > type Detail = (ShowName, [Actor])
+> type AdjList = [(Actor, Actor, Int)]
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 A few test variables now:
 - treeLim so we can change the depth of a tree here rather than having to muck about in functions way down
 - showsPath is where the shows are in my copy of the history-project repo
-- escapePath is where the Lakeside performance of Escape For Dummies is, as a test show
 - And myself and some people as test cases for the actual degree-finder
 - Finally, a test tree for demonstrating printing things
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -50,6 +50,14 @@ A few test variables now:
 > rose = "Rose Edgeworth"
 > rj :: Actor
 > rj = "RJ"
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Only the one general helper function; flattening lists of lists happens a fair bit in here
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+> flatten :: [[a]] -> [a]
+> flatten ass = [a | as <- ass, a <- as]
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 First we need to build a list of all of the shows that have records on the history site
@@ -86,15 +94,18 @@ Basically my problem is that people's names are formatted incredibly inconsisten
 >  where hs = head s
 >        ls = last s
 
+> getString :: String -> String
+> getString = stripShit . dropWhile (/= ':')
+
 With that, we can extract just the name from the string
 
 > getNames :: [String] -> [Actor]
-> getNames = map (stripShit . dropWhile (/= ':')) . filterPeople
+> getNames = map getString . filterPeople
 
 Also we can use them to get the title as well, which is nice
 
 > getTitle :: [String] -> String
-> getTitle = stripShit . dropWhile (/= ':') . head . filter (isInfixOf "title:")
+> getTitle = getString . head . filter (isInfixOf "title:")
 
 Applying these, we can extract the details from a specific file
 
@@ -111,14 +122,6 @@ We discount anything that's not a MarkDown file, is a Freshers' Fringe (otherwis
 >                     allDirs <- sequence allDirs'
 >                     allDT <- (sequence . map showDetails . filter (\s -> isInfixOf ".md" s && not (isInfixOf "freshers_fringe" s)) . flatten) allDirs
 >                     return $ filter (\s -> length (snd s) > 1) allDT
->
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Helper functions!
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-> flatten :: [[a]] -> [a]
-> flatten ass = [a | as <- ass, a <- as]
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Generating trees now: given an actor's name, we generate a list of all of their fellow actors and use that to generate a tree of their connection to the theatre population
@@ -129,7 +132,9 @@ Generating a tree based on everyone an actor has worked with
 
 > treeGen :: [Detail] -> Actor -> Tree Actor
 > treeGen dt actorName = Node actorName [treeGen dt a | a <- allFellows dt actorName, a /= actorName]
->                        where allFellows dt a = (map head . group . sort . flatten . filter (elem a) . map snd) dt -- `map head . group . sort` removes duplicates
+
+> allFellows :: [Detail] -> Actor -> [Actor]
+> allFellows dt a = (map head . group . sort . flatten . filter (elem a) . map snd) dt -- `map head . group . sort` removes duplicates
 
 Limiting this tree, as it's otherwise infinite and that's a ballache
 
@@ -152,7 +157,7 @@ Putting these together because we're never gonna use treeGen naked after this
 >        link = (fst . head . filter ((\s -> elem a s && elem (head prevA) s) . snd)) detailList
 
 > minTreeple :: Ord a => [Tree (a1,a2,a)] -> (a1,a2,a)
-> minTreeple ((Node x _):[]) = x
+> minTreeple ((Node x _):[])                        = x
 > minTreeple ((Node (a,b,c) _):(Node (d,e,f) _):ns) = if c < f then minTreeple ((Node (a,b,c) []):ns) 
 >                                                              else minTreeple ((Node (d,e,f) []):ns)
 
@@ -177,9 +182,33 @@ How to put these together, and make it all look nice...
 Finally, using everything above here, we can get two Actors, and return a printed String with the shortest link between them.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-> main' :: Actor -> Actor -> IO ()
-> main' a1 a2  = allShowDetails >>= (\d -> putStrLn . ppLinks $ treeCheck d a2 $ limitedTree d a1)
+> findLink :: Actor -> Actor -> [Detail] -> ShowName
+> findLink a1 a2 dt = fst $ (head . filter ((\s -> elem a1 s && elem a2 s) . snd)) dt
 
-> main = do a1 <- getLine
->           a2 <- getLine
->           main' a1 a2
+> oneAdjList a dt = [([a2, a1], 1) | a1 <- allActors, a2 <- allFellows dt a1, a2 /= a1, a1 == a]
+>                 where allActors = (map head . group . sort . flatten . map snd) dt
+
+> fellowAdj2 :: [([Actor], Int)] -> [Detail] -> [([Actor], Int)]
+> fellowAdj2 [] dt = []
+> fellowAdj2 ((ad, i):as) dt = [((a:ad), i+1) | a <- allFellows dt (head ad), not (elem a ad)] ++ fellowAdj2 as dt
+
+> adjFind2 a1 a2 = do dt <- allShowDetails
+>                     let aj = adjFind2' a1 (oneAdjList a2 dt) [] dt
+>                     putStrLn $ printLinks aj dt
+
+> adjFind2' :: Actor -> [([Actor], Int)] -> [([Actor], Int)] -> [Detail] -> ([Actor], Int)
+> adjFind2' t (a:[]) a2 dt = if (head . fst) a == t then a else adjFind2' t (fellowAdj2 (a:a2) dt) [] dt
+> adjFind2' t (a:as) a2 dt = if (head . fst) a == t then a else adjFind2' t as (a:a2) dt
+
+> printLinks :: ([Actor], Int) -> [Detail] -> String
+> printLinks (as, i) dt
+>   | i == 0      = "A person has 0 degrees of separation with themself by definition."
+>   | i == 1      = headAndLast ++ " were in " ++ findLink (head as) (last as) dt ++ " together\n\nThey have 1 degree of separation."
+>   | i > 1000    = "These people are not linked."
+>   | otherwise   = headAndLast ++ " are linked as follows:\n" ++ links2 as dt ++ "\nThey have " ++ [intToDigit i] ++ " degrees of separation."
+>   where headAndLast = head as ++ " and " ++ last as
+
+> links2 :: [Actor] -> [Detail] -> String
+> links2 (a1:a2:as) dt = if as == [] then str else str ++ links2 (a2:as) dt
+>                           where str = "- " ++ a1 ++ " was in " ++ findLink a1 a2 dt ++ " with " ++ a2 ++ "\n"
+
