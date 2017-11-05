@@ -149,7 +149,7 @@ Putting these together because we're never gonna use treeGen naked after this
 >  | not (null as) && a == target = Node ([a], [], 0) []
 >  | not (null as) && a /= target = Node (a:prevA, link:prevLink, 1+c) []
 >  where (prevA, prevLink, c) = (minTreeple . map (treeCheck detailList target)) as
->        link = (fst . head . filter (\s -> elem a (snd s) && elem (head prevA) (snd s))) detailList
+>        link = (fst . head . filter ((\s -> elem a s && elem (head prevA) s) . snd)) detailList
 
 > minTreeple :: Ord a => [Tree (a1,a2,a)] -> (a1,a2,a)
 > minTreeple ((Node x _):[]) = x
