@@ -124,91 +124,45 @@ We discount anything that's not a MarkDown file, is a Freshers' Fringe (otherwis
 >                     return $ filter (\s -> length (snd s) > 1) allDT
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Generating trees now: given an actor's name, we generate a list of all of their fellow actors and use that to generate a tree of their connection to the theatre population
-This tree is obviously infinite, having no final case, so we need to limit it
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-Generating a tree based on everyone an actor has worked with
-
-> treeGen :: [Detail] -> Actor -> Tree Actor
-> treeGen dt actorName = Node actorName [treeGen dt a | a <- allFellows dt actorName, a /= actorName]
-
-> allFellows :: [Detail] -> Actor -> [Actor]
-> allFellows dt a = (map head . group . sort . flatten . filter (elem a) . map snd) dt -- `map head . group . sort` removes duplicates
-
-Limiting this tree, as it's otherwise infinite and that's a ballache
-
-> limTree :: Int -> Tree a -> Tree a
-> limTree 0 (Node a as) = Node a []
-> limTree n (Node a as) = Node a [limTree (n-1) a2 | a2 <- as]
-
-Putting these together because we're never gonna use treeGen naked after this
-
-> limitedTree :: [Detail] -> Actor -> Tree Actor
-> limitedTree dt a = limTree treeLim $ treeGen dt a
-
-> treeCheck :: [Detail] -> Actor -> Tree Actor -> Tree ([Actor], [ShowName], Int)
-> treeCheck detailList target (Node a as)
->  | null as && a == target       = Node ([a], [], 0) []
->  | null as && a /= target       = Node ([a], [], 1000) []
->  | not (null as) && a == target = Node ([a], [], 0) []
->  | not (null as) && a /= target = Node (a:prevA, link:prevLink, 1+c) []
->  where (prevA, prevLink, c) = (minTreeple . map (treeCheck detailList target)) as
->        link = (fst . head . filter ((\s -> elem a s && elem (head prevA) s) . snd)) detailList
-
-> minTreeple :: Ord a => [Tree (a1,a2,a)] -> (a1,a2,a)
-> minTreeple ((Node x _):[])                        = x
-> minTreeple ((Node (a,b,c) _):(Node (d,e,f) _):ns) = if c < f then minTreeple ((Node (a,b,c) []):ns) 
->                                                              else minTreeple ((Node (d,e,f) []):ns)
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 So we've got 2 lists: one with the actors that link two actors, and another with the shows by which they're linked.
 How to put these together, and make it all look nice...
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-> links :: [Actor] -> [ShowName] -> String
-> links (a1:a2:as) (s:ss) = if as == [] then str else str ++ links (a2:as) ss
->                           where str = "- " ++ a1 ++ " was in " ++ s ++ " with " ++ a2 ++ "\n"
-
-> ppLinks :: Tree ([Actor], [ShowName], Int) -> String
-> ppLinks (Node (as, ss, i) _)
->   | i == 0      = "A person has 0 degrees of separation with themself by definition."
->   | i == 1      = headAndLast ++ " were in " ++ head ss ++ " together\n\nThey have 1 degree of separation."
->   | i > treeLim = "These people are either not linked, or there are more than " ++ [intToDigit treeLim] ++ " degrees of separation."
->   | otherwise   = headAndLast ++ " are linked as follows:\n" ++ links as ss ++ "\nThey have " ++ [intToDigit i] ++ " degrees of separation."
->   where headAndLast = head as ++ " and " ++ last as
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Finally, using everything above here, we can get two Actors, and return a printed String with the shortest link between them.
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-> findLink :: Actor -> Actor -> [Detail] -> ShowName
-> findLink a1 a2 dt = fst $ (head . filter ((\s -> elem a1 s && elem a2 s) . snd)) dt
-
-> oneAdjList a dt = [([a2, a1], 1) | a1 <- allActors, a2 <- allFellows dt a1, a2 /= a1, a1 == a]
->                 where allActors = (map head . group . sort . flatten . map snd) dt
-
-> fellowAdj2 :: [([Actor], Int)] -> [Detail] -> [([Actor], Int)]
-> fellowAdj2 [] dt = []
-> fellowAdj2 ((ad, i):as) dt = [((a:ad), i+1) | a <- allFellows dt (head ad), not (elem a ad)] ++ fellowAdj2 as dt
-
-> adjFind2 a1 a2 = do dt <- allShowDetails
->                     let aj = adjFind2' a1 (oneAdjList a2 dt) [] dt
->                     putStrLn $ printLinks aj dt
-
-> adjFind2' :: Actor -> [([Actor], Int)] -> [([Actor], Int)] -> [Detail] -> ([Actor], Int)
-> adjFind2' t (a:[]) a2 dt = if (head . fst) a == t then a else adjFind2' t (fellowAdj2 (a:a2) dt) [] dt
-> adjFind2' t (a:as) a2 dt = if (head . fst) a == t then a else adjFind2' t as (a:a2) dt
 
 > printLinks :: ([Actor], Int) -> [Detail] -> String
 > printLinks (as, i) dt
 >   | i == 0      = "A person has 0 degrees of separation with themself by definition."
 >   | i == 1      = headAndLast ++ " were in " ++ findLink (head as) (last as) dt ++ " together\n\nThey have 1 degree of separation."
->   | i > 1000    = "These people are not linked."
->   | otherwise   = headAndLast ++ " are linked as follows:\n" ++ links2 as dt ++ "\nThey have " ++ [intToDigit i] ++ " degrees of separation."
+>   | i == 1000   = "These people are not linked."
+>   | otherwise   = headAndLast ++ " are linked as follows:\n" ++ links as dt ++ "\nThey have " ++ [intToDigit i] ++ " degrees of separation."
 >   where headAndLast = head as ++ " and " ++ last as
 
-> links2 :: [Actor] -> [Detail] -> String
-> links2 (a1:a2:as) dt = if as == [] then str else str ++ links2 (a2:as) dt
->                           where str = "- " ++ a1 ++ " was in " ++ findLink a1 a2 dt ++ " with " ++ a2 ++ "\n"
+> links :: [Actor] -> [Detail] -> String
+> links (a1:a2:as) dt = if as == [] then str else str ++ links (a2:as) dt
+>                          where str = "- " ++ a1 ++ " was in " ++ findLink a1 a2 dt ++ " with " ++ a2 ++ "\n"
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Finally, using everything above here, we can get two Actors, and return a printed String with the shortest link between them.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+> allFellows :: Actor -> [Detail] -> [Actor]
+> allFellows a dt = (filter (/= a) . map head . group . sort . flatten . filter (elem a) . map snd) dt
+
+> findLink :: Actor -> Actor -> [Detail] -> ShowName
+> findLink a1 a2 dt = (fst . head . filter ((\s -> elem a1 s && elem a2 s) . snd)) dt
+
+> oneAdjList a dt = [([a2, a], 1) | a2 <- allFellows a dt]
+
+> fellowAdj2 :: [([Actor], Int)] -> [Detail] -> [([Actor], Int)]
+> fellowAdj2 [] dt = []
+> fellowAdj2 ((ad, i):as) dt = [((a:ad), i+1) | a <- allFellows (head ad) dt, not (elem a ad)] ++ fellowAdj2 as dt
+
+> adjFind2' :: Actor -> [([Actor], Int)] -> [([Actor], Int)] -> [Detail] -> ([Actor], Int)
+> adjFind2' _ [] _ _ = ([], 1000)
+> adjFind2' t (a:[]) a2 dt = if (head . fst) a == t then a else adjFind2' t (fellowAdj2 (a:a2) dt) [] dt
+> adjFind2' t (a:as) a2 dt = if (head . fst) a == t then a else adjFind2' t as (a:a2) dt
+
+> main' a1 a2 = allShowDetails >>= (\d -> putStrLn $ printLinks (adjFind2' a1 (oneAdjList a2 d) [] d) d)
+
+> main = do a1 <- getLine
+>           a2 <- getLine
+>           main' a1 a2
