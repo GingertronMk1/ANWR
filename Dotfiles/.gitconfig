@@ -1,17 +1,19 @@
 [user]
-    email = jackellis1504@gmail.com
-    name = Jack Ellis
+  email = jackellis1504@gmail.com
+  name = Jack Ellis
 [color]
-    ui = auto
+  ui = auto
 [alias]
-    com = commit
-    comm = commit -m
-    df = diff
-    master = checkout master
-    st = status
+  com = commit
+  comm = commit -m
+  df = diff
+  master = checkout master
+  st = status
+  br = branch
+  ch = checkout
 [push]
-    default = simple
+  default = simple
 [core]
-    excludesfile = ~/.gitignore
+  excludesfile = ~/.gitignore
 [branch]
-    autosetuprebase = always
+  autosetuprebase = always
