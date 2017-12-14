@@ -30,6 +30,12 @@ alias compnotes="pdflatex Notes.tex"
 alias :e="fg"     # I'm horrifyingly used to using :e to get back to editing a document in GHCi
 alias scratchconvert="~/Git/ANWR/Scripts/audioconv.sh"
 
+alias ANWR="cd ~/Git/ANWR"
+alias Disco="cd ~/Git/Discovery"
+alias Time="cd ~/Git/Time"
+
+alias histupdate="curl -o search.json https://history.newtheatre.org.uk/feeds/search.json && curl -o people-collect.json https://history.newtheatre.org.uk/feeds/people-collect.json"
+
 # Setting things on a conditional basis
 if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
     Colorflag="-G"                          # On macOS, this makes ls coloured
