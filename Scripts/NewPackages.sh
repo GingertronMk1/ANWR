@@ -2,4 +2,4 @@
 
 sudo apt update && sudo apt upgrade -y
 
-sudo apt install htop libav git samba vim xinput chromium -y
+sudo apt install chromium-browser vim haskell-platform htop xinput libav-tools samba -y
