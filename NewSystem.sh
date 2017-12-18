@@ -20,3 +20,6 @@ ln -s $thisDir/vimcolors ~/.vim/colors                      # Symlink to the col
 echo "Linked .vim/colors to color folder in ANWR"           # Tell me what it's done
 
 touch .hushlogin        # Create a .hushlogin file so the system shuts the fuck up when I log in
+touch .localexports     # Create a .localexports file so it shuts up when I source
+
+. .bash_profile
