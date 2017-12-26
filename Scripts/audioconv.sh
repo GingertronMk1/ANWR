@@ -7,7 +7,8 @@ set -m
 #musicPath=/mnt/usbStick/Music
 folder=$SCRATCHFOLDER   # Where the file things are (that you want copying)
 
-files=$(find $folder -name "*.flac")
+#files=$(find $folder -name "*.flac")
+files=$(find $folder -name "*.m4a" | sort)
 
 mp3Convert() {
   baseFile=$1
@@ -17,7 +18,7 @@ mp3Convert() {
 
 flacConvert() {
   baseFile=$1
-  newFile=$(echo $line | sed -e 's/flac/flac/g')
+  newFile=$(echo $line | sed -e 's/m4a/flac/g')
   avconv -v quiet -i $baseFile -f flac $newFile
 }
 
@@ -39,6 +40,7 @@ echo -e "\n"
 STARTTIME=$(date +%s)
 
 for line in $files; do
+  while [ $(jobs | wc -l) -ge 4 ] ; do sleep 1 ; done
   case $REPLY in
     1) mp3Convert $line && rm $line &;;
     2) flacConvert $line && rm $line &;;
