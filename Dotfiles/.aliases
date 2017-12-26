@@ -16,7 +16,7 @@ alias res="cd ~ && . .bashrc && cd -" # Re-source .bashrc, which re-sources ever
 alias rm="rm -v"        # I like knowing things
 alias rf="rm -rf"       # Remove folder
 alias cls="clear"       # Saves 2 keystrokes
-alias rsync="rsync --exclude '*.DS_Store'" # Saves a lot of keystrokes
+alias rsync="rsync -rtuvP --exclude '*.DS_Store'" # Saves a lot of keystrokes
 alias du="du -h"    # I mean, duh
 alias ssh="ssh -o ConnectTimeout=5"
 
