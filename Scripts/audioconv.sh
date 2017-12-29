@@ -4,11 +4,13 @@ SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 set -m
 
+threads=4   # Increase/decrease as necessary for how many threads you want of this
+
 #musicPath=/mnt/usbStick/Music
 folder=$SCRATCHFOLDER   # Where the file things are (that you want copying)
 
 #files=$(find $folder -name "*.flac")
-files=$(find $folder -name "*.m4a" | sort)
+files=$(find $folder -name "*.flac" | sort)
 
 mp3Convert() {
   baseFile=$1
@@ -35,12 +37,12 @@ waveformConvert() {
 
 echo -e "Convert to:\n[1]: mp3\n[2]: flac\n[3]: wav\n[4]: waveform png\n[0]: flac & wav"
 read -n 1 -r
-echo -e "\n"
+echo -e "\nConverting using $threads threads..."
 
 STARTTIME=$(date +%s)
 
 for line in $files; do
-  while [ $(jobs | wc -l) -ge 4 ] ; do sleep 1 ; done
+  while [ $(jobs | wc -l) -ge $threads ] ; do sleep 1 ; done
   case $REPLY in
     1) mp3Convert $line && rm $line &;;
     2) flacConvert $line && rm $line &;;
