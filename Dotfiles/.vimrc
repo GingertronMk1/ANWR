@@ -11,7 +11,6 @@
 " -> Other Shortcuts
 " -> Filetype-Specific
 
-
 "------------------------------------------------------------------------------
 " General Settings
 "------------------------------------------------------------------------------
@@ -134,6 +133,18 @@ nnoremap <Down> }
 " Left and right arrows now move between words
 nnoremap <Left> b
 nnoremap <Right> w
+" Up and Down arrows now move between paragraphs
+vnoremap <Up> {
+vnoremap <Down> }
+" Left and right arrows now move between words
+vnoremap <Left> b
+vnoremap <Right> w
+" Up and Down arrows now move between paragraphs
+inoremap <Up> <Esc>{i
+inoremap <Down> <Esc>}i
+" Left and right arrows now move between words
+inoremap <Left> <Esc>bi
+inoremap <Right> <Esc>wi
 
 "------------------------------------------------------------------------------
 " Working With Tabs And Splits
