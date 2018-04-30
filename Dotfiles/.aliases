@@ -28,7 +28,7 @@ alias pimem="vcgencmd get_mem arm && vcgencmd get_mem gpu"  # Shows the split be
 # Other
 alias compnotes="pdflatex Notes.tex"
 alias :e="fg"     # I'm horrifyingly used to using :e to get back to editing a document in GHCi
-alias scratchconvert="~/Git/ANWR/Scripts/audioconv.sh"
+alias scratchconvert="~/Git/Eldorado/Bash/audioconv.sh"
 
 alias ANWR="cd ~/Git/ANWR"
 alias Disco="cd ~/Git/Discovery"
