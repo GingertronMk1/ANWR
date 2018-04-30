@@ -22,3 +22,5 @@
 *.o
 *.hi
 *.tgz
+*.ova
+*.vdi
