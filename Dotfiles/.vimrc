@@ -14,39 +14,39 @@
 "------------------------------------------------------------------------------
 " General Settings
 "------------------------------------------------------------------------------
-set nocompatible        " Less vi-ey. Still vi-ey enough though
-filetype on             " Allows filetype checking
-filetype plugin on      " Probs does nowt for me but oh well
-filetype indent on      " Smarter indentation based on file type
-set history=500         " Lots of history
-set showmatch           " Explicitly show matched paren pairs
-set matchpairs=<:>      " Starting the matchpairs set
-set matchpairs+={:}     " Adding braces
-set matchpairs+=(:)     " Adding parentheses
-set matchpairs+=[:]     " Adding brackets
-set mat=1               " How long to blink on typing the other paren
-set modelines=0         " Security option
-set encoding=utf-8      " Standardizes text to UTF-8
+set nocompatible          " Less vi-ey. Still vi-ey enough though
+filetype on               " Allows filetype checking
+filetype plugin on        " Probs does nowt for me but oh well
+filetype indent on        " Smarter indentation based on file type
+set history=500           " Lots of history
+set showmatch             " Explicitly show matched paren pairs
+set matchpairs=<:>        " Starting the matchpairs set with angle brackets
+set matchpairs+={:}       " Adding braces
+set matchpairs+=(:)       " Adding parentheses
+set matchpairs+=[:]       " Adding brackets
+set mat=1                 " How long to blink on typing the other paren
+set modelines=0           " Security option
+set encoding=utf-8        " Standardizes text to UTF-8
 set backspace=indent,eol,start
-set list                " Puts below characters in their places
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:·
-set showcmd             " Shows commands as I type them
-set lazyredraw          " Redraw only when necessary
-let mapleader="\<Space>"   " Sets leader key to spacebar
-set magic               " Better regex searching. Also, NEVER BELIEVE IT'S NOT SOOO
-set nostartofline       " Stop the cursor going to the start of each new line I go to
-set confirm             " Ask to save changes rather than just not letting me do something
-set autoread            " Automatically update the file if it's changed by something else
-set incsearch           " Starts searching as soon as / is typed
-set ignorecase          " All searches are case-insensitive
-set smartcase           " Lowercase searches are case-insensitive
+set list                  " Puts below characters in their places
+set listchars=tab:▸\ ,extends:❯,precedes:❮,trail:·
+set showcmd               " Shows commands as I type them
+set lazyredraw            " Redraw only when necessary
+let mapleader="\<Space>"  " Sets leader key to spacebar
+set magic                 " Better regex searching. Also, NEVER BELIEVE IT'S NOT SOOO
+set nostartofline         " Stop the cursor going to the start of each new line I go to
+set confirm               " Ask to save changes rather than just not letting me do something
+set autoread              " Automatically update the file if it's changed by something else
+set incsearch             " Starts searching as soon as / is typed
+set ignorecase            " All searches are case-insensitive
+set smartcase             " Lowercase searches are case-insensitive
 
 "------------------------------------------------------------------------------
 " External File Settings
 "------------------------------------------------------------------------------
-set noswapfile          " No more swap file nonsense
-set nobackup            " No more backup file nonsense
-set nowritebackup       " Seriously, fuck off with the backups
+set noswapfile                " No more swap file nonsense
+set nobackup                  " No more backup file nonsense
+set nowritebackup             " Seriously, fuck off with the backups
 set backupdir=~/.vim/backups  " Fuck the backup file off somewhere else for now
 set viminfo+=n~/.vim/viminfo  " Fuck the viminfo file off somewhere else for now
 if exists("&undodir")
@@ -55,11 +55,11 @@ endif
 "------------------------------------------------------------------------------
 " Wildmenu Settings
 "------------------------------------------------------------------------------
-set wildmenu                    " Graphical menu of autocomplete options
+set wildmenu                      " Graphical menu of autocomplete options
 set wildmode=list:longest,full
-set wildignore=*.o,*.obj,*~     " stuff to ignore when tab completing
-set wildignore+=*vim/backups*   " vim backup stuff
-set wildignore+=*DS_Store*      " It's in every folder on a Mac and does sweet FA
+set wildignore=*.o,*.obj,*~       " stuff to ignore when tab completing
+set wildignore+=*vim/backups*     " vim backup stuff
+set wildignore+=*DS_Store*        " It's in every folder on a Mac and does sweet FA
 set wildignore+=*.png,*.jpg,*.gif " You know, cos I don't want to edit pictures in Vim weirdly enough
 set wildignore+=*.toc,*.log       " The shit that pdflatex pumps out
 
@@ -89,7 +89,8 @@ set hlsearch            " Highlights searched things
 set mouse=a             " Allows mouse control
 syntax on               " Highlights syntax. It's C21. Jesus.
 set ruler               " Shows cursor all the time
-set nowrap              " Text doesn't wrap at edge of window
+set wrap                " Text will wrap at edge of window...
+set linebreak           " But without linebreaks
 set scrolloff=3         " Margin of 5 lines around edge of screen
 set splitbelow          " Horizontal splits below current window
 set splitright          " Vertical splits to the right of current window
@@ -120,8 +121,8 @@ set statusline+=C:\ %c            " Current column
 " Moving Inside Buffers
 "------------------------------------------------------------------------------
 " 'H' takes you to the beginning of a line, and 'L' to the end
-noremap H 0
-noremap L $
+noremap H g0
+noremap L g$
 " 'K' takes you to the top of the doc, and 'J' to the bottom
 noremap J G$
 noremap K 1G
@@ -134,8 +135,6 @@ nnoremap <Down> }
 nnoremap <Left> b
 nnoremap <Right> w
 " Up and Down arrows now move between paragraphs
-vnoremap <Up> {
-vnoremap <Down> }
 " Left and right arrows now move between words
 vnoremap <Left> b
 vnoremap <Right> w
@@ -145,6 +144,11 @@ inoremap <Down> <Esc>}i
 " Left and right arrows now move between words
 inoremap <Left> <Esc>bi
 inoremap <Right> <Esc>wi
+" h and j work with wrapping
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
 
 "------------------------------------------------------------------------------
 " Working With Tabs And Splits
@@ -209,21 +213,12 @@ nnoremap wc g<C-g>
 " <leader>d diffs this
 nnoremap <leader>d :diffthis<CR>
 
+
 "------------------------------------------------------------------------------
-" Filetype-Specific
+" Autogroups
 "------------------------------------------------------------------------------
-autocmd FileType conf :set syntax=sh
-augroup markdown
+augroup Compiling
   au!
-  autocmd BufEnter *.md :nnoremap <Leader>i ciw*<C-r>"*<Esc>
-  autocmd BufEnter *.md :nnoremap <Leader>b ciw**<C-r>"**<Esc>
-  autocmd BufEnter *.md :nnoremap <Leader>u ciw__<C-r>"__<Esc>
-  autocmd BufEnter *.md :nnoremap <Leader>f ciw`<C-r>"`<Esc>
-augroup latex
-  au!
-  autocmd BufEnter *.tex :nnoremap <Leader>i ciw\textit{<C-r>"}<Esc>
-  autocmd BufEnter *.tex :nnoremap <Leader>b ciw\textbf{<C-r>"}<Esc>
-  autocmd BufEnter *.tex :nnoremap <Leader>u ciw\underline{<C-r>"}<Esc>
-  autocmd BufEnter *.tex :nnoremap <Leader>f ciw\verb\|<C-r>"\|<Esc>
-  autocmd BufEnter *.tex :command Comp !pdflatex %
-  autocmd BufEnter *.tex :setlocal textwidth=1024
+  autocmd FileType *.tex nnoremap <leader>c :! pdflatex %<CR>
+  autocmd FileType *.r nnoremap <leader>c :! Rscript %<CR>
+augroup END
