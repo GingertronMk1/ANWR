@@ -219,6 +219,6 @@ nnoremap <leader>d :diffthis<CR>
 "------------------------------------------------------------------------------
 augroup Compiling
   au!
-  autocmd FileType *.tex nnoremap <leader>c :! pdflatex %<CR>
-  autocmd FileType *.r nnoremap <leader>c :! Rscript %<CR>
+  autocmd BufEnter *.tex nnoremap <leader>c :! pdflatex %<CR>
+  autocmd BufEnter *.r nnoremap <leader>c :! Rscript %<CR>
 augroup END
