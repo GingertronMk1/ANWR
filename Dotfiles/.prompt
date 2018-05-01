@@ -19,4 +19,4 @@ PS1+="$Split"               # Another emboldened white pipe
 PS1+="${ColourStyle}\w/"    # The working directory, with a / at the end just because I like it that way
 PS1+="\n╚> ${NC}"           # A new line, with a couple characters for interestingness
 
-PS2="${ColourStyle}> ${NC}" # PS2 prompt meanwhile is just a >
+PS2="${ColourStyle}╚> ${NC}" # PS2 prompt meanwhile is just a >
