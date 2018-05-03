@@ -8,15 +8,16 @@ conky.config = {
   -- Window Settings
   gap_x = 0,
   gap_y = 0,
-  maximum_width = 268,
-  minimum_width = 268,
-  alignment = 'top_right',
+  maximum_width = 256,
+  minimum_width = 256,
+  alignment = "top_right",
   own_window = true,
-  own_window_type = 'desktop',
-  own_window_transparent = true,
+  own_window_type = "desktop",
+  own_window_transparent = false,
+  own_window_hints = "undecorated,below,sticky,skip_taskbar,skip_pager",
   own_window_argb_visual = true,
-  own_window_argb_value = 255,
-  border_inner_margin = 0,
+  own_window_argb_value = 192,
+  border_inner_margin = 5,
   border_outer_margin = 0,
 
   -- Graphics Settings
@@ -28,43 +29,56 @@ conky.config = {
   draw_graph_borders = false,
   show_graph_scale = false,
   show_graph_range = false,
+  default_bar_width = 100,
+  default_bar_height = 12,
 
+  -- Text Settings
   use_xft = true,
   xftalpha = 0,
   text_buffer_size = 256,
   override_utf8_locale = true,
+
+  -- Colours
+  color0 = "111111",
+  color1 = "333333",
+  color2 = "555555",
+  color3 = "777777",
+  color4 = "999999",
+  color5 = "bbbbbb",
+  color6 = "dddddd",
+  color7 = "ffffff",
 }
 
 conky.text = [[
-  $nodename - $sysname $machine
-  $hr
-  ${color grey}uptime:$color $uptime
-  ${color grey}CPU frequency :$color $freq_g GHz
-  ${voffset 20}
-  ${cpugraph 26,268 FFFFFF FFFFFF -l}
-  CPU:${alignr}${cpu}%
+${color7}$nodename${alignr}$sysname $machine
+$hr
+${color5}uptime:${alignr}${color4}${uptime}
+${color5}/: ${color4}${fs_used /}/${fs_size /}${alignr}${fs_bar 12,100 /}
 
-  ${memgraph 26,268 FFFFFF FFFFFF -l}
-  RAM:${alignr}${memperc}%
 
-  ${diskiograph 26,268 FFFFFF FFFFFF -l}
-  Disk I/O:${alignr}${diskio}
+${color7}CPU ${hr}
+${color5}Frequency:${alignr}${color4}${freq_g}GHz
+${color5}CPU Total:${alignr}${color4}${cpu}% ${cpubar cpu0 12, 100}
+${color5}CPU1:${alignr}${color4}${cpu cpu1}% ${cpubar cpu1 12, 100}
+${color5}CPU2:${alignr}${color4}${cpu cpu2}% ${cpubar cpu2 12, 100}
+${color5}CPU3:${alignr}${color4}${cpu cpu3}% ${cpubar cpu3 12, 100}
+${color5}CPU4:${alignr}${color4}${cpu cpu4}% ${cpubar cpu4 12, 100}
 
-  $hr
-  ${color grey}file systems:
-  $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
-  $hr
-  ${color1}Proc${color}${alignr}${color1}CPU %${color}
-  ${color2}${top_mem name 1}${color}${alignr}${top cpu 1} %
-  ${color2}${top_mem name 2}${color}${alignr}${top cpu 2} %
-  ${color2}${top_mem name 3}${color}${alignr}${top cpu 3} %
-  ${color2}${top_mem name 4}${color}${alignr}${top cpu 4} %
-  ${color2}${top_mem name 5}${color}${alignr}${top cpu 5} %
+${color6}Highest CPU${alignr}Usage
+${color5}${top name 1}${alignr}${color4}${top cpu 1}%
+${color5}${top name 2}${alignr}${color4}${top cpu 2}%
+${color5}${top name 3}${alignr}${color4}${top cpu 3}%
+${color5}${top name 4}${alignr}${color4}${top cpu 4}%
+${color5}${top name 5}${alignr}${color4}${top cpu 5}%
 
-  ${color1}Proc${color}${alignr}${color1}${color1}RAM${color}
-  ${color2}${top_mem name 1}${color}${alignr}${top_mem mem_res 1}
-  ${color2}${top_mem name 2}${color}${alignr}${top_mem mem_res 2}
-  ${color2}${top_mem name 3}${color}${alignr}${top_mem mem_res 3}
-  ${color2}${top_mem name 4}${color}${alignr}${top_mem mem_res 4}
-  ${color2}${top_mem name 5}${color}${alignr}${top_mem mem_res 5}
+
+${color7}Memory ${hr}
+${color5}mem:${alignr}${color4}${mem} ${membar 12, 100}
+${color5}swap:${alignr}${color4}${swap} ${swapbar 12, 100}
+
+${color6}Highest Memory${alignr}Usage
+${color5}${top_mem name 1}${alignr}${color4}${top_mem mem 1}%
+${color5}${top_mem name 2}${alignr}${color4}${top_mem mem 2}%
+${color5}${top_mem name 3}${alignr}${color4}${top_mem mem 3}%
+${color5}${top_mem name 4}${alignr}${color4}${top_mem mem 4}%
 ]]
