@@ -16,7 +16,7 @@
 "------------------------------------------------------------------------------
 set nocompatible          " Less vi-ey. Still vi-ey enough though
 filetype on               " Allows filetype checking
-filetype plugin on        " Probs does nowt for me but oh well
+"filetype plugin on        " Probs does nowt for me but oh well
 filetype indent on        " Smarter indentation based on file type
 set history=500           " Lots of history
 set showmatch             " Explicitly show matched paren pairs
@@ -40,6 +40,7 @@ set autoread              " Automatically update the file if it's changed by som
 set incsearch             " Starts searching as soon as / is typed
 set ignorecase            " All searches are case-insensitive
 set smartcase             " Lowercase searches are case-insensitive
+set formatoptions=tcrqln
 
 "------------------------------------------------------------------------------
 " External File Settings
@@ -217,7 +218,7 @@ nnoremap <leader>d :diffthis<CR>
 "------------------------------------------------------------------------------
 " Autogroups
 "------------------------------------------------------------------------------
-augroup Compiling
+augroup Comp " Not actually compiling mostly but you get the point
   au!
   autocmd BufEnter *.tex nnoremap <leader>c :! pdflatex %<CR>
   autocmd BufEnter *.r nnoremap <leader>c :! Rscript %<CR>
