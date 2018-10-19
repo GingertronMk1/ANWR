@@ -7,18 +7,18 @@ alias ~="cd ~"
 alias -- -="cd -"   # If you don't know, this is a back button basically
 
 # Make some shell commands do what I want them to by default
-alias sudo="sudo -E"            # sudo no longer puts you in /root or wherever it is
+alias sudo="sudo -E"                    # sudo no longer puts you in /root or wherever it is
 alias fuck='sudo "$(history -p !!)"'    # fuck = sudo !!
-alias df="df -h"                # df looks nice
-alias vi="vim"                  # shouldn't really come in handy, but it might one day
-alias ifconfig="/sbin/ifconfig" # Silly ifconfig
-alias res="cd ~ && . .bashrc && cd -" # Re-source .bashrc, which re-sources everything else
-alias rm="rm -v"        # I like knowing things
-alias rf="rm -rf"       # Remove folder
-alias cls="clear"       # Saves 2 keystrokes
+alias df="df -h"                        # df looks nice
+alias vi="vim"                          # shouldn't really come in handy, but it might one day
+alias ifconfig="/sbin/ifconfig"         # Silly ifconfig
+alias res="cd ~ && . .bashrc && cd -"   # Re-source .bashrc, which re-sources everything else
+alias rm="rm -v"                        # I like knowing things
+alias rf="rm -rf"                       # Remove folder
+alias cls="clear"                       # Saves 2 keystrokes
 alias rsync="rsync -Phrtuv --exclude '*.DS_Store'" # Saves a lot of keystrokes
-alias du="du -h | sort -h"    # I mean, duh
-alias ssh="ssh -o ConnectTimeout=5"
+alias du="du -h | sort -h"              # I mean, duh
+alias ssh="ssh -o ConnectTimeout=5"     # Don't bother waiting more than 5s when ssh-ing
 
 # Useful Pi commands made shorter
 alias piconf="sudo raspi-config"    # Lets me configure my Pi
@@ -34,16 +34,20 @@ alias ANWR="cd ~/Git/ANWR"
 alias Disco="cd ~/Git/Discovery"
 alias Time="cd ~/Git/Time"
 
-alias histupdate="curl -o search.json https://history.newtheatre.org.uk/feeds/search.json && curl -o people-collect.json https://history.newtheatre.org.uk/feeds/people-collect.json"
-alias numsongs="find $MUSIC -name \"*flac\" | wc -l"
+alias histupdate="curl -o search.json https://history.newtheatre.org.uk/feeds/search.json & curl -o people-collect.json https://history.newtheatre.org.uk/feeds/people-collect.json"
+alias numsongs="find $MUSICFOLDER -name \"*flac\" | wc -l"
 
 alias sdback="rsync -Phrtuv --delete --exclude '*.DS_Store' /Users/Jack/Music/Music /Volumes/BISHOP/"
+
+# Backing up and restoring music from my server
+alias backupmusic="rsync --delete $MUSICFOLDER/ illiac:~/Music/"
+alias returnmusic="rsync --delete illiac:~/Music/ $MUSICFOLDER/"
 
 # Setting things on a conditional basis
 if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
     Colorflag="-G"                          # On macOS, this makes ls coloured
     export LSCOLORS='exfxcxdxbxegedabagacad'    # And this is what defines the ls colours
-    alias updates="sudo softwareupdate -i -a"   # This updates macOS systems
+    alias updates="sudo softwareupdate -i -a; brew update; brew upgrade; brew prune; brew cleanup; brew doctor; cabal update"   # This updates macOS systems
 else                                        # Whereas...
     Colorflag="--color=always"                     # On Linux, this makes ls coloured
     export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'  # And this defines the ls colours

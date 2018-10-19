@@ -4,27 +4,6 @@ md() {
   mkdir "$1" && cd "$1"
 }
 
-function picheck {
-  ssh -q -o BatchMode=yes illiac-local exit
-  if [ $? -eq 0 ]; then     # If ILLIAC's available on the local network
-    echo "illiac-local"           # Point to it
-  else
-    echo "illiac"                 # Otherwise, point to it via the internet
-  fi
-}
-
-function backupmusic {
-  target=$(picheck)
-  echo "Backing up music to $target"
-  rsync -rtuvP --delete $MUSIC/ $target:~/Music/
-}
-
-function returnmusic {
-  target=$(picheck)
-  echo "Returning music from $target"
-  rsync -rtuvP $target:~/Music/ $MUSIC/
-}
-
 function gpp {
   local sourcefile=$1
   local targetfile=$(echo $sourcefile | sed -e 's/cpp/run/')
