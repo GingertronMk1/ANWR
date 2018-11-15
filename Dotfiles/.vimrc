@@ -213,7 +213,8 @@ nnoremap U <C-R>
 nnoremap wc g<C-g>
 " <leader>d diffs this
 nnoremap <leader>d :diffthis<CR>
-
+" <leader>t trims trailing whitespace
+nnoremap <leader>t :%s/\s\+$//e<CR>
 
 "------------------------------------------------------------------------------
 " Autogroups
