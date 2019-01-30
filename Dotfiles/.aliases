@@ -32,6 +32,7 @@ alias scratchconvert="~/Git/Eldorado/Bash/audioconv.sh"
 
 alias ganwr="cd ~/Git/ANWR"
 alias gdisco="cd ~/Git/Discovery"
+alias geld="cd ~/Git/Eldorado"
 alias gtime="cd ~/Git/Time"
 alias gdiss="cd ~/Git/Dissertation"
 
@@ -41,8 +42,8 @@ alias numsongs="find $MUSICFOLDER -name \"*flac\" | wc -l"
 alias sdback="rsync -Phrtuv --delete --exclude '*.DS_Store' /Users/Jack/Music/Music /Volumes/BISHOP/"
 
 # Backing up and restoring music from my server
-alias backupmusic="rsync --delete $MUSICFOLDER/ illiac:~/Music/"
-alias returnmusic="rsync --delete illiac:~/Music/ $MUSICFOLDER/"
+alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/"
+alias returnmusic="rsync --delete illiac:~/Music/ ~/Music/"
 
 # Setting things on a conditional basis
 if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
