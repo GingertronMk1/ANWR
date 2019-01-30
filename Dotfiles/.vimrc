@@ -16,7 +16,6 @@
 "------------------------------------------------------------------------------
 set nocompatible          " Less vi-ey. Still vi-ey enough though
 filetype on               " Allows filetype checking
-"filetype plugin on        " Probs does nowt for me but oh well
 filetype indent on        " Smarter indentation based on file type
 set history=500           " Lots of history
 set showmatch             " Explicitly show matched paren pairs
@@ -41,6 +40,7 @@ set incsearch             " Starts searching as soon as / is typed
 set ignorecase            " All searches are case-insensitive
 set smartcase             " Lowercase searches are case-insensitive
 set formatoptions=tcrqln
+set spelllang=en
 
 "------------------------------------------------------------------------------
 " External File Settings
@@ -62,7 +62,7 @@ set wildignore=*.o,*.obj,*~       " stuff to ignore when tab completing
 set wildignore+=*vim/backups*     " vim backup stuff
 set wildignore+=*DS_Store*        " It's in every folder on a Mac and does sweet FA
 set wildignore+=*.png,*.jpg,*.gif " You know, cos I don't want to edit pictures in Vim weirdly enough
-set wildignore+=*.toc,*.log       " The shit that pdflatex pumps out
+set wildignore+=*.aux*.toc,*.log  " The shit that pdflatex pumps out
 
 "------------------------------------------------------------------------------
 " Indentation Settings
@@ -159,11 +159,6 @@ noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
-" Tab navigation and creation
-inoremap <C-t>l <Esc>:tabn<CR>
-inoremap <C-t>h <Esc>:tabp<CR>
-nnoremap <C-t>l :tabp<CR>
-nnoremap <C-t>h :tabp<CR>
 " Creating splits and tabs using leader key
 nnoremap <leader>v :vsplit.<CR>
 nnoremap <leader>h :split.<CR>
@@ -221,6 +216,24 @@ nnoremap <leader>t :%s/\s\+$//e<CR>
 "------------------------------------------------------------------------------
 augroup Comp " Not actually compiling mostly but you get the point
   au!
-  autocmd BufEnter *.tex nnoremap <leader>c :! pdflatex %<CR>
-  autocmd BufEnter *.r nnoremap <leader>c :! Rscript %<CR>
+  autocmd BufEnter *.tex nnoremap <leader>c :! pdflatex % && pdflatex %<CR><CR>
+  autocmd BufEnter *.r   nnoremap <leader>c :! Rscript %<CR><CR>
 augroup END
+
+augroup Textfiles
+  au!
+  autocmd BufEnter *.tex setlocal spell
+  autocmd BufEnter *.md  setlocal spell
+  autocmd BufEnter *.txt setlocal spell
+augroup END
+
+"------------------------------------------------------------------------------
+" Skeletons
+"------------------------------------------------------------------------------
+augroup Skel
+  au!
+  :autocmd BufNewFile  *.c  0r ~/.vim/skeleton.c
+  :autocmd BufNewFile  *.h  0r ~/.vim/skeleton.h
+  :autocmd BufNewFile  *.hs 0r ~/.vim/skeleton.hs
+augroup END
+
