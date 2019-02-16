@@ -22,7 +22,9 @@ hi Number           ctermfg=135
 hi String           ctermfg=144
 hi Conditional      ctermfg=161                 cterm=bold
 hi Constant         ctermfg=135                 cterm=bold
-hi Cursor           ctermfg=16    ctermbg=253
+hi Cursor           ctermfg=15    ctermbg=10
+hi CursorLine                     ctermbg=238   cterm=none
+
 hi Debug            ctermfg=225                 cterm=bold
 hi Define           ctermfg=81
 hi Delimiter        ctermfg=241
