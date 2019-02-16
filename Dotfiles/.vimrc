@@ -90,6 +90,7 @@ set hlsearch            " Highlights searched things
 set mouse=a             " Allows mouse control
 syntax on               " Highlights syntax. It's C21. Jesus.
 set ruler               " Shows cursor all the time
+set cursorline          " Highlight the current line
 set wrap                " Text will wrap at edge of window...
 set linebreak           " But without linebreaks
 set scrolloff=3         " Margin of 5 lines around edge of screen
@@ -209,7 +210,11 @@ nnoremap wc g<C-g>
 " <leader>d diffs this
 nnoremap <leader>d :diffthis<CR>
 " <leader>t trims trailing whitespace
-nnoremap <leader>t :%s/\s\+$//e<CR>
+nnoremap <leader>t :%s/\s\+$//e<Space>\|<Space>:nohl<CR>
+" <leader> c cd's to the current directory
+nnoremap <leader>c :cd %:p:h<CR>
+" jj mapped to Esc in insert mode
+inoremap jj <Esc>
 
 "------------------------------------------------------------------------------
 " Autogroups
@@ -232,8 +237,9 @@ augroup END
 "------------------------------------------------------------------------------
 augroup Skel
   au!
-  :autocmd BufNewFile  *.c  0r ~/.vim/skeleton.c
-  :autocmd BufNewFile  *.h  0r ~/.vim/skeleton.h
-  :autocmd BufNewFile  *.hs 0r ~/.vim/skeleton.hs
+  :autocmd BufNewFile  *.c    0r ~/.vim/skeleton.c
+  :autocmd BufNewFile  *.h    0r ~/.vim/skeleton.h
+  :autocmd BufNewFile  *.hs   0r ~/.vim/skeleton.hs
+  :autocmd BufNewFile  *.tex  0r ~/.vim/skeleton.tex
 augroup END
 
