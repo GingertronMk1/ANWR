@@ -215,6 +215,8 @@ nnoremap <leader>t :%s/\s\+$//e<Space>\|<Space>:nohl<CR>
 nnoremap <leader>c :cd %:p:h<CR>
 " jj mapped to Esc in insert mode
 inoremap jj <Esc>
+" <leader> g primes the file for a git push
+nnoremap <leader>g :!git add %; git commit -m ""<left>
 
 "------------------------------------------------------------------------------
 " Autogroups
