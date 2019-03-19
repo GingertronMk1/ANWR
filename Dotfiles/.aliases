@@ -30,11 +30,14 @@ alias compnotes="pdflatex Notes.tex"
 alias :e="fg"     # I'm horrifyingly used to using :e to get back to editing a document in GHCi
 alias scratchconvert="~/Git/Eldorado/Bash/audioconv.sh"
 
+# Quickly jump to Git folders
 alias ganwr="cd ~/Git/ANWR"
 alias gdisco="cd ~/Git/Discovery"
 alias geld="cd ~/Git/Eldorado"
 alias gtime="cd ~/Git/Time"
 alias gdiss="cd ~/Git/Dissertation"
+
+alias pdflatex="pdflatex -file-line-error"
 
 alias histupdate="curl -o search.json https://history.newtheatre.org.uk/feeds/search.json & curl -o people-collect.json https://history.newtheatre.org.uk/feeds/people-collect.json"
 alias numsongs="find $MUSICFOLDER -name \"*flac\" | wc -l"
