@@ -15,10 +15,15 @@ shopt -s checkwinsize   # Checks window size
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+  PATH="$HOME/bin:$PATH"
 fi
 
 # Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+
+if [ -d "~/.composer" ] ; then
+  PATH="${PATH}:$HOME/.composer/vendor/bin"
+fi
+#PATH="${PATH}:$HOME/.composer/vendor/bin"
 export PATH
