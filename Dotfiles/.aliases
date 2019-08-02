@@ -45,7 +45,7 @@ alias numsongs="find $MUSICFOLDER -name \"*flac\" | wc -l"
 alias sdback="rsync -Phrtuv --delete --exclude '*.DS_Store' /Users/Jack/Music/Music /Volumes/BISHOP/"
 
 # Backing up and restoring music from my server
-alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/"
+alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"
 alias returnmusic="rsync --delete illiac:~/Music/ ~/Music/"
 
 # Setting things on a conditional basis
