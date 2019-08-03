@@ -1,9 +1,4 @@
 *.DS_Store
-*.pdf
-*.jpg
-*.png
-*.tif
-*.tiff
 *.fseventd
 *.Spotlight-V100
 *.Trashes
