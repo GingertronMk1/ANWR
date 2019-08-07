@@ -1,9 +1,9 @@
 #!/bin/bash
 
-PATHHERE=$(pwd -L)
+pathhere=$(pwd -L)
 
 for f in Dotfiles/.*
 do
   echo "Linking $f"
-  ln -sf $PATHHERE/$f ~
+  ln -sf $pathhere/$f ~
 done
