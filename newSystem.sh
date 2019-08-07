@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pathhere=$(pwd -L)
+pathhere=$(pwd -P)
 
 for f in Dotfiles/.*
 do
