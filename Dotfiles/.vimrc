@@ -1,15 +1,16 @@
 " My garbled mess of a .vimrc
 " Roughly, it goes:
 " -> General Settings
-" -> Wildmenu Settings
 " -> External File Settings
+" -> Wildmenu Settings
 " -> Indentation Settings
 " -> UI Tweaks
 " -> Moving Inside Buffers
 " -> Working With Tabs And Splits
 " -> Saving And Loading
 " -> Other Shortcuts
-" -> Filetype-Specific
+" -> Autogroups
+" -> Skeletons
 
 "------------------------------------------------------------------------------
 " General Settings
@@ -211,10 +212,6 @@ nnoremap wc g<C-g>
 nnoremap <leader>d :diffthis<CR>
 " <leader>t trims trailing whitespace
 nnoremap <leader>t :%s/\s\+$//e<Space>\|<Space>:nohl<CR>
-" <leader> c cd's to the current directory
-nnoremap <leader>c :cd %:p:h<CR>
-" jj mapped to Esc in insert mode
-inoremap jj <Esc>
 " <leader> g primes the file for a git push
 nnoremap <leader>g :!git add %; git commit -m ""<left>
 
