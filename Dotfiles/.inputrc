@@ -1,12 +1,24 @@
-set completion-ignore-case on
-set expand-tilde on
+# Allow UTF-8 input and output
 set convert-meta off
 set input-meta on
 set output-meta on
+
+# Make Tab autocomplete regardless of filename case
+set completion-ignore-case on
+
+# When hitting Tab on ~ expand it to show the full path
+set expand-tilde on
+
+# List all matches if multiple completions are possible
 set show-all-if-ambiguous on
+
+# Show extra file info when completing
 set visible-stats on
+
+# Add a trailing slash when autocompleting directory symlinks
 set mark-symlinked-directories on
-TAB: menu-complete
+
+# No bell
 set bell-style none
 
 # mappings for making up and down arrow searching through history:
