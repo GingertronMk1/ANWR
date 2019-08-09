@@ -17,8 +17,9 @@ alias rm="rm -v"                        # I like knowing things
 alias rf="rm -rf"                       # Remove folder
 alias cls="clear"                       # Saves 2 keystrokes
 alias rsync="rsync -Phrtuv --exclude '*.DS_Store'" # Saves a lot of keystrokes
-alias du="du -h | sort -h"              # I mean, duh
+alias du="du -h"                                    # I mean, duh
 alias ssh="ssh -o ConnectTimeout=5"     # Don't bother waiting more than 5s when ssh-ing
+alias ls="ls -ACFhlp ${Colorflag}"  # ls in a nice ordered coloured list with lots of info
 
 # Useful Pi commands made shorter
 alias piconf="sudo raspi-config"    # Lets me configure my Pi
@@ -58,7 +59,6 @@ else                                        # Whereas...
     export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'  # And this defines the ls colours
     alias updates="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"  # This updates Debian systems
 fi
-alias ls="ls -ACFhlp ${Colorflag}"  # ls in a nice ordered coloured list with lots of info
 
 if command -v htop >/dev/null; then         # If htop's installed, alias top to it
     alias top="htop"
