@@ -231,6 +231,16 @@ augroup Textfiles
   autocmd BufEnter *.txt setlocal spell
 augroup END
 
+augroup Dotfiles " Highlighting dotfiles
+  au!
+  autocmd BufEnter .aliases      set syntax=sh
+  autocmd BufEnter .bash_profile set syntax=sh
+  autocmd BufEnter .bashrc       set syntax=sh
+  autocmd BufEnter .exports      set syntax=sh
+  autocmd BufEnter .functions    set syntax=sh
+  autocmd BufEnter .prompt       set syntax=sh
+augroup END
+
 "------------------------------------------------------------------------------
 " Skeletons
 "------------------------------------------------------------------------------
