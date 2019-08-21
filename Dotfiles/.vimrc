@@ -231,7 +231,7 @@ augroup Textfiles
   autocmd BufEnter *.txt setlocal spell
 augroup END
 
-augroup Dotfiles " Highlighting dotfiles
+augroup Oddfiles " Highlighting weird files
   au!
   autocmd BufEnter .aliases      set syntax=sh
   autocmd BufEnter .bash_profile set syntax=sh
@@ -239,6 +239,7 @@ augroup Dotfiles " Highlighting dotfiles
   autocmd BufEnter .exports      set syntax=sh
   autocmd BufEnter .functions    set syntax=sh
   autocmd BufEnter .prompt       set syntax=sh
+  autocmd BufEnter Vagrantfile   set syntax=ruby
 augroup END
 
 "------------------------------------------------------------------------------
