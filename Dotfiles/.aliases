@@ -8,7 +8,7 @@ alias ~="cd ~"
 # Make some shell commands do what I want them to by default
 alias sudo="sudo -E"                  # sudo no longer puts you in /root or wherever it is
 alias fuck='sudo "$(history -p !!)"'  # fuck = sudo !!
-alias vi="vim"                        # shouldn't really come in handy, but it might one day
+alias vi="vim -O"                     # If I put more than one file name in open them SxS
 alias ifconfig="/sbin/ifconfig"       # Silly ifconfig
 alias res="cd ~ && . .bashrc && cd -" # Re-source .bashrc, which re-sources everything else
 alias rm="rm -v"                      # I like knowing things
