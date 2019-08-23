@@ -251,6 +251,7 @@ augroup Skel
   :autocmd BufNewFile  *.h    0r ~/.vim/skeleton.h
   :autocmd BufNewFile  *.hs   0r ~/.vim/skeleton.hs
   :autocmd BufNewFile  *.tex  0r ~/.vim/skeleton.tex
+  :autocmd BufNewFile  *.html 0r ~/.vim/skeleton.html
   :autocmd BufNewFile  */history-project/_shows/*.md  0r ~/.vim/_skeleton.md
 augroup END
 
