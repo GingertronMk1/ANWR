@@ -20,10 +20,22 @@ fi
 
 # Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+if [ -d "/Library/Frameworks/Python.framework/Versions/3.6/bin" ] ; then
+  PATH="$PATH:/Library/Frameworks/Python.framework/Versions/3.6/bin"
+fi
 
 if [ -d "$HOME/.composer" ] ; then
   PATH="$PATH:$HOME/.composer/vendor/bin"
+fi
+
+if [ -d "/usr/local/opt/ruby/bin" ] ; then
+  PATH="$PATH:/usr/local/opt/ruby/bin"
+fi
+
+rubyver=2.6
+
+if [ -d "/$HOME/.gem/ruby/$rubyver/bin" ] ; then
+  PATH="$PATH:$HOME/.gem/ruby/X.X.0/bin"
 fi
 
 export PATH
@@ -32,3 +44,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
+eval "$(rbenv init -)"
