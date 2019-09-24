@@ -1,3 +1,14 @@
+# Setting things on a conditional basis
+if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
+    Colorflag="-G"                          # On macOS, this makes ls coloured
+    export LSCOLORS='exfxcxdxbxegedabagacad'    # And this is what defines the ls colours
+    alias updates="sudo softwareupdate -i -a; brew update; brew upgrade; brew prune; brew cleanup; brew doctor; cabal update"   # This updates macOS systems
+else                                        # Whereas...
+    Colorflag="--color=always"                     # On Linux, this makes ls coloured
+    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'  # And this defines the ls colours
+    alias updates="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"  # This updates Debian systems
+fi
+
 # Make moving around directories easier
 alias ..="cd .."
 alias ...="cd ../../"
@@ -9,7 +20,10 @@ alias ~="cd ~"
 alias sudo="sudo -E"                  # sudo no longer puts you in /root or wherever it is
 alias fuck='sudo "$(history -p !!)"'  # fuck = sudo !!
 alias vi="vim -O"                     # If I put more than one file name in open them SxS
-alias ifconfig="/sbin/ifconfig"       # Silly ifconfig
+
+if [ -f "/sbin/ifconfig" ] ; then
+  alias ifconfig="/sbin/ifconfig"       # Silly ifconfig
+fi
 alias res="cd ~ && . .bashrc && cd -" # Re-source .bashrc, which re-sources everything else
 alias rm="rm -v"                      # I like knowing things
 alias rf="rm -rf"                     # Remove folder
@@ -38,17 +52,6 @@ alias gdiss="cd ~/Git/Dissertation"
 # Backing up and restoring music from my server
 alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"
 alias returnmusic="rsync --delete illiac:~/Music/ ~/Music/"
-
-# Setting things on a conditional basis
-if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
-    Colorflag="-G"                          # On macOS, this makes ls coloured
-    export LSCOLORS='exfxcxdxbxegedabagacad'    # And this is what defines the ls colours
-    alias updates="sudo softwareupdate -i -a; brew update; brew upgrade; brew prune; brew cleanup; brew doctor; cabal update"   # This updates macOS systems
-else                                        # Whereas...
-    Colorflag="--color=always"                     # On Linux, this makes ls coloured
-    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'  # And this defines the ls colours
-    alias updates="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"  # This updates Debian systems
-fi
 
 if command -v htop >/dev/null; then         # If htop's installed, alias top to it
     alias top="htop"
