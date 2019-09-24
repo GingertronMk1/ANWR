@@ -38,6 +38,10 @@ if [ -d "/$HOME/.gem/ruby/$rubyver/bin" ] ; then
   PATH="$PATH:$HOME/.gem/ruby/X.X.0/bin"
 fi
 
+export GEM_HOME="$HOME/gems"
+
+PATH="$PATH:$HOME/gems/bin"
+
 export PATH
 
 export NVM_DIR="$HOME/.nvm"
