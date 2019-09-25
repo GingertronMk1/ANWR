@@ -212,8 +212,10 @@ nnoremap wc g<C-g>
 nnoremap <leader>d :diffthis<CR>
 " <leader>t trims trailing whitespace
 nnoremap <leader>t :%s/\s\+$//e<Space>\|<Space>:nohl<CR>
-" <leader> g primes the file for a git push
-nnoremap <leader>g :!git add %; git commit -m ""<left>
+" <leader>g adds and commits the file to git
+nnoremap <leader>g :!git add % && git commit -m ""<left>
+" <leader>p does the last thing and also sets it up to push
+nnoremap <leader>p :!git add % && git commit -m "" && git push<left><left><left><left><left><left><left><left><left><left><left><left><left>
 
 
 "------------------------------------------------------------------------------
