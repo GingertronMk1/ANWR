@@ -133,20 +133,20 @@ noremap K 1G
 nnoremap <CR> G0
 " Up and Down arrows now move between paragraphs
 nnoremap <Up> {
+vnoremap <Up> {
 nnoremap <Down> }
+vnoremap <Down> }
 " Left and right arrows now move between words
 nnoremap <Left> b
-nnoremap <Right> w
-" Up and Down arrows now move between paragraphs
-" Left and right arrows now move between words
 vnoremap <Left> b
+nnoremap <Right> w
 vnoremap <Right> w
 " Up and Down arrows now move between paragraphs
 inoremap <Up> <Esc>{i
 inoremap <Down> <Esc>}i
 " Left and right arrows now move between words
 inoremap <Left> <Esc>bi
-inoremap <Right> <Esc>wi
+inoremap <Right> <Esc>wwi
 " h and j work with wrapping
 nnoremap j gj
 nnoremap k gk
