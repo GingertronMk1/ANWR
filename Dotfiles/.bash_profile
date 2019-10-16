@@ -38,9 +38,11 @@ if [ -d "/$HOME/.gem/ruby/$rubyver/bin" ] ; then
   PATH="$PATH:$HOME/.gem/ruby/X.X.0/bin"
 fi
 
-export GEM_HOME="$HOME/gems"
-
-PATH="$PATH:$HOME/gems/bin"
+if [ -d "$HOME/gems" ] ; then
+  GEM_HOME="$HOME/gems"
+  PATH="$PATH:$HOME/gems/bin"
+  export GEM_HOME
+fi
 
 export PATH
 
@@ -48,4 +50,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
-eval "$(rbenv init -)"
+if command -v rbenv >/dev/null; then
+  eval "$(rbenv init -)"
+fi
