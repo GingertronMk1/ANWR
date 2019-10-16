@@ -11,9 +11,9 @@ fi
 
 # Make moving around directories easier
 alias ..="cd .."
-alias ...="cd ../../"
-alias ....="cd ../../../"
-alias .....="cd ../../../../.."
+alias 3.="cd ../../"
+alias 4.="cd ../../../"
+alias 5.="cd ../../../../.."
 alias ~="cd ~"
 
 # Make some shell commands do what I want them to by default
