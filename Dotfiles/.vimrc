@@ -224,6 +224,7 @@ nnoremap <leader>p :!git add % && git commit -m "" && git push<left><left><left>
 
 set foldmethod=indent
 set foldlevel=1000
+nnoremap <leader><leader> za
 
 "------------------------------------------------------------------------------
 " Autogroups
