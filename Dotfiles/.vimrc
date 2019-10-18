@@ -222,8 +222,13 @@ nnoremap <leader>p :!git add % && git commit -m "" && git push<left><left><left>
 " Folding
 "------------------------------------------------------------------------------
 
+" Fold on indentation
 set foldmethod=indent
+
+" Don't fold anything on file load
 set foldlevel=1000
+
+" <leader><leader> toggles folds
 nnoremap <leader><leader> za
 
 "------------------------------------------------------------------------------
