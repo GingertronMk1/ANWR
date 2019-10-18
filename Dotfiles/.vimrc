@@ -146,7 +146,7 @@ inoremap <Up> <Esc>{i
 inoremap <Down> <Esc>}i
 " Left and right arrows now move between words
 inoremap <Left> <Esc>bi
-inoremap <Right> <Esc>wwi
+inoremap <Right> <Esc>lwi
 " h and j work with wrapping
 nnoremap j gj
 nnoremap k gk
@@ -238,6 +238,7 @@ augroup Comp " Not actually compiling mostly but you get the point
   au!
   autocmd BufEnter *.tex nnoremap <leader>c :! pdflatex % && pdflatex %<CR><CR>
   autocmd BufEnter *.r   nnoremap <leader>c :! Rscript %<CR><CR>
+  autocmd BufEnter *.c   nnoremap <leader>c :! gcc %<CR><CR>
 augroup END
 
 augroup Textfiles
@@ -249,13 +250,12 @@ augroup END
 
 augroup Oddfiles " Highlighting weird files
   au!
-  autocmd BufEnter .aliases      set syntax=sh
-  autocmd BufEnter .bash_profile set syntax=sh
-  autocmd BufEnter .bashrc       set syntax=sh
-  autocmd BufEnter .exports      set syntax=sh
-  autocmd BufEnter .functions    set syntax=sh
-  autocmd BufEnter .prompt       set syntax=sh
-  autocmd BufEnter Vagrantfile   set syntax=ruby
+  autocmd BufEnter .aliases      setlocal syntax=sh
+  autocmd BufEnter .bash_profile setlocal syntax=sh
+  autocmd BufEnter .bashrc       setlocal syntax=sh
+  autocmd BufEnter .exports      setlocal syntax=sh
+  autocmd BufEnter .functions    setlocal syntax=sh
+  autocmd BufEnter .prompt       setlocal syntax=sh
 augroup END
 
 "------------------------------------------------------------------------------
@@ -263,11 +263,12 @@ augroup END
 "------------------------------------------------------------------------------
 augroup Skel
   au!
-  :autocmd BufNewFile  *.c    0r ~/.vim/skeleton.c
-  :autocmd BufNewFile  *.h    0r ~/.vim/skeleton.h
-  :autocmd BufNewFile  *.hs   0r ~/.vim/skeleton.hs
-  :autocmd BufNewFile  *.tex  0r ~/.vim/skeleton.tex
-  :autocmd BufNewFile  *.html 0r ~/.vim/skeleton.html
+  :autocmd BufNewFile  *.c                            0r ~/.vim/skeleton.c
+  :autocmd BufNewFile  *.h                            0r ~/.vim/skeleton.h
+  :autocmd BufNewFile  *.hs                           0r ~/.vim/skeleton.hs
+  :autocmd BufNewFile  *.tex                          0r ~/.vim/skeleton.tex
+  :autocmd BufNewFile  *.html                         0r ~/.vim/skeleton.html
+  :autocmd BufNewFile  *.php                          0r ~/.vim/skeleton.html
   :autocmd BufNewFile  */history-project/_shows/*.md  0r ~/.vim/_skeleton.md
 augroup END
 
