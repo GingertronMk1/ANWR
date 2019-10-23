@@ -161,6 +161,15 @@ noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
+
+" <c-shift-h> makes the split narrower
+noremap <C-H> 5<C-w><
+" <c-shift-j> makes the split shorter
+noremap <C-J> 5<C-w>+
+" <c-shift-k> makes the split taller
+noremap <C-K> 5<C-w>-
+" <c-shift-l> makes the split wider
+noremap <C-L> 5<C-w>>
 " Creating splits and tabs using leader key
 nnoremap <leader>v :vsplit.<CR>
 nnoremap <leader>h :split.<CR>
@@ -216,7 +225,6 @@ nnoremap <leader>t :%s/\s\+$//e<Space>\|<Space>:nohl<CR>
 nnoremap <leader>g :!git add % && git commit -m ""<left>
 " <leader>p does the last thing and also sets it up to push
 nnoremap <leader>p :!git add % && git commit -m "" && git push<left><left><left><left><left><left><left><left><left><left><left><left><left>
-
 
 "------------------------------------------------------------------------------
 " Folding
