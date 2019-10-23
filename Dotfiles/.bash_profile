@@ -20,27 +20,25 @@ fi
 
 # Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
-if [ -d "/Library/Frameworks/Python.framework/Versions/3.6/bin" ] ; then
-  PATH="$PATH:/Library/Frameworks/Python.framework/Versions/3.6/bin"
+if [ -e "/Library/Frameworks/Python.framework/Versions/3.6/bin" ] ; then
+  PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:$PATH"
 fi
 
-if [ -d "$HOME/.composer" ] ; then
-  PATH="$PATH:$HOME/.composer/vendor/bin"
+if [ -e "$HOME/.composer" ] ; then
+  PATH="$HOME/.composer/vendor/bin:$PATH"
 fi
 
-if [ -d "/usr/local/opt/ruby/bin" ] ; then
-  PATH="$PATH:/usr/local/opt/ruby/bin"
+if [ -e "/usr/local/opt/ruby/bin" ] ; then
+  PATH="/usr/local/opt/ruby/bin:$PATH"
 fi
 
-rubyver=2.6
-
-if [ -d "/$HOME/.gem/ruby/$rubyver/bin" ] ; then
-  PATH="$PATH:$HOME/.gem/ruby/X.X.0/bin"
+if [ -e "$HOME/.gem/ruby/2.6.0/bin" ] ; then
+  PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 fi
 
-if [ -d "$HOME/gems" ] ; then
+if [ -e "$HOME/gems" ] ; then
   GEM_HOME="$HOME/gems"
-  PATH="$PATH:$HOME/gems/bin"
+  PATH="$HOME/gems/bin:$PATH"
   export GEM_HOME
 fi
 
