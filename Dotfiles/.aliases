@@ -1,5 +1,5 @@
 # Setting things on a conditional basis
-if uname | grep -q Darwin; then             # Macs and Linux work differently sometimes
+if uname | grep -q "Darwin"; then             # Macs and Linux work differently sometimes
     Colorflag="-G"                          # On macOS, this makes ls coloured
     export LSCOLORS='exfxcxdxbxegedabagacad'    # And this is what defines the ls colours
     alias updates="sudo softwareupdate -i -a; brew update; brew upgrade; brew prune; brew cleanup; brew doctor; cabal update"   # This updates macOS systems
@@ -33,6 +33,7 @@ alias df="df -h"                      # df, but human-readable
 alias du="du -h"                      # du, but human-readable
 alias ssh="ssh -o ConnectTimeout=5"   # Don't bother waiting more than 5s when ssh-ing
 alias ls="ls -ACFhlp ${Colorflag}"    # ls in a nice ordered coloured list with lots of info
+alias grep="grep -lr --exclude-dir=node_modules"                 # Grep now listing file names and searching recursively
 
 # Useful Pi commands made shorter
 alias piconf="sudo raspi-config"    # Lets me configure my Pi
