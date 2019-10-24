@@ -253,15 +253,15 @@ augroup Oddfiles " Highlighting weird files
   autocmd BufEnter .prompt       setlocal syntax=sh
 augroup END
 
-augroup Commentary " <leader>/ should comment a line
+augroup Commentary " <leader>c should comment a line
   au!
-  autocmd BufEnter *.html  nnoremap <leader>c :s/^/<!--/ \| s/$/-->/ \| nohl<CR>
-  autocmd BufEnter *.php   nnoremap <leader>c :s/^/<!--/ \| s/$/-->/ \| nohl<CR>
-  autocmd BufEnter *.scss  nnoremap <leader>c :s/^/\/\// \| nohl<CR>
-  autocmd BufEnter *.c     nnoremap <leader>c :s/^/\/\// \| nohl<CR>
-  autocmd BufEnter *.cpp   nnoremap <leader>c :s/^/\/\// \| nohl<CR>
-  autocmd BufEnter *.hs    nnoremap <leader>c :s/^/--/ \| nohl<CR>
-  autocmd BufEnter *.vimrc nnoremap <leader>c :s/^/"/ \| nohl<CR>
+  autocmd BufEnter *.html  nnoremap <leader>c mcI<!--<Esc>A--><Esc> `c:delmarks c<CR>
+  autocmd BufEnter *.php   nnoremap <leader>c mcI<!--<Esc>A--><Esc> `c:delmarks c<CR>
+  autocmd BufEnter *.scss  nnoremap <leader>c mcI//<Esc>            `c:delmarks c<CR>
+  autocmd BufEnter *.c     nnoremap <leader>c mcI//<Esc>            `c:delmarks c<CR>
+  autocmd BufEnter *.cpp   nnoremap <leader>c mcI//<Esc>            `c:delmarks c<CR>
+  autocmd BufEnter *.hs    nnoremap <leader>c mcI--<Esc>            `c:delmarks c<CR>
+  autocmd BufEnter *.vimrc nnoremap <leader>c mcI"<Esc>             `c:delmarks c<CR>
 augroup END
 
 "------------------------------------------------------------------------------
