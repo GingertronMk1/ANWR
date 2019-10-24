@@ -162,14 +162,6 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
-" <c-shift-h> makes the split narrower
-noremap <C-H> 5<C-w><
-" <c-shift-j> makes the split shorter
-noremap <C-J> 5<C-w>+
-" <c-shift-k> makes the split taller
-noremap <C-K> 5<C-w>-
-" <c-shift-l> makes the split wider
-noremap <C-L> 5<C-w>>
 " Creating splits and tabs using leader key
 nnoremap <leader>v :vsplit.<CR>
 nnoremap <leader>h :split.<CR>
@@ -225,6 +217,8 @@ nnoremap <leader>t :%s/\s\+$//e<Space>\|<Space>:nohl<CR>
 nnoremap <leader>g :!git add % && git commit -m ""<left>
 " <leader>p does the last thing and also sets it up to push
 nnoremap <leader>p :!git add % && git commit -m "" && git push<left><left><left><left><left><left><left><left><left><left><left><left><left>
+" <leader>; adds a semicolon to the end of a line
+nnoremap <leader>; A;<Esc>
 
 "------------------------------------------------------------------------------
 " Folding
@@ -242,13 +236,6 @@ nnoremap <leader><leader> za
 "------------------------------------------------------------------------------
 " Autogroups
 "------------------------------------------------------------------------------
-augroup Comp " Not actually compiling mostly but you get the point
-  au!
-  autocmd BufEnter *.tex nnoremap <leader>c :! pdflatex % && pdflatex %<CR><CR>
-  autocmd BufEnter *.r   nnoremap <leader>c :! Rscript %<CR><CR>
-  autocmd BufEnter *.c   nnoremap <leader>c :! gcc %<CR><CR>
-augroup END
-
 augroup Textfiles
   au!
   autocmd BufEnter *.tex setlocal spell
@@ -264,6 +251,17 @@ augroup Oddfiles " Highlighting weird files
   autocmd BufEnter .exports      setlocal syntax=sh
   autocmd BufEnter .functions    setlocal syntax=sh
   autocmd BufEnter .prompt       setlocal syntax=sh
+augroup END
+
+augroup Commentary " <leader>/ should comment a line
+  au!
+  autocmd BufEnter *.html  nnoremap <leader>c :s/^/<!--/ \| s/$/-->/ \| nohl<CR>
+  autocmd BufEnter *.php   nnoremap <leader>c :s/^/<!--/ \| s/$/-->/ \| nohl<CR>
+  autocmd BufEnter *.scss  nnoremap <leader>c :s/^/\/\// \| nohl<CR>
+  autocmd BufEnter *.c     nnoremap <leader>c :s/^/\/\// \| nohl<CR>
+  autocmd BufEnter *.cpp   nnoremap <leader>c :s/^/\/\// \| nohl<CR>
+  autocmd BufEnter *.hs    nnoremap <leader>c :s/^/--/ \| nohl<CR>
+  autocmd BufEnter *.vimrc nnoremap <leader>c :s/^/"/ \| nohl<CR>
 augroup END
 
 "------------------------------------------------------------------------------
