@@ -220,6 +220,14 @@ nnoremap <leader>p :!git add % && git commit -m "" && git push<left><left><left>
 " <leader>; adds a semicolon to the end of a line
 nnoremap <leader>; A;<Esc>
 
+" Auto-close brackets
+inoremap (  ()<left>
+inoremap {  {}<left>
+inoremap [  []<left>
+inoremap <  <><left>
+inoremap '  ''<left>
+inoremap "  ""<left>
+
 "------------------------------------------------------------------------------
 " Folding
 "------------------------------------------------------------------------------
@@ -264,6 +272,11 @@ augroup Commentary " <leader>c should comment a line
   autocmd BufEnter *.hs     nnoremap <leader>c mcI--<Esc>           `c:delmarks c<CR>
   autocmd BufEnter *.lhs    nnoremap <leader>c mcg0a--<Esc>         `c:delmarks c<CR>
   autocmd BufEnter *.vimrc  nnoremap <leader>c mcI"<Esc>            `c:delmarks c<CR>
+augroup END
+
+augroup PHP
+  au!
+  autocmd BufEnter *.php  inoremap <buffer> <? <?php ?><left><left>
 augroup END
 
 "------------------------------------------------------------------------------
