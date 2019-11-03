@@ -220,7 +220,7 @@ nnoremap <leader>p :!git add % && git commit -m "" && git push<left><left><left>
 " <leader>; adds a semicolon to the end of a line
 nnoremap <leader>; A;<Esc>
 
-" Auto-close brackets
+" Auto-close brackets and speech marks
 inoremap (  ()<left>
 inoremap {  {}<left>
 inoremap [  []<left>
@@ -293,4 +293,3 @@ augroup Skel
   :autocmd BufNewFile *.php                         0r ~/.vim/skeleton.html
   :autocmd BufNewFile */history-project/_shows/*.md 0r ~/.vim/_skeleton.md
 augroup END
-
