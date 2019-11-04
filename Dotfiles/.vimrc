@@ -274,7 +274,7 @@ augroup END
 
 augroup PHP
   au!
-  autocmd BufEnter *.php  inoremap <buffer> <? <?php ?><left><left>
+  autocmd BufEnter *.php  inoremap <buffer> <? <?php ; ?><left><left><left><left>
 augroup END
 
 "------------------------------------------------------------------------------
