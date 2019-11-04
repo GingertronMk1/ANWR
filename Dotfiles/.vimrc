@@ -220,7 +220,7 @@ nnoremap <leader>p :!git add % && git commit -m "" && git push<left><left><left>
 " <leader>; adds a semicolon to the end of a line
 nnoremap <leader>; A;<Esc>
 
-" Auto-close brackets
+" Auto-close brackets and speech marks
 inoremap (  ()<left>
 inoremap {  {}<left>
 inoremap [  []<left>
@@ -263,13 +263,15 @@ augroup END
 
 augroup Commentary " <leader>c should comment a line
   au!
-  autocmd BufEnter *.html  nnoremap <leader>c mcI<!--<Esc>A--><Esc> `c:delmarks c<CR>
-  autocmd BufEnter *.php   nnoremap <leader>c mcI<!--<Esc>A--><Esc> `c:delmarks c<CR>
-  autocmd BufEnter *.scss  nnoremap <leader>c mcI//<Esc>            `c:delmarks c<CR>
-  autocmd BufEnter *.c     nnoremap <leader>c mcI//<Esc>            `c:delmarks c<CR>
-  autocmd BufEnter *.cpp   nnoremap <leader>c mcI//<Esc>            `c:delmarks c<CR>
-  autocmd BufEnter *.hs    nnoremap <leader>c mcI--<Esc>            `c:delmarks c<CR>
-  autocmd BufEnter *.vimrc nnoremap <leader>c mcI"<Esc>             `c:delmarks c<CR>
+  autocmd BufEnter *.html   nnoremap <leader>c mcI<!--<Esc>A--><Esc>`c:delmarks c<CR>
+  autocmd BufEnter *.php    nnoremap <leader>c mcI<!--<Esc>A--><Esc>`c:delmarks c<CR>
+  autocmd BufEnter *.css    nnoremap <leader>c mcI/*<Esc>A*/<Esc>   `c:delmarks c<CR>
+  autocmd BufEnter *.scss   nnoremap <leader>c mcI//<Esc>           `c:delmarks c<CR>
+  autocmd BufEnter *.c      nnoremap <leader>c mcI//<Esc>           `c:delmarks c<CR>
+  autocmd BufEnter *.cpp    nnoremap <leader>c mcI//<Esc>           `c:delmarks c<CR>
+  autocmd BufEnter *.hs     nnoremap <leader>c mcI--<Esc>           `c:delmarks c<CR>
+  autocmd BufEnter *.lhs    nnoremap <leader>c mcg0a--<Esc>         `c:delmarks c<CR>
+  autocmd BufEnter *.vimrc  nnoremap <leader>c mcI"<Esc>            `c:delmarks c<CR>
 augroup END
 
 augroup PHP
@@ -282,12 +284,12 @@ augroup END
 "------------------------------------------------------------------------------
 augroup Skel
   au!
-  :autocmd BufNewFile  *.c                            0r ~/.vim/skeleton.c
-  :autocmd BufNewFile  *.h                            0r ~/.vim/skeleton.h
-  :autocmd BufNewFile  *.hs                           0r ~/.vim/skeleton.hs
-  :autocmd BufNewFile  *.tex                          0r ~/.vim/skeleton.tex
-  :autocmd BufNewFile  *.html                         0r ~/.vim/skeleton.html
-  :autocmd BufNewFile  *.php                          0r ~/.vim/skeleton.html
-  :autocmd BufNewFile  */history-project/_shows/*.md  0r ~/.vim/_skeleton.md
+  :autocmd BufNewFile *.c                           0r ~/.vim/skeleton.c
+  :autocmd BufNewFile *.h                           0r ~/.vim/skeleton.h
+  :autocmd BufNewFile *.hs                          0r ~/.vim/skeleton.hs
+  :autocmd BufNewFile *.lhs                         0r ~/.vim/skeleton.lhs
+  :autocmd BufNewFile *.tex                         0r ~/.vim/skeleton.tex
+  :autocmd BufNewFile *.html                        0r ~/.vim/skeleton.html
+  :autocmd BufNewFile *.php                         0r ~/.vim/skeleton.html
+  :autocmd BufNewFile */history-project/_shows/*.md 0r ~/.vim/_skeleton.md
 augroup END
-
