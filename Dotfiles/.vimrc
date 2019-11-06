@@ -244,7 +244,7 @@ nnoremap <leader><leader> za
 "------------------------------------------------------------------------------
 " Autogroups
 "------------------------------------------------------------------------------
-augroup Textfiles
+augroup Textfiles "I need that spell check
   au!
   autocmd BufEnter *.tex setlocal spell
   autocmd BufEnter *.md  setlocal spell
