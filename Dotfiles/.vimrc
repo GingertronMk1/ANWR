@@ -156,12 +156,6 @@ vnoremap k gk
 "------------------------------------------------------------------------------
 " Working With Tabs And Splits
 "------------------------------------------------------------------------------
-" <c-'key'> = <c-w> + 'key'
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
-
 " Creating splits and tabs using leader key
 nnoremap <leader>v :vsplit.<CR>
 nnoremap <leader>h :split.<CR>
@@ -240,6 +234,14 @@ set foldlevel=1000
 
 " <leader><leader> toggles folds
 nnoremap <leader><leader> za
+
+
+"------------------------------------------------------------------------------
+" netrw
+"------------------------------------------------------------------------------
+
+let g:netrw_liststyle = 3       " Tree-style listing
+let g:netrw_banner = 0          " No banner because it's useless
 
 "------------------------------------------------------------------------------
 " Autogroups
