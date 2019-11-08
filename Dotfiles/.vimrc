@@ -80,7 +80,7 @@ set softtabstop=2       " Backspace goes back 2 spaces in 'tab' chars
 vnoremap > >gv
 vnoremap < <gv
 " '==' indents whole document
-noremap == 1GvG=
+noremap == mi1GvG=`i
 
 "------------------------------------------------------------------------------
 " UI Tweaks
@@ -115,7 +115,6 @@ set cmdheight=2
 " The next bit is my statusline broken down into the individual components
 set statusline=F:\ %F\            " Current file
 set statusline+=%m\               " Modified flag
-set statusline+=WD:\ %{getcwd()}  " Current dir
 set statusline+=%=                " Swap to the right for the next bit
 set statusline+=L:\ %l\           " Current line
 set statusline+=C:\ %c            " Current column
@@ -160,9 +159,6 @@ vnoremap k gk
 nnoremap <leader>v :vsplit.<CR>
 nnoremap <leader>h :split.<CR>
 nnoremap <leader>t :tabnew.<CR>
-" Ctrl + arrow keys resize vsplits
-nnoremap <C-left> 5<C-w><
-nnoremap <C-right> 5<C-w>>
 
 "------------------------------------------------------------------------------
 " Saving And Loading
@@ -198,7 +194,7 @@ noremap <F1> K
 noremap : ;
 noremap ; :
 " Leader + m unhighlights search pattern
-noremap <leader>m :nohl <CR>
+noremap <leader>m :nohl<CR>
 " Shift + u redoes
 nnoremap U <C-R>
 " wc now displays a word count at the bottom
@@ -240,8 +236,15 @@ nnoremap <leader><leader> za
 " netrw
 "------------------------------------------------------------------------------
 
-let g:netrw_liststyle = 3       " Tree-style listing
-let g:netrw_banner = 0          " No banner because it's useless
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Vexplore
+augroup END
 
 "------------------------------------------------------------------------------
 " Autogroups
