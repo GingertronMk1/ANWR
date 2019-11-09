@@ -18,12 +18,12 @@ alias ~="cd ~"
 
 # Make some shell commands do what I want them to by default
 alias sudo="sudo -E"                  # sudo no longer puts you in /root or wherever it is
-alias fuck='sudo "$(history -p !!)"'  # fuck = sudo !!
 alias vi="vim -O"                     # If I put more than one file name in open them SxS
 
 if [ -f "/sbin/ifconfig" ] ; then
   alias ifconfig="/sbin/ifconfig"       # Silly ifconfig
 fi
+
 alias res="cd ~ && . .bashrc && cd -" # Re-source .bashrc, which re-sources everything else
 alias rm="rm -v"                      # I like knowing things
 alias rf="rm -rf"                     # Remove folder
@@ -33,22 +33,7 @@ alias df="df -h"                      # df, but human-readable
 alias du="du -h"                      # du, but human-readable
 alias ssh="ssh -o ConnectTimeout=5"   # Don't bother waiting more than 5s when ssh-ing
 alias ls="ls -ACFhlp ${Colorflag}"    # ls in a nice ordered coloured list with lots of info
-alias grep="grep -lr --exclude-dir=node_modules"                 # Grep now listing file names and searching recursively
-
-# Useful Pi commands made shorter
-alias piconf="sudo raspi-config"    # Lets me configure my Pi
-alias pitemp="vcgencmd measure_temp"    # Tells me how hot things are getting
-alias pimem="vcgencmd get_mem arm && vcgencmd get_mem gpu"  # Shows the split between CPU and GPU memory
-
-# Other
-alias :e="fg"     # I'm horrifyingly used to using :e to get back to editing a document in GHCi
-
-# Quickly jump to Git folders
-alias ganwr="cd ~/Git/ANWR"
-alias gdisco="cd ~/Git/Discovery"
-alias geld="cd ~/Git/Eldorado"
-alias gtime="cd ~/Git/Time"
-alias gdiss="cd ~/Git/Dissertation"
+alias grep="grep -lr --exclude-dir={node_modules,git}"                 # Grep now listing file names and searching recursively
 
 # Backing up and restoring music from my server
 alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"
