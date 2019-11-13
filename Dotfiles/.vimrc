@@ -40,8 +40,8 @@ set autoread              " Automatically update the file if it's changed by som
 set incsearch             " Starts searching as soon as / is typed
 set ignorecase            " All searches are case-insensitive
 set smartcase             " Lowercase searches are case-insensitive
-set formatoptions=tcrqln
-set spelllang=en
+set formatoptions=tcrqln  " How vim formats text
+set spelllang=en          " Spell language
 
 "------------------------------------------------------------------------------
 " External File Settings
@@ -238,13 +238,6 @@ nnoremap <leader><leader> za
 
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-augroup ProjectDrawer
-  autocmd!
-  autocmd VimEnter * :Vexplore
-augroup END
 
 "------------------------------------------------------------------------------
 " Autogroups
