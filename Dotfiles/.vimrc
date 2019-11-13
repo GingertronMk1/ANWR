@@ -274,6 +274,7 @@ augroup END
 
 augroup PHP
   au!
+  " <? will autocomplete to a full php statement in .php files"
   autocmd BufEnter *.php  inoremap <buffer> <? <?php ; ?><left><left><left><left>
 augroup END
 
