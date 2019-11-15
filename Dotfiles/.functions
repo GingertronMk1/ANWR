@@ -9,3 +9,10 @@ function gpp {
   local targetfile=$(echo $sourcefile | sed -e 's/cpp/run/')
   g++ -std=c++11 $sourcefile -o $targetfile
 }
+
+function wp_add_posts {
+  for (( x = 0; x < $1; x++ ))
+  do
+    wp post create --post_title="WP CLI Post $x" --post_content="On a dark desert highway / Cool wind in my hair / Warm smell of colitas / Rising up through the air" --post_status="publish"
+  done
+}
