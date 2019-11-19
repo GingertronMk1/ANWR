@@ -13,7 +13,8 @@ fi
 alias ..="cd .."
 alias 3.="cd ../../"
 alias 4.="cd ../../../"
-alias 5.="cd ../../../../.."
+alias 5.="cd ../../../.."
+alias 6.="cd ../../../../.."
 alias ~="cd ~"
 
 # Make some shell commands do what I want them to by default
@@ -34,6 +35,7 @@ alias du="du -h"                      # du, but human-readable
 alias ssh="ssh -o ConnectTimeout=5"   # Don't bother waiting more than 5s when ssh-ing
 alias ls="ls -ACFhlp ${Colorflag}"    # ls in a nice ordered coloured list with lots of info
 alias grep="grep -lr --exclude-dir={node_modules,git}"                 # Grep now listing file names and searching recursively
+alias g="git"                         # Save me two keystrokes a go
 
 # Backing up and restoring music from my server
 alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"

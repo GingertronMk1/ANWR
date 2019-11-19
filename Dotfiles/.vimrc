@@ -40,8 +40,8 @@ set autoread              " Automatically update the file if it's changed by som
 set incsearch             " Starts searching as soon as / is typed
 set ignorecase            " All searches are case-insensitive
 set smartcase             " Lowercase searches are case-insensitive
-set formatoptions=tcrqln
-set spelllang=en
+set formatoptions=tcrqln  " How vim formats text
+set spelllang=en          " Spell language
 
 "------------------------------------------------------------------------------
 " External File Settings
