@@ -231,6 +231,10 @@ set foldlevel=1000
 " <leader><leader> toggles folds
 nnoremap <leader><leader> za
 
+nnoremap <C-w>> 10<C-w>>
+nnoremap <C-w>< 10<C-w><
+nnoremap <C-w>+ 10<C-w>+
+nnoremap <C-w>- 10<C-w>-
 
 "------------------------------------------------------------------------------
 " netrw
@@ -257,6 +261,7 @@ augroup Oddfiles " Highlighting weird files
   autocmd BufEnter .exports      setlocal syntax=sh
   autocmd BufEnter .functions    setlocal syntax=sh
   autocmd BufEnter .prompt       setlocal syntax=sh
+  autocmd BufEnter *.twig       setlocal syntax=html
 augroup END
 
 augroup Commentary " <leader>c should comment a line
