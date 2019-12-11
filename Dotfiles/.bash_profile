@@ -42,6 +42,10 @@ if [ -e "$HOME/gems" ] ; then
   export GEM_HOME
 fi
 
+if [ -e "$HOME/.symfony" ] ; then
+  PATH="$HOME/.symfony/bin:$PATH"
+fi
+
 export PATH
 
 export NVM_DIR="$HOME/.nvm"
