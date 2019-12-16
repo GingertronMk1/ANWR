@@ -277,10 +277,11 @@ augroup Commentary " <leader>c should comment a line
   autocmd BufEnter *.vimrc  nnoremap <leader>c mcI"<Esc>            `c:delmarks c<CR>
 augroup END
 
-augroup PHP
+augroup FileSpecificExpansions
   au!
   " <? will autocomplete to a full php statement in .php files"
-  autocmd BufEnter *.php  inoremap <buffer> <? <?php ; ?><left><left><left><left>
+  autocmd BufEnter *.php        inoremap <buffer> <? <?php ; ?><left><left><left><left>
+  autocmd BufEnter *.html.twig  inoremap <buffer> {% {%  %}<left><left><left>
 augroup END
 
 "------------------------------------------------------------------------------
