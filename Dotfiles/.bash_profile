@@ -1,9 +1,3 @@
-# Sourcing for days
-. .aliases
-. .exports
-. .functions
-. .prompt
-
 # Shell options for days
 shopt -s nocaseglob     # Case insensitive pathname extension
 shopt -s histappend     # Don"t overwrite bash_
@@ -55,3 +49,10 @@ export NVM_DIR="$HOME/.nvm"
 if command -v rbenv >/dev/null; then
   eval "$(rbenv init -)"
 fi
+
+# And source things
+. .aliases
+. .exports
+. .functions
+. .prompt
+
