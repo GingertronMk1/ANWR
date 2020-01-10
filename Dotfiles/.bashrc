@@ -12,6 +12,7 @@ shopt -s nocaseglob     # Case insensitive pathname extension
 shopt -s histappend     # Don"t overwrite bash_history
 shopt -s cdspell        # Spell correction in cd
 shopt -s checkwinsize   # Checks window size
+shopt -s dotglob
 
 
 ###############################################################################
@@ -36,7 +37,8 @@ set completion-ignore-case on
 set expand-tilde on
 
 # List all matches if multiple completions are possible
-set show-all-if-ambiguous on
+#set show-all-if-ambiguous on
+set show-all-if-unmodified on
 
 # Show extra file info when completing
 set visible-stats on
@@ -46,16 +48,6 @@ set mark-symlinked-directories on
 
 # No bell
 set bell-style none
-
-# mappings for making up and down arrow searching through history:
-"\e[A": history-search-backward
-"\e[B": history-search-forward
-"\e[C": forward-char
-"\e[D": backward-char
-
-#Use [Tab] and [Shift]+[Tab] to cycle through all the possible completions:
-"\t": menu-complete
-"\e[Z": menu-complete-backward
 
 ###############################################################################
 # PROMPT ######################################################################
