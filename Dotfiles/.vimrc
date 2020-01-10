@@ -164,20 +164,22 @@ nnoremap <leader>t :tabnew.<CR>
 " Saving And Loading
 "------------------------------------------------------------------------------
 " Leader + various keys has the same effect as ':' + key + enter
-nnoremap <leader>w :up<CR>
+nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>x :x<CR>
 " Leader + shift + various keys does the same thing but forcefully
 nnoremap <leader>Q :q!<CR>
-nnoremap <leader>W :up!<CR>
+nnoremap <leader>W :w!<CR>
 " Leader-e puts you into the file tree to edit something else
 nnoremap <leader>e :e.<CR>
 " ww saves
-nnoremap ww :up<CR>
+nnoremap ww :w<CR>
 " WW forces a save
-nnoremap WW :up!<CR>
+nnoremap WW :w!<CR>
 " Leader + 'r' reloads the document
 nnoremap <leader>r :e<CR>
+" wa saves all files
+nnoremap wa :wa<CR>
 
 "------------------------------------------------------------------------------
 " Other Shortcuts
