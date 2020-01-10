@@ -8,6 +8,15 @@ unalias -m '*'
 # SHELL OPTIONS ###############################################################
 ###############################################################################
 
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+
 setopt EXTENDED_GLOB      # More globbing
 setopt GLOB_COMPLETE      # Append to history rather than rewrite it
 setopt MENU_COMPLETE      # don't autoselect the first completion entry
@@ -20,19 +29,7 @@ setopt COMPLETE_IN_WORD   # complete from both ends of a word
 setopt NO_CASE_GLOB       # Should make globbing case-insensitive
 setopt NO_CASE_MATCH      # Should make globbing case-insensitive
 setopt GLOB_DOTS          # Glob dotfiles
-
-[[ -n "${key[Home]}"      ]] && bindkey -- "${key[Home]}"      beginning-of-line
-[[ -n "${key[End]}"       ]] && bindkey -- "${key[End]}"       end-of-line
-[[ -n "${key[Insert]}"    ]] && bindkey -- "${key[Insert]}"    overwrite-mode
-[[ -n "${key[Backspace]}" ]] && bindkey -- "${key[Backspace]}" backward-delete-char
-[[ -n "${key[Delete]}"    ]] && bindkey -- "${key[Delete]}"    delete-char
-[[ -n "${key[Up]}"        ]] && bindkey -- "${key[Up]}"        up-line-or-beginning-search
-[[ -n "${key[Down]}"      ]] && bindkey -- "${key[Down]}"      down-line-or-beginning-search
-[[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"      backward-char
-[[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"     forward-char
-[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"    beginning-of-buffer-or-history
-[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"  end-of-buffer-or-history
-[[ -n "${key[ShiftTab]}"  ]] && bindkey -- "${key[ShiftTab]}"  reverse-menu-complete
+setopt NO_BEEP            # SHUT UP
 
 ###############################################################################
 # PROMPT ######################################################################
@@ -56,6 +53,8 @@ PROMPT+="%F{white} "      # Make the rest white
 autoload -Uz compinit && compinit
 
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+alias res="source $HOME/.zshrc"
 
 ###############################################################################
 # AND ADDING ALL THE OTHER BITS IN ############################################

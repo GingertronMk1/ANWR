@@ -75,6 +75,8 @@ PS1+="\n╚> ${NC}"             # A new line, with a couple characters for inter
 
 PS2="${ColourStyle}╚> ${NC}"  # PS2 prompt meanwhile is just a '>'
 
+alias res=". $HOME/.bashrc" # Re-source .bashrc, which re-sources everything else
+
 ###############################################################################
 # AND ADDING ALL THE OTHER BITS IN ############################################
 ###############################################################################
@@ -82,3 +84,5 @@ PS2="${ColourStyle}╚> ${NC}"  # PS2 prompt meanwhile is just a '>'
 . $HOME/.exports
 . $HOME/.functions
 . $HOME/.aliases
+
+
