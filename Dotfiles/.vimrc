@@ -209,6 +209,8 @@ nnoremap <leader>g :!git add % && git commit -m ""<left>
 nnoremap <leader>p :!git add % && git commit -m "" && git push<left><left><left><left><left><left><left><left><left><left><left><left><left>
 " <leader>; adds a semicolon to the end of a line
 nnoremap <leader>; A;<Esc>
+" <leader>l lesses the file
+nnoremap <leader>l !less %
 
 " Auto-close brackets and speech marks
 inoremap (  ()<left>
@@ -261,7 +263,8 @@ augroup Oddfiles " Highlighting weird files
   autocmd BufEnter .exports      setlocal syntax=sh
   autocmd BufEnter .functions    setlocal syntax=sh
   autocmd BufEnter .prompt       setlocal syntax=sh
-  autocmd BufEnter *.twig       setlocal syntax=html
+  autocmd BufEnter .zshrc        setlocal syntax=sh
+  autocmd BufEnter *.twig        setlocal syntax=html
 augroup END
 
 augroup Commentary " <leader>c should comment a line
@@ -282,6 +285,7 @@ augroup FileSpecificExpansions
   " <? will autocomplete to a full php statement in .php files"
   autocmd BufEnter *.php        inoremap <buffer> <? <?php ; ?><left><left><left><left>
   autocmd BufEnter *.html.twig  inoremap <buffer> {% {%  %}<left><left><left>
+  autocmd BufEnter *.html.twig  inoremap <buffer> {{ {{  }}<left><left><left>
 augroup END
 
 "------------------------------------------------------------------------------
