@@ -261,7 +261,8 @@ augroup Oddfiles " Highlighting weird files
   autocmd BufEnter .exports      setlocal syntax=sh
   autocmd BufEnter .functions    setlocal syntax=sh
   autocmd BufEnter .prompt       setlocal syntax=sh
-  autocmd BufEnter *.twig       setlocal syntax=html
+  autocmd BufEnter *.twig        setlocal syntax=html
+  autocmd BufEnter *.vue         setlocal syntax=html
 augroup END
 
 augroup Commentary " <leader>c should comment a line
