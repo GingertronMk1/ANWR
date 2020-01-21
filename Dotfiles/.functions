@@ -9,3 +9,7 @@ function gpp {
   local targetfile=$(echo $sourcefile | sed -e 's/cpp/run/')
   g++ -std=c++11 $sourcefile -o $targetfile
 }
+
+function vigrep {
+  vi $(grep -lr $1 .);
+}
