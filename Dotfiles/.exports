@@ -1,5 +1,12 @@
 # Exporting for days
-. .localexports
+if [ -e .localexports ]; then
+  if echo $0 | grep "bash"; then
+    . .localexports
+  elif echo $0 | grep "zsh"; then
+    source .localexports
+  fi
+fi
+
 export CLICOLOR=1       # Cos colour in Terminal is useful
 export EDITOR="vim"     # EMACS HERETICS WILL BURN
 export HISTSIZE=16384   # Lots of history
@@ -50,4 +57,8 @@ export NVM_DIR="$HOME/.nvm"
 
 # This loads nvm bash_completion if it exists
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"
+
+if command -v rbenv >/dev/null; then
+  eval "$(rbenv init -)"
+fi
 
