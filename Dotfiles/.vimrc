@@ -259,15 +259,15 @@ augroup END
 
 augroup Oddfiles " Highlighting weird files
   au!
-  autocmd BufEnter .aliases      setlocal syntax=sh
-  autocmd BufEnter .bash_profile setlocal syntax=sh
-  autocmd BufEnter .bashrc       setlocal syntax=sh
-  autocmd BufEnter .exports      setlocal syntax=sh
-  autocmd BufEnter .functions    setlocal syntax=sh
-  autocmd BufEnter .prompt       setlocal syntax=sh
-  autocmd BufEnter *.twig        setlocal syntax=html
-  autocmd BufEnter .zshrc        setlocal syntax=sh
-  autocmd BufEnter *.twig        setlocal syntax=html
+  autocmd BufEnter .aliases       setlocal syntax=sh
+  autocmd BufEnter .bash_profile  setlocal syntax=sh
+  autocmd BufEnter .bashrc        setlocal syntax=sh
+  autocmd BufEnter .exports       setlocal syntax=sh
+  autocmd BufEnter .functions     setlocal syntax=sh
+  autocmd BufEnter .prompt        setlocal syntax=sh
+  autocmd BufEnter .zshrc         setlocal syntax=sh
+  autocmd BufEnter *.twig         setlocal syntax=html
+  autocmd BufEnter *.vue          setlocal syntax=html
 augroup END
 
 augroup Commentary " <leader>c should comment a line
