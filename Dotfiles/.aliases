@@ -36,11 +36,11 @@ alias ls="ls -ACFhlp ${Colorflag}"    # ls in a nice ordered coloured list with 
 alias pt="ping 8.8.8.8"               # pt = ping test
 
 # Grep now listing file names and searching recursively
-alias grep="grep -r --exclude-dir={*/node_modules,*/.git,*/var/cache} --exclude={*.svg,*.ttf,*.eot,*.min.css} --binary-files=without-match"
 alias g="git"                         # Save me two keystrokes a go
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias themes="cd wp-content/themes/"  # I work with too much Wordpress
 alias a="php artisan"                 # Odd bit of laravel work
+alias berve="bundle exec jekyll serve"  # I got a jekyll site
 
 # Backing up and restoring music from my server
 alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"
