@@ -204,7 +204,7 @@ nnoremap wc g<C-g>
 " <leader>d diffs this
 nnoremap <leader>d :diffthis<CR>
 " <leader>t trims trailing whitespace
-nnoremap <leader>t :%s/\s\+$//e<Space>\|<Space>:nohl<CR>
+nnoremap <leader>t mt:%s/\s\+$//e<Space>\|<Space>:nohl<CR>`t:delmarks t<CR>:<CR>
 " <leader>g adds and commits the file to git
 nnoremap <leader>g :!git add % && git commit -m ""<left>
 " <leader>p does the last thing and also sets it up to push
@@ -272,15 +272,15 @@ augroup END
 
 augroup Commentary " <leader>c should comment a line
   au!
-  autocmd BufEnter *.html   nnoremap <leader>c mcI<!--<Esc>A--><Esc>`c:delmarks c<CR>
-  autocmd BufEnter *.php    nnoremap <leader>c mcI<!--<Esc>A--><Esc>`c:delmarks c<CR>
-  autocmd BufEnter *.css    nnoremap <leader>c mcI/*<Esc>A*/<Esc>   `c:delmarks c<CR>
-  autocmd BufEnter *.scss   nnoremap <leader>c mcI//<Esc>           `c:delmarks c<CR>
-  autocmd BufEnter *.c      nnoremap <leader>c mcI//<Esc>           `c:delmarks c<CR>
-  autocmd BufEnter *.cpp    nnoremap <leader>c mcI//<Esc>           `c:delmarks c<CR>
-  autocmd BufEnter *.hs     nnoremap <leader>c mcI--<Esc>           `c:delmarks c<CR>
-  autocmd BufEnter *.lhs    nnoremap <leader>c mcg0a--<Esc>         `c:delmarks c<CR>
-  autocmd BufEnter *.vimrc  nnoremap <leader>c mcI"<Esc>            `c:delmarks c<CR>
+  autocmd BufEnter *.html   nnoremap <leader>c mcI<!--<Esc>A--><Esc>`c:delmarks c<CR>:<CR>
+  autocmd BufEnter *.php    nnoremap <leader>c mcI<!--<Esc>A--><Esc>`c:delmarks c<CR>:<CR>
+  autocmd BufEnter *.css    nnoremap <leader>c mcI/*<Esc>A*/<Esc>   `c:delmarks c<CR>:<CR>
+  autocmd BufEnter *.scss   nnoremap <leader>c mcI//<Esc>           `c:delmarks c<CR>:<CR>
+  autocmd BufEnter *.c      nnoremap <leader>c mcI//<Esc>           `c:delmarks c<CR>:<CR>
+  autocmd BufEnter *.cpp    nnoremap <leader>c mcI//<Esc>           `c:delmarks c<CR>:<CR>
+  autocmd BufEnter *.hs     nnoremap <leader>c mcI--<Esc>           `c:delmarks c<CR>:<CR>
+  autocmd BufEnter *.lhs    nnoremap <leader>c mcg0a--<Esc>         `c:delmarks c<CR>:<CR>
+  autocmd BufEnter *.vimrc  nnoremap <leader>c mcI"<Esc>            `c:delmarks c<CR>:<CR>
 augroup END
 
 augroup FileSpecificExpansions
