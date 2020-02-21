@@ -8,6 +8,7 @@
   a = add .
   com = commit
   comm = commit -m
+  coa = commit -a -m
   df = diff
   master = checkout master
   st = status
