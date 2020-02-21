@@ -39,8 +39,8 @@ alias pt="ping 8.8.8.8"               # pt = ping test
 alias g="git"                         # Save me two keystrokes a go
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias themes="cd wp-content/themes/"  # I work with too much Wordpress
-alias a="php artisan"                 # Odd bit of laravel work
-alias b="php bin/console"             # Odd bit of symfony work - which I can't say I enjoy too much
+#alias a="php artisan"                 # Odd bit of laravel work
+#alias b="php bin/console"             # Odd bit of symfony work - which I can't say I enjoy too much
 alias berve="bundle exec jekyll serve"  # I got a jekyll site
 
 # Backing up and restoring music from my server

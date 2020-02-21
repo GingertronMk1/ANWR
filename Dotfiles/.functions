@@ -13,3 +13,34 @@ function gpp {
 function vigrep {
   vi $(grep -lr $1 .);
 }
+
+# Go up directories until you find artisan, then execute it
+function a {
+  DOTS="artisan";
+  for n in {1..6}; do
+    if [[ -e $DOTS ]]; then
+      php $DOTS $1;
+      return 1;
+    else
+      DOTS="../$DOTS";
+    fi;
+  done;
+  echo "No artisan file found";
+  return 0;
+}
+
+# Go up directories until you find bin/console, then execute it
+function b {
+  DOTS="bin/console";
+  for n in {1..6}; do
+    if [[ -e $DOTS ]]; then
+      php $DOTS $1;
+      return 1;
+    else
+      DOTS="../$DOTS";
+    fi;
+  done;
+  echo "No bin/console file found";
+  return 0;
+}
+
