@@ -222,6 +222,10 @@ inoremap <  <><left>
 inoremap '  ''<left>
 inoremap "  ""<left>
 
+" `m` moves a line down, `M` moves it up 
+nnoremap m :move +1<CR>
+nnoremap M :move -2<CR>
+
 "------------------------------------------------------------------------------
 " Folding
 "------------------------------------------------------------------------------
