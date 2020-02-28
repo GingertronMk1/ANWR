@@ -221,6 +221,8 @@ inoremap [  []<left>
 inoremap <  <><left>
 inoremap '  ''<left>
 inoremap "  ""<left>
+inoremap <buffer> {% {%  %}<left><left><left>
+inoremap <buffer> {{ {{  }}<left><left><left>
 
 "------------------------------------------------------------------------------
 " Folding
@@ -287,8 +289,6 @@ augroup FileSpecificExpansions
   au!
   " <? will autocomplete to a full php statement in .php files"
   autocmd BufEnter *.php        inoremap <buffer> <? <?php ; ?><left><left><left><left>
-  autocmd BufEnter *.html.twig  inoremap <buffer> {% {%  %}<left><left><left>
-  autocmd BufEnter *.html.twig  inoremap <buffer> {{ {{  }}<left><left><left>
 augroup END
 
 "------------------------------------------------------------------------------
