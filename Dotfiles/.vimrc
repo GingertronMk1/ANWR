@@ -224,6 +224,10 @@ inoremap "  ""<left>
 inoremap <buffer> {% {%  %}<left><left><left>
 inoremap <buffer> {{ {{  }}<left><left><left>
 
+" `m` moves a line down, `M` moves it up 
+nnoremap m :move +1<CR>
+nnoremap M :move -2<CR>
+
 "------------------------------------------------------------------------------
 " Folding
 "------------------------------------------------------------------------------
