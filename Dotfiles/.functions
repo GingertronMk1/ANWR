@@ -19,7 +19,7 @@ function a {
   DOTS="artisan";
   for n in {1..6}; do
     if [[ -e $DOTS ]]; then
-      php $DOTS $1;
+      php $DOTS $@;
       return 1;
     else
       DOTS="../$DOTS";
@@ -34,7 +34,7 @@ function b {
   DOTS="bin/console";
   for n in {1..6}; do
     if [[ -e $DOTS ]]; then
-      php $DOTS $1;
+      php $DOTS $@;
       return 1;
     else
       DOTS="../$DOTS";
