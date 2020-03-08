@@ -44,3 +44,14 @@ function b {
   return 0;
 }
 
+function bcc {
+  b "cache:clear"
+}
+
+function bdr {
+  b "debug:router"
+}
+
+function arl {
+  a "route:list"
+}
