@@ -35,9 +35,14 @@ alias ssh="ssh -o ConnectTimeout=5"   # Don't bother waiting more than 5s when s
 alias ls="ls -ACFhlp ${Colorflag}"    # ls in a nice ordered coloured list with lots of info
 alias pt="ping 8.8.8.8"               # pt = ping test
 
-# Grep now listing file names and searching recursively
+# Git things / You make my heart sing / You make everything / MERGE CONFLICT
 alias g="git"                         # Save me two keystrokes a go
+alias gd="git diff"
+alias gs="git status"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+
+
 alias themes="cd wp-content/themes/"  # I work with too much Wordpress
 alias berve="bundle exec jekyll serve"  # I got a jekyll site
 
