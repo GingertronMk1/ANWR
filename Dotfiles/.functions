@@ -45,13 +45,17 @@ function b {
 }
 
 function bcc {
-  b "cache:clear"
+  b "cache:clear" $@
 }
 
 function bdr {
-  b "debug:router"
+  b "debug:router" $@
 }
 
 function arl {
-  a "route:list"
+  a "route:list --sort=name" $@
+}
+
+function amf {
+  a "migrate:fresh" $@
 }
