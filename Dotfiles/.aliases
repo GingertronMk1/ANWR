@@ -45,6 +45,7 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset
 
 alias themes="cd wp-content/themes/"  # I work with too much Wordpress
 alias berve="bundle exec jekyll serve"  # I got a jekyll site
+alias nrw="npm run watch"
 
 # Backing up and restoring music from my server
 alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"
