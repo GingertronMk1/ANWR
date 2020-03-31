@@ -290,6 +290,9 @@ augroup FileSpecificExpansions
   au!
   " <? will autocomplete to a full php statement in .php files"
   autocmd BufEnter *.php        inoremap <buffer> <? <?php ; ?><left><left><left><left>
+  autocmd BufEnter *.php        setlocal shiftwidth=4        " 4 spaces constitute one tab
+  autocmd BufEnter *.php        setlocal tabstop=4           " How many spaces a tab counts for in a file
+  autocmd BufEnter *.php        setlocal softtabstop=4       " Backspace goes back 4 spaces in 'tab' chars
 augroup END
 
 "------------------------------------------------------------------------------
@@ -297,12 +300,18 @@ augroup END
 "------------------------------------------------------------------------------
 augroup Skel
   au!
-  :autocmd BufNewFile *.c                           0r ~/.vim/skeleton.c
-  :autocmd BufNewFile *.h                           0r ~/.vim/skeleton.h
-  :autocmd BufNewFile *.hs                          0r ~/.vim/skeleton.hs
-  :autocmd BufNewFile *.lhs                         0r ~/.vim/skeleton.lhs
-  :autocmd BufNewFile *.tex                         0r ~/.vim/skeleton.tex
-  :autocmd BufNewFile *.html                        0r ~/.vim/skeleton.html
-  :autocmd BufNewFile *.php                         0r ~/.vim/skeleton.html
-  :autocmd BufNewFile */history-project/_shows/*.md 0r ~/.vim/_skeleton.md
+  autocmd BufNewFile *.c                           0r ~/.vim/skeleton.c
+  autocmd BufNewFile *.h                           0r ~/.vim/skeleton.h
+  autocmd BufNewFile *.hs                          0r ~/.vim/skeleton.hs
+  autocmd BufNewFile *.lhs                         0r ~/.vim/skeleton.lhs
+  autocmd BufNewFile *.tex                         0r ~/.vim/skeleton.tex
+  autocmd BufNewFile *.html                        0r ~/.vim/skeleton.html
+  autocmd BufNewFile *.php                         0r ~/.vim/skeleton.html
+  autocmd BufNewFile */history-project/_shows/*.md 0r ~/.vim/_skeleton.md
+  autocmd BufNewFile *.vue                         0r ~/.vim/skeleton.vue
+augroup END
+
+augroup FileTypeDetect
+  au!
+  augroup BufRead, BufNewFile *.vue setfiletype html
 augroup END
