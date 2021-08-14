@@ -18,6 +18,7 @@
   default = simple
 [core]
   excludesfile = ~/.gitignore
+	autocrlf = input
 [filter "lfs"]
   required = true
   clean = git-lfs clean -- %f
