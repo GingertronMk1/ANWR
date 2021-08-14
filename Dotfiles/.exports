@@ -1,5 +1,5 @@
 # Exporting for days
-if [ -e .localexports ]; then
+if [ -e $HOME/.localexports ]; then
   if echo $0 | grep "bash"; then
     . .localexports
   elif echo $0 | grep "zsh"; then
@@ -34,8 +34,8 @@ if [ -e "/usr/local/opt/ruby/bin" ] ; then
   PATH="/usr/local/opt/ruby/bin:$PATH"
 fi
 
-if [ -e "$HOME/.gem/ruby/2.6.0/bin" ] ; then
-  PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
+if [ -e "$HOME/.gem/ruby/2.7.0/bin" ] ; then
+  PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 fi
 
 if [ -e "$HOME/gems" ] ; then
@@ -46,6 +46,10 @@ fi
 
 if [ -e "$HOME/.symfony" ] ; then
   PATH="$HOME/.symfony/bin:$PATH"
+fi
+
+if [ -e "$HOME/.npm-global/bin" ] ; then
+  PATH="$HOME/.npm-global/bin:$PATH"
 fi
 
 export PATH
