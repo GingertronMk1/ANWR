@@ -41,6 +41,16 @@ alias gd="git diff"
 alias gs="git status"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
+if [ -x "$(command -v docker-compose)" ]; then
+  alias dc="docker-compose"
+  alias dcud="dc up -d"
+  alias dch="dc --help"
+  alias dce="dc exec"
+  alias dcea="dce app"
+fi
+
+[ -x "$(command -v htop)" ] && alias top="htop --sort-key PERCENT_CPU"
+[ -x "$(command -v stack)" ] && alias stack="stack ghci"
 
 
 alias themes="cd wp-content/themes/"  # I work with too much Wordpress
@@ -50,7 +60,3 @@ alias nrw="npm run watch"
 # Backing up and restoring music from my server
 alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"
 alias returnmusic="rsync --delete illiac:~/Music/ ~/Music/"
-
-if command -v htop >/dev/null; then         # If htop's installed, alias top to it
-    alias top="htop --sort-key PERCENT_CPU"
-fi
