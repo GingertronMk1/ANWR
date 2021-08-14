@@ -11,6 +11,7 @@
   coa = commit -a -m
   df = diff
   master = checkout master
+  main = checkout main
   st = status
   br = branch
   ch = checkout
