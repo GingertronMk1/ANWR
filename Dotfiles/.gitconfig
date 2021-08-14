@@ -18,10 +18,6 @@
   default = simple
 [core]
   excludesfile = ~/.gitignore
-[filter "lfs"]
-  required = true
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
+  ignorecase=false
 [branch]
 	autosetuprebase = never
