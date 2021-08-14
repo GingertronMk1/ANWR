@@ -53,9 +53,18 @@ function bdr {
 }
 
 function arl {
-  a "route:list --sort=name" $@
+  a "route:list" $@
 }
 
 function amf {
   a "migrate:fresh" $@
+}
+
+function illiac {
+
+  if [[ $(ssh -t illiac) ]]; then
+    ssh illiac
+  else
+    ssh illiac-local
+  fi;
 }
