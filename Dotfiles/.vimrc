@@ -214,17 +214,6 @@ nnoremap <leader>; A;<Esc>
 " <leader>l lesses the file
 nnoremap <leader>l !less %
 
-" Auto-close brackets and speech marks
-inoremap (  ()<left>
-inoremap {  {}<left>
-inoremap [  []<left>
-inoremap <  <><left>
-inoremap '  ''<left>
-inoremap "  ""<left>
-
-inoremap <buffer> {% {%  %}<left><left><left>
-inoremap <buffer> {{ {{  }}<left><left><left>
-
 "------------------------------------------------------------------------------
 " Folding
 "------------------------------------------------------------------------------
@@ -291,8 +280,8 @@ augroup FileSpecificExpansions
   " <? will autocomplete to a full php statement in .php files"
   autocmd BufEnter *.php        inoremap <buffer> <? <?php ; ?><left><left><left><left>
   autocmd BufEnter *.php        setlocal shiftwidth=4        " 4 spaces constitute one tab
-  autocmd BufEnter *.php        setlocal tabstop=4           " How many spaces a tab counts for in a file
-  autocmd BufEnter *.php        setlocal softtabstop=4       " Backspace goes back 4 spaces in 'tab' chars
+  autocmd BufEnter *.php        setlocal tabstop=2           " How many spaces a tab counts for in a file
+  autocmd BufEnter *.php        setlocal softtabstop=2       " Backspace goes back 4 spaces in 'tab' chars
 augroup END
 
 "------------------------------------------------------------------------------
