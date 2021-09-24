@@ -1,4 +1,6 @@
-
 Dotfiles/\.vim/\.netrwhist
-
 Dotfiles/\.vim/viminfo
+*_temp.tex
+*.fdb_latexmk
+*.fls
+*.gz
