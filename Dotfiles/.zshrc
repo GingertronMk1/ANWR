@@ -35,13 +35,19 @@ setopt NO_BEEP            # SHUT UP
 # PROMPT ######################################################################
 ###############################################################################
 
-PROMPT="%F{green}%m"      # Host name
+prompt_primary="green"
+
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  prompt_primary="blue"
+fi
+
+PROMPT="%F{$prompt_primary}%m"      # Host name
 PROMPT+=" %F{white}| "    # Pipe
-PROMPT+="%F{green}%n"     # User name
+PROMPT+="%F{$prompt_primary}%n"     # User name
 PROMPT+=" %F{white}| "    # Pipe
-PROMPT+="%F{green}%w, %*" # Day of the week and month
+PROMPT+="%F{$prompt_primary}%w, %*" # Day of the week and month
 PROMPT+=" %F{white}| "    # Pipe
-PROMPT+="%F{green}%~/"    # Current working directory
+PROMPT+="%F{$prompt_primary}%~/"    # Current working directory
 PROMPT+=$'\n'             # New line
 PROMPT+="╚>"              # Whatever that is
 PROMPT+="%F{white} "      # Make the rest white
@@ -63,3 +69,5 @@ alias res="source $HOME/.zshrc"
 source $HOME/.exports
 source $HOME/.functions
 source $HOME/.aliases
+
+[ -f "/Users/jackellis/.ghcup/env" ] && source "/Users/jackellis/.ghcup/env" # ghcup-env
