@@ -25,7 +25,6 @@ if [ -f "/sbin/ifconfig" ] ; then
   alias ifconfig="/sbin/ifconfig"       # Silly ifconfig
 fi
 
-alias rm="rm -v"                      # I like knowing things
 alias rf="rm -rf"                     # Remove folder
 alias cls="clear"                     # Saves 2 keystrokes
 alias rsync="rsync -Phrtuv --exclude '*.DS_Store'" # Saves a lot of keystrokes
