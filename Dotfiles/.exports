@@ -22,40 +22,30 @@ fi
 
 # Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
-if [ -e "/Library/Frameworks/Python.framework/Versions/3.6/bin" ] ; then
-  PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:$PATH"
-fi
 
-if [ -e "$HOME/.composer" ] ; then
-  PATH="$HOME/.composer/vendor/bin:$PATH"
-fi
+potentialBins=(
+  "$HOME/bin"
+  "/Library/Frameworks/Python.framework/Versions/3.6/bin"
+  "$HOME/.composer"
+  "/usr/local/opt/ruby/bin"
+  "$HOME/.gem/ruby/2.7.0/bin"
+  "$HOME/gems/bin"
+  "$HOME/.symfony"
+  "$HOME/.npm-global/bin"
+  "/usr/local/texlive/2021/bin/"
+  "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+)
 
-if [ -e "/usr/local/opt/ruby/bin" ] ; then
-  PATH="/usr/local/opt/ruby/bin:$PATH"
-fi
-
-if [ -e "$HOME/.gem/ruby/2.7.0/bin" ] ; then
-  PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
-fi
+for bin in "${potentialBins[@]}"; do
+  if [ -e "$bin" ]; then
+    PATH="$PATH:$bin"
+  fi
+done
 
 if [ -e "$HOME/gems" ] ; then
   GEM_HOME="$HOME/gems"
-  PATH="$HOME/gems/bin:$PATH"
   export GEM_HOME
 fi
-
-if [ -e "$HOME/.symfony" ] ; then
-  PATH="$HOME/.symfony/bin:$PATH"
-fi
-
-if [ -e "$HOME/.npm-global/bin" ] ; then
-  PATH="$HOME/.npm-global/bin:$PATH"
-fi
-
-if [ -e "/usr/local/texlive/2021/bin/" ] ; then
-  PATH="/usr/local/texlive/2021/bin/universal-darwin:$PATH"
-fi
-
 
 export PATH
 
