@@ -34,6 +34,7 @@ potentialBins=(
   "$HOME/.npm-global/bin"
   "/usr/local/texlive/2021/bin/"
   "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+  "/usr/local/opt/python/libexec/bin"
 )
 
 for bin in "${potentialBins[@]}"; do
