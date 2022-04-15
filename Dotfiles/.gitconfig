@@ -23,3 +23,5 @@
   ignorecase=false
 [branch]
   autosetuprebase = never
+[pull]
+	rebase = false

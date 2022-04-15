@@ -53,6 +53,9 @@ fi
 [ -x "$(command -v stack)" ] && alias stack="stack ghci"
 [ -x "$(command -v npm)" ] && alias nrw="npm run watch"
 [ -x "$(command -v bundle)" ] && alias berve="bundle exec jekyll serve"
+[ -x "$(command -v neofetch)" ] && alias fetch="neofetch"
+[ -x "$(command -v transmission-daemon)" ] && alias td="transmission-daemon -n $TRANSMISSION_DETAILS"
+[ -x "$(command -v transmission-remote)" ] && alias tr="transmission-remote -n $TRANSMISSION_DETAILS"
 
 
 alias themes="cd wp-content/themes/"  # I work with too much Wordpress

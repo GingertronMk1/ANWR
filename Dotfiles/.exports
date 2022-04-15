@@ -1,9 +1,12 @@
 # Exporting for days
+
+CURRENT_ENV="$(ps -p $$)"
+
 if [ -e $HOME/.localexports ]; then
-  if echo $0 | grep "bash"; then
-    . .localexports
-  elif echo $0 | grep "zsh"; then
-    source .localexports
+  if [[ "$CURRENT_ENV" == *"bash"* ]]; then
+    . $HOME/.localexports
+  elif [[ "$CURRENT_ENV" == *"zsh"* ]]; then
+    source $HOME/.localexports
   fi
 fi
 
