@@ -57,7 +57,6 @@ then
   alias top="htop --sort-key PERCENT_CPU"
 fi
 
-[ -x "$(command -v stack)" ] && alias stack="stack ghci"
 [ -x "$(command -v npm)" ] && alias nrw="npm run watch"
 [ -x "$(command -v bundle)" ] && alias berve="bundle exec jekyll serve"
 [ -x "$(command -v neofetch)" ] && alias fetch="neofetch"
