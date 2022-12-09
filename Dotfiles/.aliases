@@ -49,8 +49,14 @@ if [ -x "$(command -v docker-compose)" ]; then
   alias dceap="dcea php"
 fi
 
-[ -x "$(command -v htop)" ] && alias top="htop --sort-key PERCENT_CPU"
-[ -x "$(command -v stack)" ] && alias stack="stack ghci"
+if [ -x "$(command -v btop)" ]
+then
+  alias top="btop -p 0"
+elif [ -x "$(command -v htop)" ]
+then
+  alias top="htop --sort-key PERCENT_CPU"
+fi
+
 [ -x "$(command -v npm)" ] && alias nrw="npm run watch"
 [ -x "$(command -v bundle)" ] && alias berve="bundle exec jekyll serve"
 [ -x "$(command -v neofetch)" ] && alias fetch="neofetch"
@@ -69,3 +75,5 @@ alias themes="cd wp-content/themes/"  # I work with too much Wordpress
 # Backing up and restoring music from my server
 alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"
 alias returnmusic="rsync --delete illiac:~/Music/ ~/Music/"
+
+alias sail="./vendor/bin/sail"
