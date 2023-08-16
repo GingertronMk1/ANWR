@@ -60,8 +60,15 @@ fi
 [ -x "$(command -v npm)" ] && alias nrw="npm run watch"
 [ -x "$(command -v bundle)" ] && alias berve="bundle exec jekyll serve"
 [ -x "$(command -v neofetch)" ] && alias fetch="neofetch"
-[ -x "$(command -v transmission-daemon)" ] && alias td="transmission-daemon -n $TRANSMISSION_DETAILS"
-[ -x "$(command -v transmission-remote)" ] && alias tr="transmission-remote -n $TRANSMISSION_DETAILS"
+if [ -x "$(command -v transmission-daemon)" ]; then
+  alias td="transmission-daemon -n $TRANSMISSION_DETAILS"
+  alias updatetransmission="sudo service transmission-daemon stop && sudo vi /etc/transmission-daemon/settings.json && sudo service transmission-daemon start"
+fi
+if [ -x "$(command -v transmission-remote)" ]; then
+  alias tr="transmission-remote -n $TRANSMISSION_DETAILS"
+  alias tra="tr -a"
+  alias trl="tr -l"
+fi
 
 
 alias themes="cd wp-content/themes/"  # I work with too much Wordpress
