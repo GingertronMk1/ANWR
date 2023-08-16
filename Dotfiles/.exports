@@ -68,6 +68,6 @@ if command -v rbenv >/dev/null; then
 fi
 
 # If the Mac uses an Apple chio we should set the C Include path correctly
-if [[ $(sysctl -a | grep brand_string) == *"Apple"* ]]; then
+if [[ uname | grep -q "Darwin" && $(sysctl -a | grep brand_string) == *"Apple"* ]]; then
   export C_INCLUDE_PATH="`xcrun --show-sdk-path`/usr/include/ffi"
 fi
