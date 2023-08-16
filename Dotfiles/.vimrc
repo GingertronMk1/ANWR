@@ -122,12 +122,6 @@ set statusline+=C:\ %c            " Current column
 "------------------------------------------------------------------------------
 " Moving Inside Buffers
 "------------------------------------------------------------------------------
-" 'H' takes you to the beginning of a line, and 'L' to the end
-noremap H g0
-noremap L g$
-" 'K' takes you to the top of the doc, and 'J' to the bottom
-noremap J G$
-noremap K 1G
 " A number `n` + Enter takes you to line `n`
 nnoremap <CR> G0
 " Up and Down arrows now move between paragraphs
@@ -197,8 +191,6 @@ noremap : ;
 noremap ; :
 " Leader + m unhighlights search pattern
 noremap <leader>m :nohl<CR>
-" Shift + u redoes
-nnoremap U <C-R>
 " wc now displays a word count at the bottom
 nnoremap wc g<C-g>
 " <leader>d diffs this
