@@ -68,3 +68,10 @@ function illiac {
     ssh illiac-local
   fi;
 }
+
+function gitResetToMaster {
+  git reset master
+  git add .
+  git commit -m "$@"
+  git push --force
+}
