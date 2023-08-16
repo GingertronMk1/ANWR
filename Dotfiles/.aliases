@@ -67,6 +67,7 @@ fi
 if [ -x "$(command -v transmission-remote)" ]; then
   alias tr="transmission-remote -n $TRANSMISSION_DETAILS"
   alias tra="tr -a"
+  alias trl="tr -l"
 fi
 
 
