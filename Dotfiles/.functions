@@ -75,3 +75,16 @@ function gitResetToMaster {
   git commit -m "$@"
   git push --force
 }
+
+function gwip {
+  if ! command -v git &> /dev/null
+  then
+      echo "Git could not be found"
+      exit 1
+  fi
+  commitmessage=${1:-"wip"}
+  git add . \
+    && git commit -m "$commitmessage" \
+    && git pull \
+    && git push
+}
