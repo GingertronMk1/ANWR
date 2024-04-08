@@ -17,6 +17,7 @@
   ch = checkout
 [push]
   default = simple
+  autoSetUpRemote = true
 [core]
   excludesfile = ~/.gitignore
   autocrlf = input
