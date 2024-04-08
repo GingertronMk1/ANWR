@@ -84,3 +84,4 @@ alias res=". $HOME/.bashrc" # Re-source .bashrc, which re-sources everything els
 . $HOME/.exports
 . $HOME/.functions
 . $HOME/.aliases
+. "$HOME/.cargo/env"

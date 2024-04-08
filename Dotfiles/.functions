@@ -82,7 +82,7 @@ function gwip {
       echo "Git could not be found"
       exit 1
   fi
-  commitmessage=${1:-"wip"}
+  commitmessage=${@:-"wip"}
   git add . \
     && git commit -m "$commitmessage" \
     && git pull \

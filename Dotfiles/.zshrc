@@ -70,4 +70,5 @@ source $HOME/.exports
 source $HOME/.functions
 source $HOME/.aliases
 
-[ -f "/Users/jackellis/.ghcup/env" ] && source "/Users/jackellis/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env" # cargo-env
