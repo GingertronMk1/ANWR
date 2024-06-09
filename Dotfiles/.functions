@@ -80,11 +80,20 @@ function gwip {
   if ! command -v git &> /dev/null
   then
       echo "Git could not be found"
-      exit 1
+      return 1
   fi
+
+  porcelainStatus="$(git status --porcelain)"
+
+  if [ -z "$porcelainStatus" ]
+  then
+    echo "No files changed"
+    return 1
+  fi
+
   commitmessage=${@:-"wip"}
   git add . \
-    && git commit -m "$commitmessage" \
+    && git commit -m "$commitmessage" -m "$porcelainStatus"\
     && git pull \
     && git push
 }
