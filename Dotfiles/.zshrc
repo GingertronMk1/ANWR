@@ -73,7 +73,6 @@ source $HOME/.aliases
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env" # cargo-env
 
-
 # Herd injected NVM configuration
 export NVM_DIR="/Users/jackellis/Library/Application Support/Herd/config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -86,3 +85,7 @@ export HERD_PHP_83_INI_SCAN_DIR="/Users/jackellis/Library/Application Support/He
 
 # Herd injected PHP binary.
 export PATH="/Users/jackellis/Library/Application Support/Herd/bin/":$PATH
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
