@@ -67,7 +67,11 @@ if command -v rbenv >/dev/null; then
   eval "$(rbenv init -)"
 fi
 
-# If the Mac uses an Apple chio we should set the C Include path correctly
-if [ ! -z $(uname | grep -q "Darwin") ] && [ $(sysctl -a | grep brand_string) == *"Apple"* ]; then
-  export C_INCLUDE_PATH="`xcrun --show-sdk-path`/usr/include/ffi"
+# Things to do just on Macs
+if [ ! -z $(uname | grep -q "Darwin") ]; then
+  defaults write -g ApplePressAndHoldEnabled -bool false
+# Things to do just on Apple Silicon Macs specifically
+  if [ $(sysctl -a | grep brand_string) == *"Apple"* ]; then
+    export C_INCLUDE_PATH="`xcrun --show-sdk-path`/usr/include/ffi"
+  fi
 fi

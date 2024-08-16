@@ -51,7 +51,7 @@ fi
 
 if [ -x "$(command -v btop)" ]
 then
-  alias top="btop -p 0"
+  alias top="btop -p 0 --update 100"
 elif [ -x "$(command -v htop)" ]
 then
   alias top="htop --sort-key PERCENT_CPU"
