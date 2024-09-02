@@ -97,3 +97,11 @@ function gwip {
     && git pull \
     && git push
 }
+
+if [ -e /Applications/PHPStorm.app ]; then
+  function phpstorm() {
+    dirToOpen=${@:-'.'}
+    echo "Opening ${dirToOpen} in PHPStorm"
+    open -na "/Applications/PhpStorm.app" --args "${dirToOpen}"
+  }
+fi

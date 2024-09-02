@@ -40,8 +40,8 @@ alias gd="git diff"
 alias gs="git status"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
-if [ -x "$(command -v docker-compose)" ]; then
-  alias dc="docker-compose"
+if [ -x "$(command -v docker compose)" ]; then
+  alias dc="docker compose"
   alias dcud="dc up -d"
   alias dch="dc --help"
   alias dce="dc exec"
@@ -78,3 +78,5 @@ alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"
 alias returnmusic="rsync --delete illiac:~/Music/ ~/Music/"
 
 alias sail="./vendor/bin/sail"
+
+
