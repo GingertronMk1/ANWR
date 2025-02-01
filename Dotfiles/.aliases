@@ -77,6 +77,6 @@ alias themes="cd wp-content/themes/"  # I work with too much Wordpress
 alias backupmusic="rsync --delete ~/Music/ illiac:~/Music/ --exclude '*iTunes*'"
 alias returnmusic="rsync --delete illiac:~/Music/ ~/Music/"
 
-alias sail="./vendor/bin/sail"
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 
 
