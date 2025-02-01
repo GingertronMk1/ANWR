@@ -76,13 +76,8 @@ function gitResetToMaster {
   git push --force
 }
 
+if [ -x "$(command -v git)" ]; then
 function gwip {
-  if ! command -v git &> /dev/null
-  then
-      echo "Git could not be found"
-      return 1
-  fi
-
   porcelainStatus="$(git status --porcelain)"
 
   if [ -z "$porcelainStatus" ]
@@ -98,6 +93,15 @@ function gwip {
     && git push
 }
 
+function checkout_via_branch {
+  targetBranch=$1
+  viaBranch=${2:-"main"}
+  git checkout $viaBranch \
+    && git pull \
+    && git checkout -b $targetBranch
+}
+fi
+
 if [ -e /Applications/PHPStorm.app ]; then
   function phpstorm() {
     dirToOpen=${@:-'.'}
@@ -105,3 +109,4 @@ if [ -e /Applications/PHPStorm.app ]; then
     open -na "/Applications/PhpStorm.app" --args "${dirToOpen}"
   }
 fi
+
