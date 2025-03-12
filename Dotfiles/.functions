@@ -87,7 +87,8 @@ function gwip {
   fi
 
   commitmessage=${@:-"wip"}
-  git commit -a -m "$commitmessage" -m "$porcelainStatus"\
+  git add . \
+    && git commit -m "$commitmessage" -m "$porcelainStatus" \
     && git pull \
     && git push
 }
