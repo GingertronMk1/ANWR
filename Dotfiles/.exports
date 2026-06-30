@@ -40,6 +40,7 @@ potentialBins=(
   "$HOME/.local/bin"
   "/usr/local/opt/python/libexec/bin"
   "$HOME/.local/bin"
+  "$HOME/.config/composer/vendor/bin"
 )
 
 for bin in "${potentialBins[@]}"; do

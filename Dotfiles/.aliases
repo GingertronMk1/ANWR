@@ -83,4 +83,4 @@ alias returnmusic="rsync --delete illiac:~/Music/ ~/Music/"
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 alias sailup='sail up -d'
 
-
+alias ff='find . -name '

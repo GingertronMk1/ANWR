@@ -91,3 +91,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH="/home/jack/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/home/jack/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+
+# >>> Codex installer >>>
+export PATH="/home/jack/.local/bin:$PATH"
+# <<< Codex installer <<<
