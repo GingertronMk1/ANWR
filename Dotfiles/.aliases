@@ -33,6 +33,7 @@ alias du="du -h"                      # du, but human-readable
 alias ssh="ssh -o ConnectTimeout=5"   # Don't bother waiting more than 5s when ssh-ing
 alias ls="ls -ACFhlp ${Colorflag}"    # ls in a nice ordered coloured list with lots of info
 alias pt="ping 8.8.8.8"               # pt = ping test
+alias env="env | sort -h"             # Sort my env out
 
 # Git things / You make my heart sing / You make everything / MERGE CONFLICT
 alias g="git"                         # Save me two keystrokes a go
