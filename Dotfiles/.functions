@@ -77,29 +77,48 @@ function gitResetToMaster {
 }
 
 if [ -x "$(command -v git)" ]; then
-function gwip {
-  porcelainStatus="$(git status --porcelain)"
+  function gwip {
+    porcelainStatus="$(git status --porcelain)"
 
-  if [ -z "$porcelainStatus" ]
-  then
-    echo "No files changed"
-    return 1
-  fi
+    if [ -z "$porcelainStatus" ]
+    then
+      echo "No files changed"
+      return 1
+    fi
 
-  commitmessage=${@:-"wip"}
-  git add . \
-    && git commit -m "$commitmessage" -m "$porcelainStatus" \
-    && git pull \
-    && git push
-}
+    commitmessage=${@:-"wip"}
+    git add . \
+      && git commit -m "$commitmessage" -m "$porcelainStatus" \
+      && (git pull || echo 'no upstream branch to pull from') \
+      && git push
+  }
 
-function checkout_via_branch {
-  targetBranch=$1
-  viaBranch=${2:-"main"}
-  git checkout $viaBranch \
-    && git pull \
-    && git checkout -b $targetBranch
-}
+  function checkout_via_branch {
+    targetBranch=$1
+    viaBranch=${2:-"main"}
+    git stash
+
+    git checkout $viaBranch \
+      && git pull \
+      && git checkout -b $targetBranch
+
+    git stash pop
+  }
+
+  function checkout_via_next {
+    checkout_via_branch "$1" next
+  }
+
+  function merge_this_branch {
+    thisBranch="$(git branch --show-current)"
+
+    git checkout "$1"
+    git pull
+    git merge "$thisBranch"
+    git commit -m "Merging $thisBranch"
+    git push
+    git checkout "$thisBranch"
+  }
 fi
 
 if [ -e /Applications/PHPStorm.app ]; then
