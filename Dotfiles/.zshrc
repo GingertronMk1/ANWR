@@ -90,3 +90,8 @@ export PATH="/Users/jackellis/Library/Application Support/Herd/bin/":$PATH
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/jackellis/.docker/completions $fpath)
+autoload -Uz compinit
+(( ${+_comps[docker]} )) || compinit
+# End of Docker CLI completions
