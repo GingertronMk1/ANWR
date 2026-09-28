@@ -49,7 +49,10 @@ if [ -x "$(command -v docker)" ]; then
   alias dcea="dce app"
   alias dceap="dcea php"
   function docker-stop() {
-    docker stop $(docker ps -a -q)
+    docker stop $(docker ps -aq)
+  }
+  function sail-this-one() {
+    (docker-stop && ./vendor/bin/sail up -d) || echo "Error"
   }
 fi
 
@@ -85,3 +88,13 @@ alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 alias sailup='sail up -d'
 
 alias ff='find . -name '
+
+if [ -e $HOME/.opensignal-aliases ]; then
+  if [ -n $ZSH_VERSION]; then
+    source $HOME/.opensignal-aliases
+  else
+    . $HOME/.opensignal-aliases
+  fi
+fi
+
+alias updatecodex="sh -c 'curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_NON_INTERACTIVE=1 sh'"

@@ -129,3 +129,34 @@ if [ -e /Applications/PHPStorm.app ]; then
   }
 fi
 
+function delete_repos() {
+  repos=(
+    "stickee"
+    "super-league-undefeated"
+    "clubhouse-26-03"
+    "attendance-time-management-2026-04"
+    "the-local-script"
+    "clubhouse"
+    "consoler"
+    "attendance-time-management"
+    "rugby-league-thing"
+    "sourdough-sitter"
+    "the-integrated-theatre-system"
+    "filament"
+    "club-house"
+    "hurricanes"
+    "console-app"
+    "rust-lang-init"
+    "characterful"
+    "facman"
+  )
+  for repo in "${repos[@]}"
+    do
+      echo "/repos/GingertronMk1/${repo}"
+      gh api \
+        --method DELETE \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2026-03-10" \
+        "/repos/GingertronMk1/${repo}"    
+    done
+}

@@ -15,6 +15,7 @@
   st = status
   br = branch
   ch = checkout
+  clean = clean -fd
 [push]
   default = simple
   autoSetUpRemote = true
@@ -26,3 +27,5 @@
   autosetuprebase = never
 [pull]
 	rebase = false
+[init]
+	defaultBranch = main
